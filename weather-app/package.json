@@ -11,12 +11,17 @@
   },
   "dependencies": {
     "expo": "~52.0.46",
+    "expo-location": "~18.0.10",
     "expo-status-bar": "~2.0.1",
     "react": "18.3.1",
-    "react-native": "0.76.9"
+    "react-native": "0.76.9",
+    "react-native-dotenv": "^3.4.11"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@babel/plugin-transform-private-methods": "^7.25.9",
+    "@react-native-community/cli": "^18.0.0",
+    "metro-react-native-babel-preset": "^0.77.0"
   },
   "private": true
 }
