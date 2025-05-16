@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "./colors";
@@ -17,6 +18,7 @@ export default function App() {
   const [working, setWorking] = useState(true);
   const [text, setText] = useState("");
   const [toDos, setToDos] = useState({});
+  const [isloadingTodos, setIsLoadingTodos] = useState(true);
 
   useEffect(() => {
     loadToDos();
@@ -40,12 +42,14 @@ export default function App() {
     }
   };
   const loadToDos = async () => {
+    setIsLoadingTodos(true);
     try {
       const data = await AsyncStorage.getItem(STORAGE_KEY);
       if (data) setToDos(JSON.parse(data));
     } catch (e) {
       console.error("Error loading todos from storage", e);
     }
+    setIsLoadingTodos(false);
   };
 
   return (
@@ -78,15 +82,27 @@ export default function App() {
         onSubmitEditing={addToDo}
         returnKeyType="done"
       />
-      <ScrollView>
-        {Object.keys(toDos).map((key) =>
-          toDos[key].work === working ? (
-            <View style={styles.toDo} key={key}>
-              <Text style={styles.toDoText}>{toDos[key].text}</Text>
-            </View>
-          ) : null
-        )}
-      </ScrollView>
+      {isloadingTodos ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            marginBottom: 100,
+          }}
+        >
+          <ActivityIndicator color="white" size="large" />
+        </View>
+      ) : (
+        <ScrollView>
+          {Object.keys(toDos).map((key) =>
+            toDos[key].work === working ? (
+              <View style={styles.toDo} key={key}>
+                <Text style={styles.toDoText}>{toDos[key].text}</Text>
+              </View>
+            ) : null
+          )}
+        </ScrollView>
+      )}
     </View>
   );
 }
