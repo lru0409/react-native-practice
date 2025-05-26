@@ -14,20 +14,54 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Fontisto } from "@expo/vector-icons";
 import { theme } from "./colors";
 
-const STORAGE_KEY = "@toDos";
+const TODOS_STORAGE_KEY = "@toDos";
+const WORKING_STORAGE_KEY = "@working";
 
 export default function App() {
   const [working, setWorking] = useState(true);
   const [text, setText] = useState("");
   const [toDos, setToDos] = useState({});
-  const [isloadingTodos, setIsLoadingTodos] = useState(true);
+  const [isLoadingTodos, setIsLoadingTodos] = useState(true);
 
   useEffect(() => {
     loadToDos();
+    loadWorking();
   }, []);
+  const loadToDos = async () => {
+    setIsLoadingTodos(true);
+    try {
+      const data = await AsyncStorage.getItem(TODOS_STORAGE_KEY);
+      if (data) setToDos(JSON.parse(data));
+    } catch (e) {
+      console.error("Error loading todos from storage", e);
+    }
+    setIsLoadingTodos(false);
+  };
+  const loadWorking = async () => {
+    try {
+      const data = await AsyncStorage.getItem(WORKING_STORAGE_KEY);
+      if (data) setWorking(JSON.parse(data));
+    } catch (e) {
+      console.error("Error loading working from storage", e);
+    }
+  };
 
-  const travel = () => setWorking(false);
-  const work = () => setWorking(true);
+  const travel = () => {
+    setWorking(false);
+    saveWorking(false);
+  };
+  const work = () => {
+    setWorking(true);
+    saveWorking(true);
+  };
+  const saveWorking = async (toSave) => {
+    try {
+      await AsyncStorage.setItem(WORKING_STORAGE_KEY, JSON.stringify(toSave));
+    } catch (e) {
+      console.error("Error setting working to storage", e);
+    }
+  };
+
   const onChangeText = (payload) => setText(payload);
   const addToDo = async () => {
     if (text === "") return;
@@ -38,20 +72,10 @@ export default function App() {
   };
   const saveToDos = async (toSave) => {
     try {
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+      await AsyncStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(toSave));
     } catch (e) {
       console.error("Error setting todos to storage", e);
     }
-  };
-  const loadToDos = async () => {
-    setIsLoadingTodos(true);
-    try {
-      const data = await AsyncStorage.getItem(STORAGE_KEY);
-      if (data) setToDos(JSON.parse(data));
-    } catch (e) {
-      console.error("Error loading todos from storage", e);
-    }
-    setIsLoadingTodos(false);
   };
   const deleteToDo = async (key) => {
     Alert.alert("Delete To Do", "Are you sure?", [
@@ -99,7 +123,7 @@ export default function App() {
         onSubmitEditing={addToDo}
         returnKeyType="done"
       />
-      {isloadingTodos ? (
+      {isLoadingTodos ? (
         <View
           style={{
             flex: 1,
