@@ -11,6 +11,7 @@ import {
   Alert,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CheckBox from "react-native-check-box";
 import { Fontisto } from "@expo/vector-icons";
 import { theme } from "./colors";
 
@@ -65,7 +66,10 @@ export default function App() {
   const onChangeText = (payload) => setText(payload);
   const addToDo = async () => {
     if (text === "") return;
-    const newToDos = { ...toDos, [Date.now()]: { text, work: working } };
+    const newToDos = {
+      ...toDos,
+      [Date.now()]: { text, work: working, checked: false },
+    };
     setToDos(newToDos);
     await saveToDos(newToDos);
     setText("");
@@ -91,6 +95,13 @@ export default function App() {
         },
       },
     ]);
+  };
+
+  const changeChecked = (key) => {
+    const newToDos = { ...toDos };
+    newToDos[key].checked = !newToDos[key].checked;
+    setToDos(newToDos);
+    saveToDos(newToDos);
   };
 
   return (
@@ -138,7 +149,21 @@ export default function App() {
           {Object.keys(toDos).map((key) =>
             toDos[key].work === working ? (
               <View style={styles.toDo} key={key}>
-                <Text style={styles.toDoText}>{toDos[key].text}</Text>
+                <View style={styles.toDoContent}>
+                  <CheckBox
+                    style={{ backgroundColor: theme.grey }}
+                    isChecked={toDos[key].checked}
+                    onClick={() => changeChecked(key)}
+                  />
+                  <Text
+                    style={[
+                      styles.toDoText,
+                      toDos[key].checked && styles.toDoTextChecked,
+                    ]}
+                  >
+                    {toDos[key].text}
+                  </Text>
+                </View>
                 <TouchableOpacity onPress={() => deleteToDo(key)}>
                   <Fontisto name="trash" size={18} color={theme.grey} />
                 </TouchableOpacity>
@@ -184,9 +209,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  toDoContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 15,
+  },
   toDoText: {
     color: "white",
     fontSize: 16,
     fontWeight: "500",
+  },
+  toDoTextChecked: {
+    textDecorationLine: "line-through",
+    color: theme.grey,
   },
 });
