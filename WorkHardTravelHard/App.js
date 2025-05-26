@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
-  Text,
   View,
-  TouchableOpacity,
   TextInput,
   ScrollView,
   ActivityIndicator,
   Alert,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import CheckBox from "react-native-check-box";
-import { Fontisto } from "@expo/vector-icons";
 import { theme } from "./colors";
+import ToDoItem from "./ToDoItem";
+import EditDialog from "./EditDialog";
+import Header from "./Header";
 
 const TODOS_STORAGE_KEY = "@toDos";
 const WORKING_STORAGE_KEY = "@working";
@@ -23,6 +22,9 @@ export default function App() {
   const [text, setText] = useState("");
   const [toDos, setToDos] = useState({});
   const [isLoadingTodos, setIsLoadingTodos] = useState(true);
+  const [editingKey, setEditingKey] = useState(null);
+
+  const editDialogRef = useRef(null);
 
   useEffect(() => {
     loadToDos();
@@ -47,14 +49,9 @@ export default function App() {
     }
   };
 
-  const travel = () => {
-    setWorking(false);
-    saveWorking(false);
-  };
-  const work = () => {
-    setWorking(true);
-    saveWorking(true);
-  };
+  useEffect(() => {
+    saveWorking(working);
+  }, [working]);
   const saveWorking = async (toSave) => {
     try {
       await AsyncStorage.setItem(WORKING_STORAGE_KEY, JSON.stringify(toSave));
@@ -63,7 +60,17 @@ export default function App() {
     }
   };
 
-  const onChangeText = (payload) => setText(payload);
+  useEffect(() => {
+    saveToDos(toDos);
+  }, [toDos]);
+  const saveToDos = async (toSave) => {
+    try {
+      await AsyncStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(toSave));
+    } catch (e) {
+      console.error("Error setting todos to storage", e);
+    }
+  };
+
   const addToDo = async () => {
     if (text === "") return;
     const newToDos = {
@@ -71,15 +78,7 @@ export default function App() {
       [Date.now()]: { text, work: working, checked: false },
     };
     setToDos(newToDos);
-    await saveToDos(newToDos);
     setText("");
-  };
-  const saveToDos = async (toSave) => {
-    try {
-      await AsyncStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(toSave));
-    } catch (e) {
-      console.error("Error setting todos to storage", e);
-    }
   };
   const deleteToDo = async (key) => {
     Alert.alert("Delete To Do", "Are you sure?", [
@@ -91,87 +90,72 @@ export default function App() {
           const newToDos = { ...toDos };
           delete newToDos[key];
           setToDos(newToDos);
-          saveToDos(newToDos);
         },
       },
     ]);
   };
-
+  const updateToDo = async (toUpdate) => {
+    if (toUpdate == "") return;
+    const newTodos = {
+      ...toDos,
+      [editingKey]: { ...toDos[editingKey], text: toUpdate },
+    };
+    setToDos(newTodos);
+    setEditingKey(null);
+  };
   const changeChecked = (key) => {
     const newToDos = { ...toDos };
     newToDos[key].checked = !newToDos[key].checked;
     setToDos(newToDos);
-    saveToDos(newToDos);
   };
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <View style={styles.header}>
-        <TouchableOpacity onPress={work}>
-          <Text
-            style={{ ...styles.btnText, color: working ? "white" : theme.grey }}
-          >
-            Work
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={travel}>
-          <Text
-            style={{
-              ...styles.btnText,
-              color: !working ? "white" : theme.grey,
-            }}
-          >
-            Travel
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <Header
+        onWorkClick={() => setWorking(true)}
+        onTravelClick={() => setWorking(false)}
+        working={working}
+      />
       <TextInput
         style={styles.input}
         value={text}
         placeholder={working ? "Add a To Do" : "Where do you want to go?"}
-        onChangeText={onChangeText}
+        onChangeText={(payload) => setText(payload)}
         onSubmitEditing={addToDo}
         returnKeyType="done"
       />
       {isLoadingTodos ? (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            marginBottom: 100,
-          }}
-        >
+        <View style={styles.loadingContainer}>
           <ActivityIndicator color="white" size="large" />
         </View>
       ) : (
         <ScrollView>
-          {Object.keys(toDos).map((key) =>
-            toDos[key].work === working ? (
-              <View style={styles.toDo} key={key}>
-                <View style={styles.toDoContent}>
-                  <CheckBox
-                    style={{ backgroundColor: theme.grey }}
-                    isChecked={toDos[key].checked}
-                    onClick={() => changeChecked(key)}
-                  />
-                  <Text
-                    style={[
-                      styles.toDoText,
-                      toDos[key].checked && styles.toDoTextChecked,
-                    ]}
-                  >
-                    {toDos[key].text}
-                  </Text>
-                </View>
-                <TouchableOpacity onPress={() => deleteToDo(key)}>
-                  <Fontisto name="trash" size={18} color={theme.grey} />
-                </TouchableOpacity>
-              </View>
-            ) : null
-          )}
+          {Object.keys(toDos)
+            .filter((key) => toDos[key].work === working)
+            .map((key) => (
+              <ToDoItem
+                key={key}
+                checked={toDos[key].checked}
+                onChangeChecked={() => changeChecked(key)}
+                text={toDos[key].text}
+                onDelete={() => deleteToDo(key)}
+                onEdit={() => {
+                  editDialogRef.current?.show();
+                  setEditingKey(key);
+                }}
+              />
+            ))}
         </ScrollView>
       )}
+      <EditDialog
+        ref={editDialogRef}
+        initialText={toDos[editingKey]?.text ?? ""}
+        onSubmit={(text) => {
+          editDialogRef.current?.hide();
+          updateToDo(text);
+        }}
+      />
     </View>
   );
 }
@@ -182,14 +166,10 @@ const styles = StyleSheet.create({
     backgroundColor: theme.bg,
     paddingHorizontal: 20,
   },
-  header: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    marginTop: 100,
-  },
-  btnText: {
-    fontSize: 38,
-    fontWeight: "600",
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    marginBottom: 100,
   },
   input: {
     backgroundColor: "white",
@@ -198,29 +178,5 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginVertical: 20,
     fontSize: 18,
-  },
-  toDo: {
-    backgroundColor: theme.toDoBg,
-    marginBottom: 10,
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    borderRadius: 15,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  toDoContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 15,
-  },
-  toDoText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "500",
-  },
-  toDoTextChecked: {
-    textDecorationLine: "line-through",
-    color: theme.grey,
   },
 });
