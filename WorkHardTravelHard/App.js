@@ -20,49 +20,53 @@ export default function App() {
   const editDialogRef = useRef(null);
 
   useEffect(() => {
+    const loadToDos = async () => {
+      setIsLoadingTodos(true);
+      try {
+        const data = await AsyncStorage.getItem(TODOS_STORAGE_KEY);
+        if (data) setToDos(JSON.parse(data));
+      } catch (e) {
+        console.error('Error loading todos from storage', e);
+      }
+      setIsLoadingTodos(false);
+    };
+
+    const loadWorking = async () => {
+      try {
+        const data = await AsyncStorage.getItem(WORKING_STORAGE_KEY);
+        if (data) setWorking(JSON.parse(data));
+      } catch (e) {
+        console.error('Error loading working from storage', e);
+      }
+    };
+
     loadToDos();
     loadWorking();
   }, []);
-  const loadToDos = async () => {
-    setIsLoadingTodos(true);
-    try {
-      const data = await AsyncStorage.getItem(TODOS_STORAGE_KEY);
-      if (data) setToDos(JSON.parse(data));
-    } catch (e) {
-      console.error('Error loading todos from storage', e);
-    }
-    setIsLoadingTodos(false);
-  };
-  const loadWorking = async () => {
-    try {
-      const data = await AsyncStorage.getItem(WORKING_STORAGE_KEY);
-      if (data) setWorking(JSON.parse(data));
-    } catch (e) {
-      console.error('Error loading working from storage', e);
-    }
-  };
 
   useEffect(() => {
+    const saveWorking = async (toSave) => {
+      try {
+        await AsyncStorage.setItem(WORKING_STORAGE_KEY, JSON.stringify(toSave));
+      } catch (e) {
+        console.error('Error setting working to storage', e);
+      }
+    };
+
     saveWorking(working);
   }, [working]);
-  const saveWorking = async (toSave) => {
-    try {
-      await AsyncStorage.setItem(WORKING_STORAGE_KEY, JSON.stringify(toSave));
-    } catch (e) {
-      console.error('Error setting working to storage', e);
-    }
-  };
 
   useEffect(() => {
+    const saveToDos = async (toSave) => {
+      try {
+        await AsyncStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(toSave));
+      } catch (e) {
+        console.error('Error setting todos to storage', e);
+      }
+    };
+
     saveToDos(toDos);
   }, [toDos]);
-  const saveToDos = async (toSave) => {
-    try {
-      await AsyncStorage.setItem(TODOS_STORAGE_KEY, JSON.stringify(toSave));
-    } catch (e) {
-      console.error('Error setting todos to storage', e);
-    }
-  };
 
   const addToDo = async () => {
     if (text === '') return;
@@ -73,15 +77,17 @@ export default function App() {
     setToDos(newToDos);
     setText('');
   };
+
   const deleteToDo = async (key) => {
     const performDelete = () => {
       const newToDos = { ...toDos };
       delete newToDos[key];
       setToDos(newToDos);
     };
+
     if (Platform.OS === 'web') {
       const ok = confirm('Do you want to delete this To Do?');
-      if (ok) performDelete()
+      if (ok) performDelete();
     } else {
       Alert.alert('Delete To Do', 'Are you sure?', [
         { text: 'Cancel' },
@@ -93,6 +99,7 @@ export default function App() {
       ]);
     }
   };
+
   const updateToDo = async (toUpdate) => {
     if (toUpdate == '') return;
     const newTodos = {
@@ -102,6 +109,7 @@ export default function App() {
     setToDos(newTodos);
     setEditingKey(null);
   };
+
   const changeChecked = (key) => {
     const newToDos = { ...toDos };
     newToDos[key].checked = !newToDos[key].checked;
