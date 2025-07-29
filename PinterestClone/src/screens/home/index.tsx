@@ -7,14 +7,13 @@ import {
   ViewStyle,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import CategorySelector from './components/CategorySelector';
+import { SCREEN_HORIZONTAL_PADDING } from '../../constants/styles'
 
-const numColumns = 2;
-const spacing = 5; // 아이템 사이 여백
-const sidePadding = 6; // 화면 좌우 여백
-
-const screenWidth = Dimensions.get('window').width;
-const itemSize =
-  (screenWidth - sidePadding * 2 - spacing * (numColumns - 1)) / numColumns;
+const COLUMN_COUNT = 2;
+const SPACING_BETWEEN_ITEMS = 5; // 아이템 사이 여백
+const ITEM_SIZE =
+  (Dimensions.get('window').width - SCREEN_HORIZONTAL_PADDING * 2 - SPACING_BETWEEN_ITEMS * (COLUMN_COUNT - 1)) / COLUMN_COUNT;
 
 const DATA = [
   { id: '1' },
@@ -29,12 +28,10 @@ const DATA = [
 export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <View>
-        <Text>Category Selector Area</Text>
-      </View>
+      <CategorySelector />
       <FlatList
         data={DATA}
-        numColumns={numColumns}
+        numColumns={COLUMN_COUNT}
         keyExtractor={item => item.id}
         renderItem={({ index }) => <View style={getItemStyle(index)} />}
       />
@@ -45,19 +42,18 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: sidePadding,
-    paddingTop: sidePadding,
+    paddingHorizontal: SCREEN_HORIZONTAL_PADDING,
   },
 });
 
 const getItemStyle = (index: number): ViewStyle => {
   return {
-    width: itemSize,
-    height: itemSize,
+    width: ITEM_SIZE,
+    height: ITEM_SIZE,
     borderRadius: 16,
     borderWidth: 1,
     borderColor: 'gray',
-    marginRight: (index + 1) % numColumns === 0 ? 0 : spacing,
-    marginBottom: spacing,
+    marginRight: (index + 1) % COLUMN_COUNT === 0 ? 0 : SPACING_BETWEEN_ITEMS,
+    marginBottom: SPACING_BETWEEN_ITEMS,
   };
 };
