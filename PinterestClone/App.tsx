@@ -31,33 +31,21 @@ function App() {
               name="홈"
               component={HomeScreen}
               options={{
-                tabBarIcon: ({ focused }) => (
-                  <Icon name={focused ? 'home' : 'home-outline'} size={24} />
-                ),
+                tabBarIcon: HomeTabIcon,
               }}
             />
             <Tab.Screen
               name="검색"
               component={SearchScreen}
               options={{
-                tabBarIcon: ({ focused }) => (
-                  <Icon
-                    name={focused ? 'search' : 'search-outline'}
-                    size={24}
-                  />
-                ),
+                tabBarIcon: SearchTabIcon,
               }}
             />
             <Tab.Screen
               name="저장됨"
               component={CollectionScreen}
               options={{
-                tabBarIcon: ({ focused }) => (
-                  <Icon
-                    name={focused ? 'person' : 'person-outline'}
-                    size={24}
-                  />
-                ),
+                tabBarIcon: CollectionTabIcon
               }}
             />
           </Tab.Navigator>
@@ -66,6 +54,18 @@ function App() {
     </SafeAreaProvider>
   );
 }
+
+const HomeTabIcon = ({ focused }: { focused: boolean }) => (
+  <Icon name={focused ? 'home' : 'home-outline'} size={24} />
+);
+
+const SearchTabIcon = ({ focused }: { focused: boolean }) => (
+  <Icon name={focused ? 'search' : 'search-outline'} size={24} />
+);
+
+const CollectionTabIcon = ({ focused }: { focused: boolean }) => (
+  <Icon name={focused ? 'person' : 'person-outline'} size={24} />
+);
 
 const styles = StyleSheet.create({
   container: {
