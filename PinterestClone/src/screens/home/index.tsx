@@ -6,13 +6,14 @@ import {
   FlatList,
   Dimensions,
   ViewStyle,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CategorySelector from './components/CategorySelector';
 import { SCREEN_HORIZONTAL_PADDING } from '../../constants/styles';
 import { UNSPLASH_BASE_URL } from '../../constants/api';
 import { UNSPLASH_ACCESS_KEY } from '@env';
-import { type Photo, type PhotoResponse } from "../../types/photo";
+import { type Photo, type PhotoResponse } from '../../types/photo';
 
 const COLUMN_COUNT = 2;
 const SPACING_BETWEEN_ITEMS = 5; // 아이템 사이 여백
@@ -22,22 +23,14 @@ const ITEM_SIZE =
     SPACING_BETWEEN_ITEMS * (COLUMN_COUNT - 1)) /
   COLUMN_COUNT;
 
-const DATA = [
-  { id: '1' },
-  { id: '2' },
-  { id: '3' },
-  { id: '4' },
-  { id: '5' },
-  { id: '6' },
-  { id: '7' },
-];
-
 export default function HomeScreen() {
-  const [photos, setPhotos] = useState<Photo[]>();
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchRandomPhotos = async () => {
-      const response = await fetch(`${UNSPLASH_BASE_URL}/photos?page=1`, {
+    const fetchPhotos = async (page: number) => {
+      const response = await fetch(`${UNSPLASH_BASE_URL}/photos?page=${page}`, {
         method: 'GET',
         headers: {
           Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
@@ -48,9 +41,15 @@ export default function HomeScreen() {
         throw new Error(`HTTP error: ${response.status}`);
       }
 
+      const total = Number(response.headers.get('x-total'));
+      const perPage = Number(response.headers.get('x-per-page'));
+      const totalPages = Math.ceil(total / perPage);
+      setHasMore(page < totalPages);
+
       const data = (await response.json()) as PhotoResponse[];
-      setPhotos(
-        data.map(
+      setPhotos(prev => [
+        ...prev,
+        ...data.slice(page === 1 ? 0 : 1).map(
           item =>
             ({
               id: item.id,
@@ -63,24 +62,29 @@ export default function HomeScreen() {
               },
             } as Photo),
         ),
-      );
+      ]);
     };
 
-    fetchRandomPhotos();
-  }, []);
-
-  useEffect(() => {
-    console.log('photos', photos);
-  }, [photos])
+    fetchPhotos(page);
+  }, [page]);
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <CategorySelector />
       <FlatList
-        data={DATA}
+        data={photos}
         numColumns={COLUMN_COUNT}
         keyExtractor={item => item.id}
-        renderItem={({ index }) => <View style={getItemStyle(index)} />}
+        onEndReached={() => {
+          if (hasMore) {
+            setPage(prev => prev + 1);
+          }
+        }}
+        renderItem={({ item, index }) => (
+          <View style={getItemStyle(index)}>
+            <Image style={styles.image} source={{ uri: item.urls.small }} />
+          </View>
+        )}
       />
     </SafeAreaView>
   );
@@ -91,16 +95,19 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: SCREEN_HORIZONTAL_PADDING,
   },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
 });
 
 const getItemStyle = (index: number): ViewStyle => {
   return {
     width: ITEM_SIZE,
-    height: ITEM_SIZE,
+    height: ITEM_SIZE * 1.2,
     borderRadius: 16,
-    borderWidth: 1,
-    borderColor: 'gray',
     marginRight: (index + 1) % COLUMN_COUNT === 0 ? 0 : SPACING_BETWEEN_ITEMS,
     marginBottom: SPACING_BETWEEN_ITEMS,
+    overflow: 'hidden',
   };
 };
