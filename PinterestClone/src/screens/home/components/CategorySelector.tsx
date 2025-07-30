@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Octicons';
-import { SCREEN_HORIZONTAL_PADDING } from '../../../constants/styles';
+
+import { SCREEN_HORIZONTAL_PADDING } from '@src/constants/styles';
 
 const ITEM_WIDTH = 70;
 const ITEM_COUNT = 4;

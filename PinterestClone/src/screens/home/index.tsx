@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
 import {
-  View,
-  Text,
   StyleSheet,
   FlatList,
   Dimensions,
   ViewStyle,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import CategorySelector from './components/CategorySelector';
-import { SCREEN_HORIZONTAL_PADDING } from '../../constants/styles';
-import { UNSPLASH_BASE_URL } from '../../constants/api';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import { UNSPLASH_ACCESS_KEY } from '@env';
-import { type Photo, type PhotoResponse } from '../../types/photo';
+import CategorySelector from './components/CategorySelector';
+import { SCREEN_HORIZONTAL_PADDING } from '@src/constants/styles';
+import { UNSPLASH_BASE_URL } from '@src/constants/api';
+import { type Photo, type PhotoResponse } from '@src/types/photo';
+import { RootStackParamList } from '@src/App';
 
 const COLUMN_COUNT = 2;
 const SPACING_BETWEEN_ITEMS = 5; // 아이템 사이 여백
@@ -24,6 +27,9 @@ const ITEM_SIZE =
   COLUMN_COUNT;
 
 export default function HomeScreen() {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
+
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
@@ -81,9 +87,14 @@ export default function HomeScreen() {
           }
         }}
         renderItem={({ item, index }) => (
-          <View style={getItemStyle(index)}>
+          <TouchableOpacity
+            style={getItemStyle(index)}
+            onPress={() => {
+              navigation.navigate('PhotoDetail', { photo: item });
+            }}
+          >
             <Image style={styles.image} source={{ uri: item.urls.small }} />
-          </View>
+          </TouchableOpacity>
         )}
       />
     </SafeAreaView>
