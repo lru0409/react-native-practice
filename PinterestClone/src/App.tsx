@@ -1,4 +1,5 @@
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -14,7 +15,7 @@ import { Photo } from '@src/types/photo';
 export type RootStackParamList = {
   Tabs: undefined;
   PhotoDetail: { photo: Photo };
-}
+};
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -23,17 +24,27 @@ function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <SafeAreaProvider>
-      <View style={styles.container}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Tabs" component={TabNavigator} options={{ headerShown: false }} />
-            <Stack.Screen name="PhotoDetail" component={PhotoDetailScreen} options={{ headerShown: false }} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </View>
-    </SafeAreaProvider>
+    <GestureHandlerRootView>
+      <SafeAreaProvider>
+        <View style={styles.container}>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Tabs"
+                component={TabNavigator}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="PhotoDetail"
+                component={PhotoDetailScreen}
+                options={{ headerShown: false }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </View>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
