@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, NativeSyntheticEvent, NativeScrollEvent, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 
@@ -17,10 +17,13 @@ export default function PhotoDetailScreen() {
   const navigation = useNavigation();
   const { params } = useRoute<RouteProp<RootStackParamList, 'PhotoDetail'>>();
   const { photo } = params;
+  const [isPhotoLoading, setIsPhotoLoading] = useState<boolean>(true);
 
   const [relatedPhotos, setRelatedPhotos] = useState<Photo[]>([]);
   const [hasMoreRelated, setHasMoreRelated] = useState<boolean>(false);
-  const isFetchingNextRelatedPageRef = useRef<boolean>(false);
+  const [isFirstFetching, setIsFirstFetching] = useState<boolean>(true);
+  const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false);
+  const isFetchingMoreRef = useRef<boolean>(false);
   const relatedPageRef = useRef<number>(1);
 
   const fetchRelatedPhotos = async (page: number, query: string) => {
@@ -62,59 +65,84 @@ export default function PhotoDetailScreen() {
   };
 
   useEffect(() => {
-    fetchRelatedPhotos(relatedPageRef.current, photo.description);
+    const firstFetch = async () => {
+      setIsFirstFetching(true);
+      await fetchRelatedPhotos(relatedPageRef.current, photo.description);
+      setIsFirstFetching(false);
+    };
+    firstFetch();
   }, []);
 
   const loadMoreRelatedPhotos = async () => {
-    if (!hasMoreRelated || isFetchingNextRelatedPageRef.current) {
+    if (!hasMoreRelated || isFetchingMoreRef.current) {
       return;
     }
 
-    isFetchingNextRelatedPageRef.current = true;
+    isFetchingMoreRef.current = true;
+    setIsFetchingMore(true);
+
     relatedPageRef.current += 1;
     await fetchRelatedPhotos(relatedPageRef.current, photo.description);
-    isFetchingNextRelatedPageRef.current = false;
-  }
+
+    isFetchingMoreRef.current = false;
+    setIsFetchingMore(false);
+  };
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
 
     const paddingToBottom = 20; // 바닥 감지 여유 공간
-    const isBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
+    const isBottom =
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom;
 
     if (isBottom) {
       loadMoreRelatedPhotos();
     }
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <View>
+      <View style={{ height: '100%' }}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Icon name="chevron-back" size={20} style={styles.backIcon} />
         </TouchableOpacity>
         <ScrollView style={styles.contentContainer} onScroll={handleScroll}>
-          <AutoHeightImage uri={photo.urls.full} />
+          <AutoHeightImage uri={photo.urls.full} onReady={() => setIsPhotoLoading(false)} />
 
-          <View style={styles.infoContainer}>
-            <Text style={styles.description}>{photo.description}</Text>
-            <View style={styles.dateContainer}>
-              <Icon name="calendar-clear-outline" size={16} color="#393E46" />
-              <Text style={styles.date}>{photo.createdAt}</Text>
-            </View>
-            <View style={styles.userContainer}>
-              <Image
-                source={{ uri: photo.user.profileImage }}
-                style={styles.userProfileImage}
-              />
-              <Text style={styles.userName}>{photo.user.name}</Text>
-            </View>
-          </View>
+          {!isPhotoLoading && (
+            <>
+              <View style={styles.infoContainer}>
+                <Text style={styles.description}>{photo.description}</Text>
+                <View style={styles.dateContainer}>
+                  <Icon name="calendar-clear-outline" size={16} color="#393E46" />
+                  <Text style={styles.date}>{photo.createdAt}</Text>
+                </View>
+                <View style={styles.userContainer}>
+                  <Image
+                    source={{ uri: photo.user.profileImage }}
+                    style={styles.userProfileImage}
+                  />
+                  <Text style={styles.userName}>{photo.user.name}</Text>
+                </View>
+              </View>
+              <View>
+                <Text style={styles.findoutMore}>더 찾아보기</Text>
+                {isFirstFetching ? (
+                  <View style={styles.initialLoadingContainer}>
+                    <ActivityIndicator />
+                  </View>
+                ) : <PhotoGrid photos={relatedPhotos} />}
+              </View>
+            </>
+          )}
 
-          <View>
-            <Text style={styles.findoutMore}>더 찾아보기</Text>
-            <PhotoGrid photos={relatedPhotos} />
-          </View>
+          {isFetchingMore && (
+            <View style={styles.listLoadingContainer}>
+              <ActivityIndicator />
+            </View>
+          )}
+
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -125,6 +153,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: SCREEN_HORIZONTAL_PADDING,
+  },
+  initialLoadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  listLoadingContainer: {
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   contentContainer: {
     height: '100%',

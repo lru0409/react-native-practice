@@ -6,13 +6,14 @@ import { SCREEN_HORIZONTAL_PADDING } from '@src/constants/styles';
 const CONTAINER_WIDTH =
   Dimensions.get('window').width - SCREEN_HORIZONTAL_PADDING * 2;
 
-export default function AutoHeightImage({ uri }: { uri: string }) {
+export default function AutoHeightImage({ uri, onReady }: { uri: string, onReady?: () => void }) {
   const [height, setHeight] = useState<number | null>(null);
 
   useEffect(() => {
     Image.getSize(uri, (width, height) => {
       const ratio = height / width;
       setHeight(CONTAINER_WIDTH * ratio);
+      onReady?.();
     });
   }, [uri]);
 
