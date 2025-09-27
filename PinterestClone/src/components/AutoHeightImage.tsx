@@ -8,16 +8,19 @@ const CONTAINER_WIDTH =
 
 export default function AutoHeightImage({ uri, onReady }: { uri: string, onReady?: () => void }) {
   const [height, setHeight] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setIsLoading(true);
     Image.getSize(uri, (width, height) => {
       const ratio = height / width;
       setHeight(CONTAINER_WIDTH * ratio);
       onReady?.();
+      setIsLoading(false);
     });
   }, [uri]);
 
-  if (!height) {
+  if (isLoading) {
     return <ActivityIndicator />;
   }
 

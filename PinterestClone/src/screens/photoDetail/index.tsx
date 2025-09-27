@@ -26,6 +26,8 @@ export default function PhotoDetailScreen() {
   const isFetchingMoreRef = useRef<boolean>(false);
   const relatedPageRef = useRef<number>(1);
 
+  const scrollRef = useRef<ScrollView>(null);
+
   const fetchRelatedPhotos = async (page: number, query: string) => {
     const response = await fetch(
       `${UNSPLASH_BASE_URL}/search/photos?query=${query}&page=${page}`,
@@ -73,6 +75,12 @@ export default function PhotoDetailScreen() {
     firstFetch();
   }, []);
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ y: 0, animated: true });
+    }
+  }, [photo]);
+
   const loadMoreRelatedPhotos = async () => {
     if (!hasMoreRelated || isFetchingMoreRef.current) {
       return;
@@ -107,7 +115,7 @@ export default function PhotoDetailScreen() {
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Icon name="chevron-back" size={20} style={styles.backIcon} />
         </TouchableOpacity>
-        <ScrollView style={styles.contentContainer} onScroll={handleScroll}>
+        <ScrollView ref={scrollRef} style={styles.contentContainer} onScroll={handleScroll}>
           <AutoHeightImage uri={photo.urls.full} onReady={() => setIsPhotoLoading(false)} />
 
           {!isPhotoLoading && (
