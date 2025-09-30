@@ -44,7 +44,7 @@ export default function PhotoDetailScreen() {
     }
 
     const data = (await response.json()) as {
-      total_pages: 1000;
+      total_pages: number;
       results: PhotoResponse[];
     };
 

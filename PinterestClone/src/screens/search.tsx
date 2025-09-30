@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import { TextInput, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { RootStackParamList } from '@src/App';
 import { SCREEN_HORIZONTAL_PADDING } from '@src/constants/styles';
 
 export default function SearchScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
+
   const [query, setQuery] = useState('');
 
   return (
@@ -17,7 +22,10 @@ export default function SearchScreen() {
         onChangeText={setQuery}
         returnKeyType='search'
         onSubmitEditing={() => {
-          console.log('submit');
+          const trimmed = query.trim();
+          if (trimmed) {
+            navigation.navigate('SearchDetail', { query: trimmed });
+          }
         }}
       />
     </SafeAreaView>
@@ -34,9 +42,9 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 14,
     borderStyle: 'solid',
-    paddingVertical: 13,
+    paddingVertical: 12,
     paddingHorizontal: 17,
     fontSize: 15,
-    lineHeight: 18,
+    lineHeight: 20,
   },
-})
+});

@@ -10,11 +10,13 @@ import HomeScreen from '@src/screens/home';
 import SearchScreen from '@src/screens/search';
 import CollectionScreen from '@src/screens/collection';
 import PhotoDetailScreen from '@src/screens/photoDetail';
+import SearchDetailScreen from '@src/screens/searchDetail';
 import { Photo } from '@src/types/photo';
 
 export type RootStackParamList = {
   Tabs: undefined;
   PhotoDetail: { photo: Photo };
+  SearchDetail: { query: string };
 };
 
 const Tab = createBottomTabNavigator();
@@ -38,6 +40,11 @@ function App() {
               <Stack.Screen
                 name="PhotoDetail"
                 component={PhotoDetailScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="SearchDetail"
+                component={SearchDetailScreen}
                 options={{ headerShown: false }}
               />
             </Stack.Navigator>
