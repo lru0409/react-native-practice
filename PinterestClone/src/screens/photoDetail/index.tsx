@@ -1,18 +1,17 @@
 import { useRef } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, NativeSyntheticEvent, NativeScrollEvent, ActivityIndicator, Dimensions } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, NativeSyntheticEvent, NativeScrollEvent, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 
 import { UNSPLASH_ACCESS_KEY } from '@env';
-import { SCREEN_HORIZONTAL_PADDING } from '@src/constants/styles';
 import { RootStackParamList } from '@src/App';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PhotoGrid from '@src/components/PhotoGrid';
 import { useEffect, useState } from 'react';
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import { Photo, PhotoResponse } from '@src/types/photo';
-
-const CONTAINER_WIDTH = Dimensions.get('window').width - SCREEN_HORIZONTAL_PADDING * 2;
+import { CONTAINER_WIDTH } from '@src/styles/common';
+import styles from './styles';
 
 export default function PhotoDetailScreen() {
   const navigation = useNavigation();
@@ -122,6 +121,7 @@ export default function PhotoDetailScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={{ height: '100%'}}>
+        {/* backButton 컴포넌트화 */}
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Icon name="chevron-back" size={20} style={styles.backIcon} />
         </TouchableOpacity>
@@ -168,79 +168,3 @@ export default function PhotoDetailScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: SCREEN_HORIZONTAL_PADDING,
-  },
-  contentContainer: {
-    height: '100%',
-  },
-  backButton: {
-    height: 35,
-    width: 32,
-    opacity: 0.8,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    position: 'absolute',
-    zIndex: 1,
-    left: 8,
-    top: 8,
-  },
-  backIcon: {
-    margin: 'auto',
-  },
-  initialLoadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  listLoadingContainer: {
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  photo: {
-    width: CONTAINER_WIDTH,
-    resizeMode: 'cover',
-    borderRadius: 16,
-  },
-  infoContainer: {
-    padding: 15,
-  },
-  description: {
-    fontSize: 16,
-    marginBottom: 7,
-  },
-  dateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    marginBottom: 15,
-  },
-  date: {
-    color: '#393E46',
-    fontSize: 12,
-  },
-  userContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  userName: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  userProfileImage: {
-    height: 40,
-    width: 40,
-    borderRadius: '50%',
-  },
-  findoutMore: {
-    fontSize: 16,
-    fontWeight: '800',
-    marginBottom: 10,
-    marginLeft: 5,
-  },
-});

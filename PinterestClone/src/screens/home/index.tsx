@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
-import { StyleSheet, FlatList, ActivityIndicator, View } from 'react-native';
+import { FlatList, ActivityIndicator, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { UNSPLASH_ACCESS_KEY } from '@env';
 import CategorySelector from './components/CategorySelector';
-import { SCREEN_HORIZONTAL_PADDING } from '@src/constants/styles';
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import { type Photo, type PhotoResponse } from '@src/types/photo';
 import PhotoGrid from '@src/components/PhotoGrid';
+import styles from './styles';
 
 export default function HomeScreen() {
   const [photos, setPhotos] = useState<Photo[]>([]);
@@ -104,21 +104,3 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
-
-// TODO: 스타일 별도의 파일로 분리
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: SCREEN_HORIZONTAL_PADDING,
-  },
-  initialLoadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  listLoadingContainer: {
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

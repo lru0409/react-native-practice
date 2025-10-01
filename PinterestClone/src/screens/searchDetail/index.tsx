@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,10 +7,10 @@ import { TextInput } from 'react-native';
 
 import { UNSPLASH_ACCESS_KEY } from '@env';
 import { RootStackParamList } from '@src/App';
-import { SCREEN_HORIZONTAL_PADDING } from '@src/constants/styles';
 import { Photo, PhotoResponse } from '@src/types/photo';
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import PhotoGrid from '@src/components/PhotoGrid';
+import styles from './styles';
 
 export default function SearchDetailScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
@@ -127,30 +127,3 @@ export default function SearchDetailScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: SCREEN_HORIZONTAL_PADDING,
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 14,
-    borderStyle: 'solid',
-    paddingVertical: 12,
-    paddingHorizontal: 17,
-    fontSize: 15,
-    lineHeight: 20,
-  },
-  initialLoadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  listLoadingContainer: {
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
