@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, View } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -9,6 +9,7 @@ import { UNSPLASH_ACCESS_KEY } from '@env';
 import { RootStackParamList } from '@src/App';
 import { Photo, PhotoResponse } from '@src/types/photo';
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
+import usePagination from '@src/hooks/usePagination';
 import PhotoGrid from '@src/components/PhotoGrid';
 import styles from './styles';
 
@@ -19,15 +20,11 @@ export default function SearchDetailScreen() {
 
   const [query, setQuery] = useState(initialQuery);
 
-  const [photos, setPhotos] = useState<Photo[]>([]);
-  const [hasMore, setHasMore] = useState<boolean>(false);
-  const [isFirstFetching, setIsFirstFetching] = useState<boolean>(true);
-  const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false);
-  const isFetchingMoreRef = useRef<boolean>(false);
-  const pageRef = useRef<number>(1);
+  const { data: photos, isFirstFetching, isFetchingMore, firstFetch, loadMore } = usePagination<Photo>({
+    fetchData: fetchPhotos,
+  });
 
-
-  const fetchPhotos = async (page: number, query: string) => {
+  async function fetchPhotos(page: number) {
     const response = await fetch(
       `${UNSPLASH_BASE_URL}/search/photos?query=${query}&page=${page}`,
       {
@@ -43,13 +40,10 @@ export default function SearchDetailScreen() {
     const data = (await response.json()) as {
       total_pages: number;
       results: PhotoResponse[];
-    }
+    };
 
-    const totalPages = data.total_pages;
-    setHasMore(page < totalPages);
-    setPhotos(prev => [
-      ...prev,
-      ...data.results.map(item => ({
+    return {
+      data: data.results.map(item => ({
         id: item.id,
         description: item.alt_description,
         createdAt: item.created_at,
@@ -58,33 +52,14 @@ export default function SearchDetailScreen() {
           name: item.user.name,
           profileImage: item.user.profile_image.medium,
         },
-      } as Photo))
-    ])
+      } as Photo)),
+      hasMore: page < data.total_pages,
+    };
   }
 
   useEffect(() => {
-    const firstFetch = async () => {
-      setIsFirstFetching(true);
-      await fetchPhotos(pageRef.current, query);
-      setIsFirstFetching(false);
-    }
     firstFetch();
   }, []);
-
-  const loadMorePhotos = async () => {
-    if (!hasMore || isFetchingMoreRef.current) {
-      return;
-    }
-    
-    isFetchingMoreRef.current = true;
-    setIsFetchingMore(true);
-
-    pageRef.current += 1;
-    await fetchPhotos(pageRef.current, query);
-
-    isFetchingMoreRef.current = false;
-    setIsFetchingMore(false);
-  }
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -98,7 +73,7 @@ export default function SearchDetailScreen() {
         onSubmitEditing={() => {
           const trimmed = query.trim();
           if (trimmed && trimmed !== initialQuery) {
-            navigation.navigate('SearchDetail', { query: trimmed });
+            navigation.push('SearchDetail', { query: trimmed });
           }
         }}
       />
@@ -111,7 +86,7 @@ export default function SearchDetailScreen() {
         <FlatList
           data={[photos]}
           renderItem={({ item }: { item: Photo[] }) => <PhotoGrid photos={item} />}
-          onEndReached={loadMorePhotos}
+          onEndReached={loadMore}
           onEndReachedThreshold={0.5}
           scrollEventThrottle={100}
           showsHorizontalScrollIndicator={false}
