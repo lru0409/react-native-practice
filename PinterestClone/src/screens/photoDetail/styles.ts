@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     margin: 'auto',
   },
   initialLoadingContainer: commonStyles.initialLoadingContainer,
-  listLoadingContainer: commonStyles.listLoadingContainer,
   photo: {
     width: CONTAINER_WIDTH,
     resizeMode: 'cover',
@@ -58,12 +57,6 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     borderRadius: '50%',
-  },
-  findoutMore: {
-    fontSize: 16,
-    fontWeight: '800',
-    marginBottom: 10,
-    marginLeft: 5,
   },
 });
 
