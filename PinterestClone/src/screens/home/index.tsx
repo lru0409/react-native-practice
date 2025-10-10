@@ -59,7 +59,7 @@ export default function HomeScreen() {
           <ActivityIndicator />
         </View>
       )}
-      {/* FlatList 의도와 너무 안 맞는 듯 함. ScrollView 쓰는 게 나을까? */}
+      {/* TODO: FlatList 의도와 너무 안 맞는 듯 함. ScrollView 쓰는 게 나을까? */}
       {!isFirstFetching && (
         <FlatList
           data={[photos]}

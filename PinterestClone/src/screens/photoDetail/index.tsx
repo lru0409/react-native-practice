@@ -50,7 +50,7 @@ export default function PhotoDetailScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={{ height: '100%'}}>
-        {/* backButton 컴포넌트화 */}
+        {/* TODO: backButton 컴포넌트화 */}
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Icon name="chevron-back" size={20} style={styles.backIcon} />
         </TouchableOpacity>

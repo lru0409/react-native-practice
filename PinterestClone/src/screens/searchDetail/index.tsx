@@ -3,7 +3,6 @@ import { ActivityIndicator, FlatList, View } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TextInput } from 'react-native';
 
 import { UNSPLASH_ACCESS_KEY } from '@env';
 import { RootStackParamList } from '@src/App';
@@ -11,6 +10,7 @@ import { Photo, PhotoResponse } from '@src/types/photo';
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import usePagination from '@src/hooks/usePagination';
 import PhotoGrid from '@src/components/PhotoGrid';
+import SearchInput from '@src/components/SearchInput';
 import styles from './styles';
 
 export default function SearchDetailScreen() {
@@ -63,14 +63,10 @@ export default function SearchDetailScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <TextInput
-        style={styles.textInput}
-        placeholder="Pinterest 검색"
-        placeholderTextColor="gray"
+      <SearchInput
         value={query}
-        onChangeText={setQuery}
-        returnKeyType="search"
-        onSubmitEditing={() => {
+        onChange={setQuery}
+        onSubmit={() => {
           const trimmed = query.trim();
           if (trimmed && trimmed !== initialQuery) {
             navigation.push('SearchDetail', { query: trimmed });
@@ -84,6 +80,7 @@ export default function SearchDetailScreen() {
       )}
       {!isFirstFetching && (
         <FlatList
+          style={styles.contentContainer}
           data={[photos]}
           renderItem={({ item }: { item: Photo[] }) => <PhotoGrid photos={item} />}
           onEndReached={loadMore}
