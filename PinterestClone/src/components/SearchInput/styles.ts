@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 17,
     fontSize: 15,
     lineHeight: 20,
+    width: '100%',
   },
 });
 

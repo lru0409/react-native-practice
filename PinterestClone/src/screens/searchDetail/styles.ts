@@ -6,8 +6,16 @@ const styles = StyleSheet.create({
   container: commonStyles.container,
   initialLoadingContainer: commonStyles.initialLoadingContainer,
   listLoadingContainer: commonStyles.listLoadingContainer,
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  searchInputContainer: {
+    flex: 1,
+  },
   contentContainer: {
-    marginTop: 5,
+    marginTop: 7,
   },
 });
 

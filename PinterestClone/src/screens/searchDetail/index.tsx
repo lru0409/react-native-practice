@@ -11,6 +11,7 @@ import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import usePagination from '@src/hooks/usePagination';
 import PhotoGrid from '@src/components/PhotoGrid';
 import SearchInput from '@src/components/SearchInput';
+import BackButton from '@src/components/BackButton';
 import styles from './styles';
 
 export default function SearchDetailScreen() {
@@ -63,21 +64,27 @@ export default function SearchDetailScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <SearchInput
-        value={query}
-        onChange={setQuery}
-        onSubmit={() => {
-          const trimmed = query.trim();
-          if (trimmed && trimmed !== initialQuery) {
-            navigation.push('SearchDetail', { query: trimmed });
-          }
-        }}
-      />
+      <View style={styles.headerContainer}>
+        <BackButton />
+        <View style={styles.searchInputContainer}>
+          <SearchInput
+            value={query}
+            onChange={setQuery}
+            onSubmit={() => {
+              const trimmed = query.trim();
+              if (trimmed && trimmed !== initialQuery) {
+                navigation.push('SearchDetail', { query: trimmed });
+              }
+            }}
+          />
+        </View>
+      </View>
       {isFirstFetching && (
         <View style={styles.initialLoadingContainer}>
           <ActivityIndicator />
         </View>
       )}
+      {/* TODO: FlatList 의도와 너무 안 맞는 듯 함. ScrollView 쓰는 게 나을까? */}
       {!isFirstFetching && (
         <FlatList
           style={styles.contentContainer}
