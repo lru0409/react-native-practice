@@ -4,22 +4,14 @@ import commonStyles, { CONTAINER_WIDTH } from '@src/styles/common';
 
 const styles = StyleSheet.create({
   container: commonStyles.container,
-  contentContainer: {
-    height: '100%',
-  },
-  backButton: {
-    height: 35,
-    width: 32,
-    opacity: 0.8,
-    backgroundColor: 'white',
-    borderRadius: 10,
+  backButtonContainer: {
     position: 'absolute',
     zIndex: 1,
     left: 8,
     top: 8,
   },
-  backIcon: {
-    margin: 'auto',
+  contentContainer: {
+    height: '100%',
   },
   initialLoadingContainer: commonStyles.initialLoadingContainer,
   photo: {
