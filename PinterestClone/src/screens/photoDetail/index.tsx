@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import FindMoreArea, { FindMoreAreaRef } from './components/FindMoreArea';
 import { CONTAINER_WIDTH } from '@src/styles/common';
 import BackButton from '@src/components/BackButton';
+import BottomDetectScrollView from '@src/components/BottomDetectScrollView';
 import styles from './styles';
 
 export default function PhotoDetailScreen() {
@@ -62,7 +63,13 @@ export default function PhotoDetailScreen() {
         )}
 
         {!isPhotoLoading && (
-          <ScrollView ref={scrollRef} style={styles.contentContainer} onScroll={handleScroll}>
+          <BottomDetectScrollView
+            ref={scrollRef}
+            style={styles.contentContainer}
+            onEndReached={() => {
+              findMoreAreaRef.current?.loadMore();
+            }}
+          >
             <Image source={{ uri: photo.urls.full }} style={[styles.photo, { height: photoHeight }]} />
               <View style={styles.infoContainer}>
                 <Text style={styles.description}>{photo.description}</Text>
@@ -79,7 +86,7 @@ export default function PhotoDetailScreen() {
                 </View>
               </View>
               <FindMoreArea ref={findMoreAreaRef} query={photo.description} />
-          </ScrollView>
+          </BottomDetectScrollView>
         )}
       </View>
     </SafeAreaView>
