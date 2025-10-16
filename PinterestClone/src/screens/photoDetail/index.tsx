@@ -37,18 +37,6 @@ export default function PhotoDetailScreen() {
     }
   }, [photo]);
 
-  // TODO: 스크롤 바닥 감지 기능 추상화할 수 있는 ScrollView 컴포넌트 만들면 좋을 듯
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
-
-    const paddingToBottom = 20; // 바닥 감지 여유 공간
-    const isBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
-
-    if (isBottom) {
-      findMoreAreaRef.current?.loadMore();
-    }
-  };
-
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={{ height: '100%'}}>
@@ -71,21 +59,21 @@ export default function PhotoDetailScreen() {
             }}
           >
             <Image source={{ uri: photo.urls.full }} style={[styles.photo, { height: photoHeight }]} />
-              <View style={styles.infoContainer}>
-                <Text style={styles.description}>{photo.description}</Text>
-                <View style={styles.dateContainer}>
-                  <Icon name="calendar-clear-outline" size={16} color="#393E46" />
-                  <Text style={styles.date}>{photo.createdAt}</Text>
-                </View>
-                <View style={styles.userContainer}>
-                  <Image
-                    source={{ uri: photo.user.profileImage }}
-                    style={styles.userProfileImage}
-                  />
-                  <Text style={styles.userName}>{photo.user.name}</Text>
-                </View>
+            <View style={styles.infoContainer}>
+              <Text style={styles.description}>{photo.description}</Text>
+              <View style={styles.dateContainer}>
+                <Icon name="calendar-clear-outline" size={16} color="#393E46" />
+                <Text style={styles.date}>{photo.createdAt}</Text>
               </View>
-              <FindMoreArea ref={findMoreAreaRef} query={photo.description} />
+              <View style={styles.userContainer}>
+                <Image
+                  source={{ uri: photo.user.profileImage }}
+                  style={styles.userProfileImage}
+                />
+                <Text style={styles.userName}>{photo.user.name}</Text>
+              </View>
+            </View>
+            <FindMoreArea ref={findMoreAreaRef} query={photo.description} />
           </BottomDetectScrollView>
         )}
       </View>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { FlatList, ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { UNSPLASH_ACCESS_KEY } from '@env';
@@ -8,6 +8,7 @@ import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import { type Photo, type PhotoResponse } from '@src/types/photo';
 import usePagination from '@src/hooks/usePagination';
 import PhotoGrid from '@src/components/PhotoGrid';
+import BottomDetectScrollView from '@src/components/BottomDetectScrollView';
 import styles from './styles';
 
 export default function HomeScreen() {
@@ -59,23 +60,15 @@ export default function HomeScreen() {
           <ActivityIndicator />
         </View>
       )}
-      {/* TODO: FlatList 의도와 너무 안 맞는 듯 함. ScrollView 쓰는 게 나을까? */}
       {!isFirstFetching && (
-        <FlatList
-          data={[photos]}
-          renderItem={({ item }: { item: Photo[] }) => <PhotoGrid photos={item} />}
-          onEndReached={loadMore}
-          onEndReachedThreshold={0.5}
-          scrollEventThrottle={100}
-          showsHorizontalScrollIndicator={false}
-          ListFooterComponent={
-            isFetchingMore ? (
-              <View style={styles.listLoadingContainer}>
-                <ActivityIndicator />
-              </View>
-            ) : null
-          }
-        />
+        <BottomDetectScrollView onEndReached={loadMore}>
+          <PhotoGrid photos={photos} />
+          {isFetchingMore && (
+            <View style={styles.listLoadingContainer}>
+              <ActivityIndicator />
+            </View>
+          )}
+        </BottomDetectScrollView>
       )}
     </SafeAreaView>
   );
