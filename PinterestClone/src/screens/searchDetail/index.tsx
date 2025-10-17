@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,6 +12,7 @@ import usePagination from '@src/hooks/usePagination';
 import PhotoGrid from '@src/components/PhotoGrid';
 import SearchInput from '@src/components/SearchInput';
 import BackButton from '@src/components/BackButton';
+import BottomDetectScrollView from '@src/components/BottomDetectScrollView';
 import styles from './styles';
 
 export default function SearchDetailScreen() {
@@ -84,24 +85,15 @@ export default function SearchDetailScreen() {
           <ActivityIndicator />
         </View>
       )}
-      {/* TODO: FlatList 의도와 너무 안 맞는 듯 함. ScrollView 쓰는 게 나을까? */}
       {!isFirstFetching && (
-        <FlatList
-          style={styles.contentContainer}
-          data={[photos]}
-          renderItem={({ item }: { item: Photo[] }) => <PhotoGrid photos={item} />}
-          onEndReached={loadMore}
-          onEndReachedThreshold={0.5}
-          scrollEventThrottle={100}
-          showsHorizontalScrollIndicator={false}
-          ListFooterComponent={
-            isFetchingMore ? (
-              <View style={styles.listLoadingContainer}>
-                <ActivityIndicator />
-              </View>
-            ) : null
-          }
-        />
+        <BottomDetectScrollView onEndReached={loadMore} style={styles.contentContainer}>
+          <PhotoGrid photos={photos} />
+          {isFetchingMore && (
+            <View style={styles.listLoadingContainer}>
+              <ActivityIndicator />
+            </View>
+          )}
+        </BottomDetectScrollView>
       )}
     </SafeAreaView>
   );
