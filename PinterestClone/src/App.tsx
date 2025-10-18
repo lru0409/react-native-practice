@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import LoginScreen from '@src/screens/login';
 import HomeScreen from '@src/screens/home';
 import SearchScreen from '@src/screens/search';
 import CollectionScreen from '@src/screens/collection';
@@ -32,6 +33,11 @@ function App() {
           <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
           <NavigationContainer>
             <Stack.Navigator>
+              <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={{ headerShown: false }}
+              />
               <Stack.Screen
                 name="Tabs"
                 component={TabNavigator}
