@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		75D094F02EA78E8600FB95E7 /* Dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D094EF2EA78E8600FB95E7 /* Dummy.m */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		78F5588C99C768E370C40F36 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
-		F5AB44E940B6AD731FC4BE3B /* libPods-SeaOfPhotos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1791A74C3A8AD9EE94F8B4 /* libPods-SeaOfPhotos.a */; };
+		F81AE6FC64F8483786DA1A93 /* libPods-SeaOfPhotos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 959BFAAA99FD68F1435B4EDF /* libPods-SeaOfPhotos.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0F750615D43136446E2295AA /* Pods-SeaOfPhotos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaOfPhotos.debug.xcconfig"; path = "Target Support Files/Pods-SeaOfPhotos/Pods-SeaOfPhotos.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* SeaOfPhotos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeaOfPhotos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SeaOfPhotos/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SeaOfPhotos/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = SeaOfPhotos/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		6C1791A74C3A8AD9EE94F8B4 /* libPods-SeaOfPhotos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SeaOfPhotos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		60CFDD3766EF1C8A1D7873EE /* Pods-SeaOfPhotos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaOfPhotos.release.xcconfig"; path = "Target Support Files/Pods-SeaOfPhotos/Pods-SeaOfPhotos.release.xcconfig"; sourceTree = "<group>"; };
 		75CB4C972E38534C002C385F /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AntDesign.ttf; sourceTree = "<group>"; };
 		75CB4C982E38534C002C385F /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
 		75CB4C992E38534C002C385F /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
@@ -38,9 +38,12 @@
 		75CB4CA72E38534C002C385F /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		75CB4CA82E38534C002C385F /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		75CB4CA92E38534C002C385F /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		75D094EE2EA78E8600FB95E7 /* SeaOfPhotos-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SeaOfPhotos-Bridging-Header.h"; sourceTree = "<group>"; };
+		75D094EF2EA78E8600FB95E7 /* Dummy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Dummy.m; path = SeaOfPhotos/Dummy.m; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = SeaOfPhotos/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SeaOfPhotos/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		DF9E04B63BA3CBEB4ED0D7BE /* Pods-SeaOfPhotos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaOfPhotos.release.xcconfig"; path = "Target Support Files/Pods-SeaOfPhotos/Pods-SeaOfPhotos.release.xcconfig"; sourceTree = "<group>"; };
+		959BFAAA99FD68F1435B4EDF /* libPods-SeaOfPhotos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SeaOfPhotos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBECBE8E6B6B24F946AE7A17 /* Pods-SeaOfPhotos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeaOfPhotos.debug.xcconfig"; path = "Target Support Files/Pods-SeaOfPhotos/Pods-SeaOfPhotos.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -49,7 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5AB44E940B6AD731FC4BE3B /* libPods-SeaOfPhotos.a in Frameworks */,
+				F81AE6FC64F8483786DA1A93 /* libPods-SeaOfPhotos.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,9 +65,11 @@
 				75CB4C962E385349002C385F /* Fonts */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
+				75D094EF2EA78E8600FB95E7 /* Dummy.m */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				75D094EE2EA78E8600FB95E7 /* SeaOfPhotos-Bridging-Header.h */,
 			);
 			name = SeaOfPhotos;
 			sourceTree = "<group>";
@@ -73,7 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				6C1791A74C3A8AD9EE94F8B4 /* libPods-SeaOfPhotos.a */,
+				959BFAAA99FD68F1435B4EDF /* libPods-SeaOfPhotos.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -136,8 +141,8 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0F750615D43136446E2295AA /* Pods-SeaOfPhotos.debug.xcconfig */,
-				DF9E04B63BA3CBEB4ED0D7BE /* Pods-SeaOfPhotos.release.xcconfig */,
+				CBECBE8E6B6B24F946AE7A17 /* Pods-SeaOfPhotos.debug.xcconfig */,
+				60CFDD3766EF1C8A1D7873EE /* Pods-SeaOfPhotos.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -149,13 +154,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "SeaOfPhotos" */;
 			buildPhases = (
-				2D64E54028EBE5EBFE1D0C99 /* [CP] Check Pods Manifest.lock */,
+				31947ABC88769BABD93C5414 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				A875DD6E351BA2A82DF9DB76 /* Resources */,
-				C6171E3E3BA98BE9CAA52DD6 /* [CP] Embed Pods Frameworks */,
-				B67CA42F5BAD69F2CBF4F367 /* [CP] Copy Pods Resources */,
+				5FB1CF12089C36C8CB8AF7EF /* [CP] Embed Pods Frameworks */,
+				2BD622870D8694E2A7AEE807 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -175,7 +180,7 @@
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 2600;
 					};
 				};
 			};
@@ -225,7 +230,28 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		2D64E54028EBE5EBFE1D0C99 /* [CP] Check Pods Manifest.lock */ = {
+		2BD622870D8694E2A7AEE807 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeaOfPhotos/Pods-SeaOfPhotos-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeaOfPhotos/Pods-SeaOfPhotos-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeaOfPhotos/Pods-SeaOfPhotos-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		31947ABC88769BABD93C5414 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -247,24 +273,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B67CA42F5BAD69F2CBF4F367 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SeaOfPhotos/Pods-SeaOfPhotos-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SeaOfPhotos/Pods-SeaOfPhotos-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeaOfPhotos/Pods-SeaOfPhotos-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C6171E3E3BA98BE9CAA52DD6 /* [CP] Embed Pods Frameworks */ = {
+		5FB1CF12089C36C8CB8AF7EF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -272,9 +281,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SeaOfPhotos/Pods-SeaOfPhotos-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SeaOfPhotos/Pods-SeaOfPhotos-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -288,6 +301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75D094F02EA78E8600FB95E7 /* Dummy.m in Sources */,
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,7 +311,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0F750615D43136446E2295AA /* Pods-SeaOfPhotos.debug.xcconfig */;
+			baseConfigurationReference = CBECBE8E6B6B24F946AE7A17 /* Pods-SeaOfPhotos.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -311,6 +325,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				NEW_SETTING = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -319,6 +334,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = org.reactjs.native.example.SeaOfPhotos;
 				PRODUCT_NAME = SeaOfPhotos;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/SeaOfPhotos/AppDelegate+RNAppAuth.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -327,7 +343,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF9E04B63BA3CBEB4ED0D7BE /* Pods-SeaOfPhotos.release.xcconfig */;
+			baseConfigurationReference = 60CFDD3766EF1C8A1D7873EE /* Pods-SeaOfPhotos.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -340,6 +356,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				NEW_SETTING = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -348,6 +365,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = org.reactjs.native.example.SeaOfPhotos;
 				PRODUCT_NAME = SeaOfPhotos;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/SeaOfPhotos/AppDelegate+RNAppAuth.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -422,10 +440,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -494,10 +509,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
