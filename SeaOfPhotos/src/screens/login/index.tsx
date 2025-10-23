@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { View, Button, SafeAreaView } from 'react-native';
-import { authorize, AuthorizeResult } from 'react-native-app-auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { authorize } from 'react-native-app-auth';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { UNSPLASH_ACCESS_KEY, UNSPLASH_SECRET_KEY } from '@env';
 import styles from './styles';
@@ -10,7 +9,8 @@ const config = {
   usePKCE: false,
   clientId: UNSPLASH_ACCESS_KEY,
   clientSecret: UNSPLASH_SECRET_KEY,
-  scopes: ['public', 'read_user', 'write_user', 'read_photos', 'write_photos', 'read_collections', 'write_collections'],
+  scopes: ['public', 'read_user'],
+  // scopes: ['public', 'read_user', 'write_user', 'read_photos', 'write_photos', 'read_collections', 'write_collections'],
   redirectUrl: 'com.seaofphotos://oauth',
   serviceConfiguration: {
     authorizationEndpoint: 'https://unsplash.com/oauth/authorize',
@@ -19,14 +19,11 @@ const config = {
 };
 
 export default function LoginScreen() {
-  const [authState, setAuthState] = useState<AuthorizeResult | null>(null);
 
   const handleLogin = async () => {
-    console.log('handleLogin');
     try {
       const result = await authorize(config);
-      await AsyncStorage.setItem('auth', JSON.stringify(result));
-      setAuthState(result);
+      await EncryptedStorage.setItem('auth', JSON.stringify(result));
       console.log('logged in', result);
     } catch (error) {
       console.error('auth error', error);
