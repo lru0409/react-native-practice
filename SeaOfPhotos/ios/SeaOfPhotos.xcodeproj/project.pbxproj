@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		75D094F02EA78E8600FB95E7 /* Dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D094EF2EA78E8600FB95E7 /* Dummy.m */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		78F5588C99C768E370C40F36 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		F81AE6FC64F8483786DA1A93 /* libPods-SeaOfPhotos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 959BFAAA99FD68F1435B4EDF /* libPods-SeaOfPhotos.a */; };
@@ -38,8 +37,6 @@
 		75CB4CA72E38534C002C385F /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		75CB4CA82E38534C002C385F /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		75CB4CA92E38534C002C385F /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
-		75D094EE2EA78E8600FB95E7 /* SeaOfPhotos-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SeaOfPhotos-Bridging-Header.h"; sourceTree = "<group>"; };
-		75D094EF2EA78E8600FB95E7 /* Dummy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Dummy.m; path = SeaOfPhotos/Dummy.m; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = SeaOfPhotos/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SeaOfPhotos/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		959BFAAA99FD68F1435B4EDF /* libPods-SeaOfPhotos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SeaOfPhotos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,11 +62,9 @@
 				75CB4C962E385349002C385F /* Fonts */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
-				75D094EF2EA78E8600FB95E7 /* Dummy.m */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
-				75D094EE2EA78E8600FB95E7 /* SeaOfPhotos-Bridging-Header.h */,
 			);
 			name = SeaOfPhotos;
 			sourceTree = "<group>";
@@ -301,7 +296,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75D094F02EA78E8600FB95E7 /* Dummy.m in Sources */,
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,7 +328,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = org.reactjs.native.example.SeaOfPhotos;
 				PRODUCT_NAME = SeaOfPhotos;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/SeaOfPhotos/AppDelegate+RNAppAuth.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -365,7 +358,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = org.reactjs.native.example.SeaOfPhotos;
 				PRODUCT_NAME = SeaOfPhotos;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/SeaOfPhotos/AppDelegate+RNAppAuth.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
