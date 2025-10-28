@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { StatusBar, useColorScheme, View, ActivityIndicator } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,6 +13,16 @@ import CollectionScreen from '@src/screens/collection';
 import PhotoDetailScreen from '@src/screens/photoDetail';
 import SearchDetailScreen from '@src/screens/searchDetail';
 import { Photo } from '@src/types/photo';
+import { AuthProvider, useAuth } from '@src/contexts/auth';
+import commonStyles from '@src/styles/common';
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
 
 export type RootStackParamList = {
   Tabs: undefined;
@@ -23,39 +33,51 @@ export type RootStackParamList = {
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function App() {
+function AppContent() {
   const isDarkMode = useColorScheme() === 'dark';
+  const { isLoggedIn } = useAuth();
+
+  if (isLoggedIn === null) {
+    return (
+      <View style={[commonStyles.initialLoadingContainer]}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <GestureHandlerRootView>
       <SafeAreaProvider>
-        <View style={styles.container}>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          <NavigationContainer>
-            <Stack.Navigator>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <NavigationContainer>
+          <Stack.Navigator>
+            {isLoggedIn ? (
+              <>
+                <Stack.Screen
+                  name="Tabs"
+                  component={TabNavigator}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="PhotoDetail"
+                  component={PhotoDetailScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="SearchDetail"
+                  component={SearchDetailScreen}
+                  options={{ headerShown: false }}
+                />
+              </>
+            ) : (
               <Stack.Screen
                 name="Login"
                 component={LoginScreen}
                 options={{ headerShown: false }}
               />
-              <Stack.Screen
-                name="Tabs"
-                component={TabNavigator}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="PhotoDetail"
-                component={PhotoDetailScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="SearchDetail"
-                component={SearchDetailScreen}
-                options={{ headerShown: false }}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </View>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
@@ -109,11 +131,5 @@ const SearchTabIcon = ({ focused }: { focused: boolean }) => (
 const CollectionTabIcon = ({ focused }: { focused: boolean }) => (
   <Icon name={focused ? 'person' : 'person-outline'} size={24} />
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
