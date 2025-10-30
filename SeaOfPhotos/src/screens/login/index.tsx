@@ -7,7 +7,7 @@ import styles from './styles';
 import { useEffect } from 'react';
 
 export default function LoginScreen() {
-  const { setIsLoggedIn } = useAuth();
+  const { checkLogin } = useAuth();
 
   const handleLogin = async () => {
     const authorizationEndpoint = 'https://unsplash.com/oauth/authorize';
@@ -22,7 +22,6 @@ export default function LoginScreen() {
       const { url } = event;
       if (url.startsWith('com.seaofphotos://oauth')) {
         const code = url.split('code=')[1];
-        // TODO: 토큰 발급 요청
         const response = await fetch(`https://unsplash.com/oauth/token`, {
           method: 'POST',
           headers: {
@@ -43,7 +42,7 @@ export default function LoginScreen() {
         }
         const data = await response.json();
         await EncryptedStorage.setItem('unsplash_access_token', data.access_token);
-        setIsLoggedIn(true);
+        checkLogin();
       }
     }
     const subscription = Linking.addEventListener('url', handleUrl);
@@ -51,7 +50,7 @@ export default function LoginScreen() {
     return () => {
       subscription.remove();
     }
-  }, [setIsLoggedIn]);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
