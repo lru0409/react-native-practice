@@ -1,4 +1,4 @@
-import { View, Button, SafeAreaView, Linking } from 'react-native';
+import { View, SafeAreaView, Linking, Text, TouchableOpacity } from 'react-native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { UNSPLASH_ACCESS_KEY, UNSPLASH_SECRET_KEY } from '@env';
@@ -54,8 +54,14 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.contentWrapper}>
-        <Button title="Login with Unsplash" onPress={handleLogin} />
+      <View style={styles.centerContent}>
+        <Text style={styles.title}>Sea of Photos</Text>
+        <Text style={styles.subtitle}>Explore photos from Unsplash</Text>
+      </View>
+      <View style={styles.bottomContent}>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={styles.loginButtonText}>Login with Unsplash</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
