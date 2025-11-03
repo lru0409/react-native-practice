@@ -1,8 +1,8 @@
 import { View, SafeAreaView, Linking, Text, TouchableOpacity } from 'react-native';
-import EncryptedStorage from 'react-native-encrypted-storage';
 
-import { UNSPLASH_ACCESS_KEY, UNSPLASH_SECRET_KEY } from '@env';
+import { UNSPLASH_ACCESS_KEY } from '@env';
 import { useAuth } from '@src/contexts/auth';
+import { requestAccessToken } from '@src/services/auth';
 import styles from './styles';
 import { useEffect } from 'react';
 
@@ -20,30 +20,12 @@ export default function LoginScreen() {
   useEffect(() => {
     const handleUrl = async (event: { url: string }) => {
       const { url } = event;
-      if (url.startsWith('com.seaofphotos://oauth')) {
-        const code = url.split('code=')[1];
-        const response = await fetch(`https://unsplash.com/oauth/token`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams({
-            client_id: UNSPLASH_ACCESS_KEY,
-            client_secret: UNSPLASH_SECRET_KEY,
-            redirect_uri: 'com.seaofphotos://oauth',
-            code: code,
-            grant_type: 'authorization_code',
-          }).toString(),
-        });
-        if (!response.ok) {
-          const errText = await response.text();
-          console.log(`Failed to get token: ${errText}`);
-          return;
-        }
-        const data = await response.json();
-        await EncryptedStorage.setItem('unsplash_access_token', data.access_token);
-        checkLogin();
+      if (!url.startsWith('com.seaofphotos://oauth')) {
+        return;
       }
+      const code = url.split('code=')[1];
+      await requestAccessToken(code ?? '');
+      checkLogin();
     }
     const subscription = Linking.addEventListener('url', handleUrl);
 

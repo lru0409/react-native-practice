@@ -13,6 +13,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
+  // TODO: 아래 두 함수 auth service 레이어로 분리
   const validateAccessToken = async (accessToken: string) => {
     const response = await fetch(`${UNSPLASH_BASE_URL}/me`, {
       method: 'GET',
