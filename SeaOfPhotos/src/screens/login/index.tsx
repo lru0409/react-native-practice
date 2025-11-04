@@ -1,10 +1,11 @@
 import { View, SafeAreaView, Linking, Text, TouchableOpacity } from 'react-native';
+import { useEffect } from 'react';
 
 import { UNSPLASH_ACCESS_KEY } from '@env';
 import { useAuth } from '@src/contexts/auth';
-import { requestAccessToken } from '@src/services/auth';
+import AuthService from '@src/services/auth';
+
 import styles from './styles';
-import { useEffect } from 'react';
 
 export default function LoginScreen() {
   const { checkLogin } = useAuth();
@@ -24,7 +25,7 @@ export default function LoginScreen() {
         return;
       }
       const code = url.split('code=')[1];
-      await requestAccessToken(code ?? '');
+      await AuthService.requestAccessToken(code ?? '');
       checkLogin();
     }
     const subscription = Linking.addEventListener('url', handleUrl);
