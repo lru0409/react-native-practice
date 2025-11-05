@@ -1,9 +1,10 @@
-import { FlatList, Image, TouchableOpacity } from 'react-native';
+import { FlatList, Image, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { RootStackParamList } from '@src/App';
 import { Photo } from '@src/types/photo';
+import LikeButton from '@src/components/LikeButton';
 import styles, { getItemStyle, COLUMN_COUNT } from './styles';
 
 export default function PhotoGrid({ photos }: { photos: Photo[] }) {
@@ -23,6 +24,9 @@ export default function PhotoGrid({ photos }: { photos: Photo[] }) {
             navigation.navigate('PhotoDetail', { photo: item });
           }}
         >
+          <View style={styles.likeButtonWrapper}>
+            <LikeButton />
+          </View>
           <Image style={styles.image} source={{ uri: item.urls.small }} />
         </TouchableOpacity>
       )}

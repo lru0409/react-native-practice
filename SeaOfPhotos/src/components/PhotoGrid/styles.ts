@@ -14,6 +14,7 @@ export const getItemStyle = (index: number): ViewStyle => {
     marginRight: (index + 1) % COLUMN_COUNT === 0 ? 0 : SPACING_BETWEEN_ITEMS,
     marginBottom: SPACING_BETWEEN_ITEMS,
     overflow: 'hidden',
+    position: 'relative',
   };
 };
 
@@ -21,6 +22,12 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+  },
+  likeButtonWrapper: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    zIndex: 1,
   },
 });
 
