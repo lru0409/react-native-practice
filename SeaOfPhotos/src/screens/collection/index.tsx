@@ -1,7 +1,7 @@
 import { View, Text, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import EncryptedStorage from 'react-native-encrypted-storage';
 
+import AuthService from '@src/services/auth';
 import { useAuth } from '@src/contexts/auth';
 
 export default function CollectionScreen() {
@@ -12,7 +12,7 @@ export default function CollectionScreen() {
       <View>
         <Text>Collection</Text>
         <Button title="Logout" onPress={() => {
-          EncryptedStorage.removeItem('unsplash_access_token');
+          AuthService.logout();
           checkLogin();
         }} />
       </View>
