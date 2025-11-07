@@ -14,10 +14,19 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   initialLoadingContainer: commonStyles.initialLoadingContainer,
+  photoWrapper: {
+    position: 'relative',
+  },
   photo: {
     width: CONTAINER_WIDTH,
     resizeMode: 'cover',
     borderRadius: 16,
+  },
+  likeButtonWrapper: {
+    position: 'absolute',
+    bottom: 14,
+    right: 14,
+    zIndex: 1,
   },
   infoContainer: {
     padding: 15,

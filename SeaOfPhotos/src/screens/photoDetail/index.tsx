@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import FindMoreArea, { FindMoreAreaRef } from './components/FindMoreArea';
 import { CONTAINER_WIDTH } from '@src/styles/common';
 import BackButton from '@src/components/BackButton';
+import LikeButton from '@src/components/LikeButton'; // TODO: 모든 컴포넌트를 @/src/components 경로에서 임포트할 수 있도록
 import BottomDetectScrollView from '@src/components/BottomDetectScrollView';
 import styles from './styles';
 
@@ -58,7 +59,12 @@ export default function PhotoDetailScreen() {
               findMoreAreaRef.current?.loadMore();
             }}
           >
-            <Image source={{ uri: photo.urls.full }} style={[styles.photo, { height: photoHeight }]} />
+            <View style={styles.photoWrapper}>
+              <Image source={{ uri: photo.urls.full }} style={[styles.photo, { height: photoHeight }]} />
+              <View style={styles.likeButtonWrapper}>
+                <LikeButton />
+              </View>
+            </View>
             <View style={styles.infoContainer}>
               <Text style={styles.description}>{photo.description}</Text>
               <View style={styles.dateContainer}>
