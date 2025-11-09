@@ -3,12 +3,11 @@ import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { UNSPLASH_ACCESS_KEY } from '@env';
-import CategorySelector from './components/CategorySelector';
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import { type Photo, type PhotoResponse } from '@src/types/photo';
 import usePagination from '@src/hooks/usePagination';
-import PhotoGrid from '@src/components/PhotoGrid';
-import BottomDetectScrollView from '@src/components/BottomDetectScrollView';
+import { BottomDetectScrollView, PhotoGrid } from '@src/components';
+import CategorySelector from './components/CategorySelector';
 import styles from './styles';
 
 export default function HomeScreen() {

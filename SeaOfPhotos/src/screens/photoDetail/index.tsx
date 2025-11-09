@@ -1,16 +1,13 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute, RouteProp } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { RootStackParamList } from '@src/App';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { useEffect, useState } from 'react';
-import FindMoreArea, { FindMoreAreaRef } from './components/FindMoreArea';
 import { CONTAINER_WIDTH } from '@src/styles/common';
-import BackButton from '@src/components/BackButton';
-import LikeButton from '@src/components/LikeButton'; // TODO: 모든 컴포넌트를 @/src/components 경로에서 임포트할 수 있도록
-import BottomDetectScrollView from '@src/components/BottomDetectScrollView';
+import { BackButton, BottomDetectScrollView, LikeButton } from '@src/components';
+import FindMoreArea, { FindMoreAreaRef } from './components/FindMoreArea';
 import styles from './styles';
 
 export default function PhotoDetailScreen() {

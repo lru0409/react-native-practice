@@ -5,7 +5,7 @@ import { UNSPLASH_ACCESS_KEY } from '@env';
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import { Photo, PhotoResponse } from '@src/types/photo';
 import usePagination from '@src/hooks/usePagination';
-import PhotoGrid from '@src/components/PhotoGrid';
+import { PhotoGrid } from '@src/components';
 import styles from './styles';
 
 type FindMoreAreaProps = {

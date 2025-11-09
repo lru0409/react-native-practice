@@ -9,10 +9,7 @@ import { RootStackParamList } from '@src/App';
 import { Photo, PhotoResponse } from '@src/types/photo';
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import usePagination from '@src/hooks/usePagination';
-import PhotoGrid from '@src/components/PhotoGrid';
-import SearchInput from '@src/components/SearchInput';
-import BackButton from '@src/components/BackButton';
-import BottomDetectScrollView from '@src/components/BottomDetectScrollView';
+import { PhotoGrid, SearchInput, BackButton, BottomDetectScrollView } from '@src/components';
 import styles from './styles';
 
 export default function SearchDetailScreen() {

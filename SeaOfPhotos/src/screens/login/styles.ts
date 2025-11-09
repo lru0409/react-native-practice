@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import commonStyles, { CONTAINER_WIDTH } from '@src/styles/common';
+import commonStyles from '@src/styles/common';
 
 const styles = StyleSheet.create({
   container: {

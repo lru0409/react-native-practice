@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '@src/App';
-import SearchInput from '@src/components/SearchInput';
+import { SearchInput } from '@src/components';
 import styles from './styles';
 
 export default function SearchScreen() {
