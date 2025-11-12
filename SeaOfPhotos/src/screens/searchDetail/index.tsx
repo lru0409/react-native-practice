@@ -4,12 +4,11 @@ import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { UNSPLASH_ACCESS_KEY } from '@env';
 import { RootStackParamList } from '@src/App';
-import { Photo, PhotoResponse } from '@src/types/photo';
-import { UNSPLASH_BASE_URL } from '@src/constants/api';
+import type { Photo } from '@src/types/photo';
 import usePagination from '@src/hooks/usePagination';
 import { PhotoGrid, SearchInput, BackButton, BottomDetectScrollView } from '@src/components';
+import PhotoService from '@src/services/photo';
 import styles from './styles';
 
 export default function SearchDetailScreen() {
@@ -20,41 +19,8 @@ export default function SearchDetailScreen() {
   const [query, setQuery] = useState(initialQuery);
 
   const { data: photos, isFirstFetching, isFetchingMore, firstFetch, loadMore } = usePagination<Photo>({
-    fetchData: fetchPhotos,
+    fetchData: (page) => PhotoService.fetchPhotosByQuery(query, page),
   });
-
-  async function fetchPhotos(page: number) {
-    const response = await fetch(
-      `${UNSPLASH_BASE_URL}/search/photos?query=${query}&page=${page}`,
-      {
-        method: 'GET',
-        headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` },
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
-
-    const data = (await response.json()) as {
-      total_pages: number;
-      results: PhotoResponse[];
-    };
-
-    return {
-      data: data.results.map(item => ({
-        id: item.id,
-        description: item.alt_description,
-        createdAt: item.created_at,
-        urls: item.urls,
-        user: {
-          name: item.user.name,
-          profileImage: item.user.profile_image.medium,
-        },
-      } as Photo)),
-      hasMore: page < data.total_pages,
-    };
-  }
 
   useEffect(() => {
     firstFetch();
