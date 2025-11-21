@@ -11,10 +11,13 @@ export default function LoginScreen() {
   const { checkLogin } = useAuth();
 
   const handleLogin = async () => {
-    const authorizationEndpoint = 'https://unsplash.com/oauth/authorize';
-    const redirectUrl = 'com.seaofphotos://oauth';
-    const scope = 'public+read_user';
-    const authUrl = `${authorizationEndpoint}?client_id=${UNSPLASH_ACCESS_KEY}&redirect_uri=${redirectUrl}&response_type=code&scope=${scope}`;
+    const params = new URLSearchParams();
+    params.append('client_id', UNSPLASH_ACCESS_KEY);
+    params.append('redirect_uri', 'com.seaofphotos://oauth');
+    params.append('scope', 'public read_user write_collections');
+    params.append('response_type', 'code');
+    console.log('params', params.toString());
+    const authUrl = `https://unsplash.com/oauth/authorize?${params.toString()}`;
     Linking.openURL(authUrl);
   }
 
