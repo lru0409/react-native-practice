@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 
-import AuthService from '@src/services/auth';
+import UserService from '@src/services/user';
 
 type AuthContextType = {
   isLoggedIn: boolean | null;
@@ -13,11 +13,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   const checkLogin = async () => {
-    const isValid = await AuthService.validateAccessToken();
-    if (!isValid) {
-      console.error('Invalid access token');
+    try {
+      await UserService.fetchUser();
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.warn('Failed to fetch user', error);
+      setIsLoggedIn(false);
     }
-    setIsLoggedIn(isValid);
   };
 
   useEffect(() => {

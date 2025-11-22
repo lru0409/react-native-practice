@@ -2,6 +2,7 @@ import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import { UNSPLASH_ACCESS_KEY } from '@env';
 import type { Photo, PhotoResponse } from '@src/types/photo';
 
+// TODO: 호출하는 곳에서 try-catch 필수
 async function fetchPhotos(page: number) {
   const response = await fetch(`${UNSPLASH_BASE_URL}/photos?page=${page}`, {
     method: 'GET',

@@ -26,24 +26,11 @@ const requestAccessToken = async (code: string) => {
   await EncryptedStorage.setItem('unsplash_access_token', data.access_token);
 };
 
-const validateAccessToken = async () => {
-  const accessToken = await EncryptedStorage.getItem('unsplash_access_token');
-  if (!accessToken) {
-    return false;
-  }
-  const response = await fetch(`${UNSPLASH_BASE_URL}/me`, {
-    method: 'GET',
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
-  return response.ok;
-};
-
 const logout = async () => {
   await EncryptedStorage.removeItem('unsplash_access_token');
 };
 
 export default {
   requestAccessToken,
-  validateAccessToken,
   logout,
 };
