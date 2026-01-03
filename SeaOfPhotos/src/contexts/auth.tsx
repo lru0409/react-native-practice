@@ -4,6 +4,7 @@ import UserService from '@src/services/user';
 
 type AuthContextType = {
   isLoggedIn: boolean | null;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean | null>>;
   checkLogin: () => Promise<void>;
 };
 
@@ -27,7 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, checkLogin }}>
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, checkLogin }}>
       {children}
     </AuthContext.Provider>
   );
