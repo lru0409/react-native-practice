@@ -5,7 +5,7 @@ import { UNSPLASH_BASE_URL } from '@src/constants/api';
 async function fetchUser() {
   const accessToken = await EncryptedStorage.getItem('unsplash_access_token');
   if (!accessToken) {
-    throw new Error('No access token found');
+    throw new Error('NO_TOKEN');
   }
 
   const response = await fetch(`${UNSPLASH_BASE_URL}/me`, {
