@@ -5,10 +5,6 @@ export function useUser() {
   return useQuery({
     queryKey: ['user'],
     queryFn: UserService.fetchUser,
-    staleTime: 0,
-    refetchOnWindowFocus: true,
-    refetchOnReconnect: true,
-    refetchInterval: false,
   });
 }
  
