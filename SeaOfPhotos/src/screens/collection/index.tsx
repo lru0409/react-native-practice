@@ -1,20 +1,18 @@
 import { useEffect } from 'react';
 import { View, Text, Button, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useQueryClient } from '@tanstack/react-query';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import AuthService from '@src/services/auth';
-import CollectionService from '@src/services/collection';
 import { useAuth } from '@src/contexts/auth';
 import { useUser } from '@src/hooks/useUser';
+import { useCollections } from '@src/hooks/useCollections';
 import styles from './styles';
 
 export default function CollectionScreen() {
-  const queryClient = useQueryClient();
-
   const { setIsLoggedIn, checkLogin } = useAuth();
   const { data: user, isLoading: isUserLoading, error: userError } = useUser();
+  const { data: collections, isLoading: isCollectionsLoading, error: collectionsError } = useCollections(user?.username, 1);
 
   useEffect(() => {
     if (userError && userError.message === 'NO_TOKEN') {
@@ -22,40 +20,7 @@ export default function CollectionScreen() {
     }
   }, [userError]);
 
-  useEffect(() => {
-    if (!user) {
-      return;
-    }
-
-    // TODO: fetchUserCollections는 react query 사용할 수 없는 건가? 어떤 상황에서 react query 훅을 사용해야 하는 건가?
-
-    const fetchMyCollections = async () => {
-      const response = await CollectionService.fetchUserCollections(user.username, 1);
-      if (!response.ok) {
-        if (response.status === 404) {
-          queryClient.invalidateQueries({ queryKey: ['user'] });
-          const refreshedUser = await queryClient.fetchQuery({ queryKey: ['user']});
-          if (refreshedUser) {
-            const response = await CollectionService.fetchUserCollections(refreshedUser.username, 1);
-            if (response.ok) {
-              const collections = await response.json();
-              console.log('collections (retry)', collections);
-            } else {
-              console.error('Failed to fetchUserCollections', response.status);
-            }
-          }
-        } else {
-          console.error('Failed to fetchUserCollections', response.status);
-        }
-        return;
-      }
-      const collections = await response.json();
-      console.log('collections', collections);
-    };
-    fetchMyCollections();
-  }, [user]);
-
-  if (userError) {
+  if (userError || collectionsError) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.errorContainer}>
@@ -70,7 +35,7 @@ export default function CollectionScreen() {
     );
   }
 
-  if (isUserLoading) {
+  if (isUserLoading || isCollectionsLoading) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.initialLoadingContainer}>
@@ -83,7 +48,8 @@ export default function CollectionScreen() {
   return (
     <SafeAreaView>
       <View>
-        <Text>Collection</Text>
+        <Text>username: {user?.username}</Text>
+        <Text>collections: {collections?.length}</Text> {/* TODO: 더 잘 표현하기 */}
         <Button title="Logout" onPress={() => {
           AuthService.logout();
           checkLogin();
