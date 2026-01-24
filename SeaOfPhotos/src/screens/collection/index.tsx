@@ -49,7 +49,6 @@ export default function CollectionScreen() {
     <SafeAreaView>
       <View>
         <Text>username: {user?.username}</Text>
-        <Text>collections: {collections?.length}</Text> {/* TODO: 더 잘 표현하기 */}
         <Button title="Logout" onPress={() => {
           AuthService.logout();
           checkLogin();

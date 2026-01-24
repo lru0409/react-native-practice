@@ -2,6 +2,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import { UNSPLASH_ACCESS_KEY } from '@env';
+import type { CollectionResponse, Collection } from '@src/types/collection';
 
 const createCollection = async (
   title: string,
@@ -53,7 +54,30 @@ const fetchUserCollections = async (username: string, page: number) => {
   if (!response.ok) {
     throw new Error(`HTTP error: ${response.status}`);
   }
-  return await response.json();
+
+  const total = Number(response.headers.get('x-total'));
+  const perPage = Number(response.headers.get('x-per-page'));
+  const totalPages = Math.ceil(total / perPage);
+
+  const data = (await response.json()) as CollectionResponse[];
+  return {
+    data: data.map(
+      item => ({
+        id: item.id,
+        title: item.title,
+        description: item.description,
+        createdAt: item.published_at,
+        updatedAt: item.last_collected_at,
+        totalPhotos: item.total_photos,
+        private: item.private,
+        coverPhoto: {
+          id: item.cover_photo.id,
+          urls: item.cover_photo.urls,
+        },
+      } as Collection),
+    ),
+    hasMore: page < totalPages,
+  };
 };
 
 export default {
