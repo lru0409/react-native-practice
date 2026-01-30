@@ -8,6 +8,7 @@ import { RootStackParamList } from '@src/App';
 import { CONTAINER_WIDTH } from '@src/styles/common';
 import { BackButton, BottomDetectScrollView, LikeButton } from '@src/components';
 import FindMoreArea, { FindMoreAreaRef } from './components/FindMoreArea';
+import formatDate from '@src/utils/formatDate';
 import styles from './styles';
 
 export default function PhotoDetailScreen() {
@@ -66,7 +67,7 @@ export default function PhotoDetailScreen() {
               <Text style={styles.description}>{photo.description}</Text>
               <View style={styles.dateContainer}>
                 <Icon name="calendar-clear-outline" size={16} color="#393E46" />
-                <Text style={styles.date}>{photo.createdAt}</Text>
+                <Text style={styles.date}>{formatDate(photo.createdAt)}</Text>
               </View>
               <View style={styles.userContainer}>
                 <Image

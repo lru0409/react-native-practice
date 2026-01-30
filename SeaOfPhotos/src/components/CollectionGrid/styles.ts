@@ -9,8 +9,7 @@ const ITEM_SIZE = (Dimensions.get('window').width - SCREEN_HORIZONTAL_PADDING * 
 export const getItemStyle = (index: number): ViewStyle => {
   return { 
     width: ITEM_SIZE,
-    height: ITEM_SIZE * 1.2,
-    borderRadius: 16,
+    height: ITEM_SIZE + 50,
     marginRight: (index + 1) % COLUMN_COUNT === 0 ? 0 : SPACING_BETWEEN_ITEMS,
     marginBottom: SPACING_BETWEEN_ITEMS,
     overflow: 'hidden',
@@ -20,8 +19,12 @@ export const getItemStyle = (index: number): ViewStyle => {
 const styles = StyleSheet.create({
   image: {
     width: '100%',
-    height: '100%',
+    aspectRatio: 1,
+    borderRadius: 16,
   },
+  textContent: {
+    height: 50,
+  }
 });
 
 export default styles;
