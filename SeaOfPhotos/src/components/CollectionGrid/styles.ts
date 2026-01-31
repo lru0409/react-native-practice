@@ -9,7 +9,7 @@ const ITEM_SIZE = (Dimensions.get('window').width - SCREEN_HORIZONTAL_PADDING * 
 export const getItemStyle = (index: number): ViewStyle => {
   return { 
     width: ITEM_SIZE,
-    height: ITEM_SIZE + 50,
+    height: ITEM_SIZE + 55,
     marginRight: (index + 1) % COLUMN_COUNT === 0 ? 0 : SPACING_BETWEEN_ITEMS,
     marginBottom: SPACING_BETWEEN_ITEMS,
     overflow: 'hidden',
@@ -23,7 +23,16 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   textContent: {
-    height: 50,
+    height: 55,
+    padding: 7,
+  },
+  title: {
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  details: {
+    fontSize: 12,
+    color: 'gray',
   }
 });
 

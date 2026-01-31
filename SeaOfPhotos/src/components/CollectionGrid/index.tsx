@@ -26,9 +26,10 @@ export default function CollectionGrid({ collections }: { collections: Collectio
         >
           <Image style={styles.image} source={{ uri: item.coverPhoto.urls.small }} />
           <View style={styles.textContent}>
-            <Text>{item.title}</Text>
-            <Text>사진 {item.totalPhotos}개</Text>
-            <Text>{formatDate(item.updatedAt)}</Text>
+            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+              {item.title}
+            </Text>
+            <Text style={styles.details}>사진 {item.totalPhotos}개 · {formatDate(item.updatedAt)}</Text>
           </View>
         </TouchableOpacity>
       )}
