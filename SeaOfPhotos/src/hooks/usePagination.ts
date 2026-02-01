@@ -1,49 +1,35 @@
-import { useState, useRef } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 type UsePaginationProps<T> = {
-  fetchData: (page: number) => Promise<{ data: T[], hasMore: boolean }>;
+  queryKey: unknown[];
+  fetchData: (page: number) => Promise<{ data: T[]; hasMore: boolean }>;
 };
 
-const usePagination = <T>({ fetchData }: UsePaginationProps<T>) => {
-  const [data, setData] = useState<T[]>([]);
-  const [isFirstFetching, setIsFirstFetching] = useState<boolean>(true); // 첫 페이지 fetching 중
-  const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false); // 두 번째 이상의 페이지 로딩 중
-  const isFetchingMoreRef = useRef<boolean>(false);
-  const [hasMore, setHasMore] = useState<boolean>(false);
-  const pageRef = useRef<number>(1);
+export function usePagination<T>({
+  queryKey,
+  fetchData,
+}: UsePaginationProps<T>) {
+  const result = useInfiniteQuery({
+    queryKey,
+    queryFn: ({ pageParam }) => fetchData(pageParam),
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.hasMore ? allPages.length + 1 : undefined,
+    initialPageParam: 1,
+  });
 
-  const firstFetch = async () => {
-    setIsFirstFetching(true);
-    const result = await fetchData(pageRef.current);
-    setData(result.data);
-    setHasMore(result.hasMore);
-    setIsFirstFetching(false);
-  }
+  const data = result.data?.pages.flatMap((p) => p.data) ?? [];
 
-  const loadMore = async () => {
-    if (!hasMore || isFetchingMoreRef.current) {
-      return;
-    }
-
-    isFetchingMoreRef.current = true;
-    setIsFetchingMore(true);
-
-    pageRef.current += 1;
-    const result = await fetchData(pageRef.current);
-    setData(prev => [...prev, ...result.data]);
-    setHasMore(result.hasMore);
-
-    isFetchingMoreRef.current = false;
-    setIsFetchingMore(false);
+  const loadMore = () => {
+    if (result.isFetchingNextPage || !result.hasNextPage) return;
+    result.fetchNextPage();
   };
 
   return {
     data,
-    isFirstFetching,
-    isFetchingMore,
-    firstFetch,
+    isFetchingFirst: result.isLoading,
+    isFetchingMore: result.isFetchingNextPage,
+    hasNextPage: result.hasNextPage ?? false,
     loadMore,
-  }
-};
-
-export default usePagination;
+    refetch: result.refetch,
+  };
+}
