@@ -29,6 +29,16 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: '50%',
   },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    color: 'gray',
+    fontSize: 18,
+    fontWeight: '300',
+  },
 });
 
 export default styles;

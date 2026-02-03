@@ -60,7 +60,7 @@ export default function CollectionScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.header}>
         <Image
           source={{ uri: user.profileImage.medium }}
@@ -73,7 +73,12 @@ export default function CollectionScreen() {
           <ActivityIndicator />
         </View>
       )}
-      {!isCollectionsLoading && (
+      {!isCollectionsLoading && collections.length === 0 && (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>Let's create your collection!</Text>
+        </View>
+      )}
+      {!isCollectionsLoading && collections.length > 0 && (
         <BottomDetectScrollView onEndReached={() => loadMore()}>
           <CollectionGrid collections={collections} />
           {isCollectionsLoadingMore && (
