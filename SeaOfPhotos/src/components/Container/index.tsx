@@ -9,6 +9,7 @@ type ContainerProps = {
   useHeader?: boolean;
   headerTitle?: string;
   isLoading?: boolean;
+  isError?: boolean;
   edges?: ('top' | 'bottom' | 'left' | 'right')[];
   children: React.ReactNode;
 }
@@ -17,6 +18,7 @@ export default function Container({
   useHeader = false,
   headerTitle,
   isLoading = false,
+  isError = false,
   edges = ['top', 'left', 'right'],
   children,
 }: ContainerProps) {
@@ -38,12 +40,22 @@ export default function Container({
           <View style={styles.headerSpacer} />
         </View>
       )}
-      {isLoading && (
+      {isError && (
+        <View style={styles.errorContainer}>
+          <Icon name='alert-circle' size={46} />
+          <Text style={styles.errorText}>
+            오류가 발생했습니다.
+            {'\n'}
+            나중에 다시 시도해주세요.
+          </Text>
+        </View>
+      )}
+      {!isError && isLoading && (
         <View style={styles.loadingContainer}>
           <ActivityIndicator />
         </View>
       )}
-      {!isLoading && children}
+      {!isError &&!isLoading && children}
     </SafeAreaView>
   );
 }
