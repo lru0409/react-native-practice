@@ -12,7 +12,9 @@ import SearchScreen from '@src/screens/search';
 import CollectionScreen from '@src/screens/collection';
 import PhotoDetailScreen from '@src/screens/photoDetail';
 import SearchDetailScreen from '@src/screens/searchDetail';
+import CollectionDetailScreen from '@src/screens/collectionDetail';
 import { Photo } from '@src/types/photo';
+import { Collection } from '@src/types/collection';
 import { AuthProvider, useAuth } from '@src/contexts/auth';
 import commonStyles from '@src/styles/common';
 
@@ -28,6 +30,7 @@ export type RootStackParamList = {
   Tabs: undefined;
   PhotoDetail: { photo: Photo };
   SearchDetail: { query: string };
+  CollectionDetail: { collection: Collection  };
 };
 
 const Tab = createBottomTabNavigator();
@@ -66,6 +69,11 @@ function AppContent() {
                 <Stack.Screen
                   name="SearchDetail"
                   component={SearchDetailScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CollectionDetail"
+                  component={CollectionDetailScreen}
                   options={{ headerShown: false }}
                 />
               </>
