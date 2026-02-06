@@ -1,14 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import commonStyles from '@src/styles/common';
-
 const styles = StyleSheet.create({
-  container: {
-    ...commonStyles.container,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   centerContent: {
     flex: 1,
     justifyContent: 'center',

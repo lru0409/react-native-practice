@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import commonStyles, { CONTAINER_WIDTH } from '@src/styles/common';
 
 const styles = StyleSheet.create({
-  container: commonStyles.container,
   backButtonContainer: {
     position: 'absolute',
     zIndex: 1,

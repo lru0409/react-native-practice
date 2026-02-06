@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '@src/App';
 import type { Photo } from '@src/types/photo';
 import { usePagination } from '@src/hooks/usePagination';
-import { PhotoGrid, SearchInput, BackButton, BottomDetectScrollView } from '@src/components';
+import { PhotoGrid, SearchInput, BackButton, BottomDetectScrollView, Container } from '@src/components';
 import PhotoService from '@src/services/photo';
 import styles from './styles';
 
@@ -24,7 +23,7 @@ export default function SearchDetailScreen() {
   });
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <Container>
       <View style={styles.headerContainer}>
         <BackButton />
         <View style={styles.searchInputContainer}>
@@ -55,6 +54,6 @@ export default function SearchDetailScreen() {
           )}
         </BottomDetectScrollView>
       )}
-    </SafeAreaView>
+    </Container>
   );
 }

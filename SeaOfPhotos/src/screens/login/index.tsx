@@ -1,9 +1,10 @@
-import { View, SafeAreaView, Linking, Text, TouchableOpacity } from 'react-native';
+import { View, Linking, Text, TouchableOpacity } from 'react-native';
 import { useEffect } from 'react';
 
 import { UNSPLASH_ACCESS_KEY } from '@env';
 import { useAuth } from '@src/contexts/auth';
 import AuthService from '@src/services/auth';
+import { Container } from '@src/components';
 
 import styles from './styles';
 
@@ -39,7 +40,7 @@ export default function LoginScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <Container edges={['top', 'bottom', 'left', 'right']}>
       <View style={styles.centerContent}>
         <Text style={styles.title}>Sea of Photos</Text>
         <Text style={styles.subtitle}>Explore photos from Unsplash</Text>
@@ -49,6 +50,6 @@ export default function LoginScreen() {
           <Text style={styles.loginButtonText}>Login with Unsplash</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </Container>
   );
 }

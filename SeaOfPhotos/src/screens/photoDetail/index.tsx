@@ -1,12 +1,11 @@
 import { useRef, useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { RootStackParamList } from '@src/App';
 import { CONTAINER_WIDTH } from '@src/styles/common';
-import { BackButton, BottomDetectScrollView, LikeButton } from '@src/components';
+import { BackButton, BottomDetectScrollView, LikeButton, Container } from '@src/components';
 import FindMoreArea, { FindMoreAreaRef } from './components/FindMoreArea';
 import formatDate from '@src/utils/formatDate';
 import styles from './styles';
@@ -37,7 +36,7 @@ export default function PhotoDetailScreen() {
   }, [photo]);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <Container>
       <View style={{ height: '100%'}}>
         <View style={styles.backButtonContainer}>
           <BackButton />
@@ -81,6 +80,6 @@ export default function PhotoDetailScreen() {
           </BottomDetectScrollView>
         )}
       </View>
-    </SafeAreaView>
+    </Container>
   );
 }

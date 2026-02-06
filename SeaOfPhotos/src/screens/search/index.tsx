@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '@src/App';
-import { SearchInput } from '@src/components';
-import styles from './styles';
+import { SearchInput, Container } from '@src/components';
 
 export default function SearchScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
@@ -13,7 +11,7 @@ export default function SearchScreen() {
   const [query, setQuery] = useState('');
 
   return (
-    <SafeAreaView style={styles.container}>
+    <Container>
       <SearchInput
         value={query}
         onChange={setQuery}
@@ -24,6 +22,6 @@ export default function SearchScreen() {
           }
         }}
       />
-    </SafeAreaView>
+    </Container>
   );
 }

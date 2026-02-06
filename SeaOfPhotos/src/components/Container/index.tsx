@@ -27,7 +27,7 @@ export default function Container({
   return (
     <SafeAreaView style={styles.container} edges={edges}>
       {useHeader && (
-        <View style={styles.header}>
+        <View style={styles.headerContainer}>
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => navigation.goBack()}
