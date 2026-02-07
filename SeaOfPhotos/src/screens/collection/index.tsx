@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
-import { View, Text, Button, ActivityIndicator, Image } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, Button, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import AuthService from '@src/services/auth';
 import { useAuth } from '@src/contexts/auth';
 import { useUser } from '@src/hooks/useUser';
-import { BottomDetectScrollView, CollectionGrid } from '@src/components';
+import { BottomDetectScrollView, CollectionGrid, Container } from '@src/components';
 import { Collection } from '@src/types/collection';
 import { usePagination } from '@src/hooks/usePagination';
 import CollectionService from '@src/services/collection';
@@ -34,39 +33,23 @@ export default function CollectionScreen() {
     }
   }, [userError]);
 
-  if (userError || collectionsError) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.errorContainer}>
-          <Icon name='alert-circle' size={46} />
-          <Text style={styles.errorText}>
-            오류가 발생했습니다.
-            {'\n'}
-            나중에 다시 시도해주세요.
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
-  if (isUserLoading || !(user?.profileImage?.medium)) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.initialLoadingContainer}>
-          <ActivityIndicator />
-        </View>
-      </SafeAreaView>
-    );
-  }
-
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <Container
+      isError={Boolean(userError) || Boolean(collectionsError)}
+      isLoading={isUserLoading}
+    >
       <View style={styles.header}>
-        <Image
-          source={{ uri: user.profileImage.medium }}
-          style={styles.userProfileImage}
-        />
-        <Text>{user?.username}</Text>
+        <TouchableOpacity style={styles.userButton} onPress={() => { console.log('go to user profile'); }}>
+          <Image
+            source={{ uri: user?.profileImage.medium }}
+            style={styles.userProfileImage}
+          />
+          <Text style={styles.username}>{user?.username}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+        }}>
+          <Icon name='add' size={24} />
+        </TouchableOpacity>
       </View>
       {isCollectionsLoading && (
         <View style={styles.initialLoadingContainer}>
@@ -92,6 +75,6 @@ export default function CollectionScreen() {
         AuthService.logout();
         checkLogin();
       }} /> */}
-    </SafeAreaView>
+    </Container>
   );
 }

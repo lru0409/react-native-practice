@@ -6,28 +6,26 @@ const styles = StyleSheet.create({
   container: commonStyles.container,
   initialLoadingContainer: commonStyles.initialLoadingContainer,
   listLoadingContainer: commonStyles.listLoadingContainer,
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 20,
-  },
-  errorText: {
-    textAlign: 'center',
-    fontSize: 16,
-    lineHeight: 23,
-  },
   header: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 10,
     padding: 10,
     paddingBottom: 15,
+  },
+  userButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
   userProfileImage: {
     width: 40,
     height: 40,
     borderRadius: '50%',
+  },
+  username: {
+    fontSize: 16,
+    fontWeight: '500',
   },
   emptyContainer: {
     flex: 1,
