@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import { View, Text, Button, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import { RootStackParamList } from '@src/App';
 import AuthService from '@src/services/auth';
 import { useAuth } from '@src/contexts/auth';
 import { useUser } from '@src/hooks/useUser';
@@ -12,6 +15,7 @@ import CollectionService from '@src/services/collection';
 import styles from './styles';
 
 export default function CollectionScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
   const { setIsLoggedIn, checkLogin } = useAuth();
   const { data: user, isLoading: isUserLoading, error: userError } = useUser();
   
@@ -47,6 +51,7 @@ export default function CollectionScreen() {
           <Text style={styles.username}>{user?.username}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
+          navigation.navigate('CollectionCreation');
         }}>
           <Icon name='add' size={24} />
         </TouchableOpacity>
