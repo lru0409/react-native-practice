@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
   },
   bottomContent: {
     alignSelf: 'stretch',
-    margin: 25,
+    marginVertical: 25,
+    marginHorizontal: 10,
   },
   loginButton: {
     padding: 12,

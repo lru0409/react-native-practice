@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 10,
+    paddingBottom: 4,
   },
   backButton: {
     height: 35,
