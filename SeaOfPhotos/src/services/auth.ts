@@ -1,7 +1,6 @@
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { UNSPLASH_ACCESS_KEY, UNSPLASH_SECRET_KEY } from '@env';
-import { UNSPLASH_BASE_URL } from '@src/constants/api';
 
 const requestAccessToken = async (code: string) => {
   const response = await fetch(`https://unsplash.com/oauth/token`, {

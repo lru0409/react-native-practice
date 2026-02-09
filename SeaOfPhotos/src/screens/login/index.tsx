@@ -15,7 +15,7 @@ export default function LoginScreen() {
     const params = new URLSearchParams();
     params.append('client_id', UNSPLASH_ACCESS_KEY);
     params.append('redirect_uri', 'com.seaofphotos://oauth');
-    params.append('scope', 'public read_user write_collections');
+    params.append('scope', 'public read_user read_collections write_collections');
     params.append('response_type', 'code');
     console.log('params', params.toString());
     const authUrl = `https://unsplash.com/oauth/authorize?${params.toString()}`;

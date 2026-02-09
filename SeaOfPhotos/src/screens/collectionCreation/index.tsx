@@ -1,28 +1,45 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Switch } from 'react-native-switch';
 
 import { Container } from '@src/components';
+import { useCreateCollection } from '@src/hooks/useCreateCollection';
 import styles from './styles';
 
 export default function CollectionCreationScreen() {
-  const [name, setName] = useState('');
+  const navigation = useNavigation();
+  const { createCollection, isPending } = useCreateCollection({
+    onSuccess: () => navigation.goBack(), // NOTE: 컬렉션 리스트에 바로 반영이 안 됨
+    onError: () => {
+      Alert.alert('컬렉션 생성 실패', '나중에 다시 시도해 주세요.', [
+        { text: '확인', style: 'cancel' },
+      ]);
+    },
+  });
+
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isPrivate, setIsPrivate] = useState(false);
 
-  const canCreate = name.trim() && description.trim();
+  const canCreate = title.trim() && description.trim();
+
+  const handleCreate = () => {
+    createCollection({ title, description, isPrivate });
+  };
 
   return (
     <Container
       useHeader={true}
       headerTitle='Create Collection'
       edges={['top', 'right', 'bottom', 'left']}
+      isLoading={isPending}
     >
       <View style={styles.container}>
         <View style={styles.formContent}>
           <View style={styles.inputFieldContainer}>
-            <Text style={styles.label}>컬렉션 이름</Text>
-            <TextInput style={styles.input} value={name} onChangeText={setName} />
+            <Text style={styles.label}>컬렉션 제목</Text>
+            <TextInput style={styles.input} value={title} onChangeText={setTitle} />
           </View>
           <View style={styles.inputFieldContainer}>
             <Text style={styles.label}>컬렉션 설명</Text>
@@ -45,8 +62,8 @@ export default function CollectionCreationScreen() {
         </View>
         <TouchableOpacity
           style={[styles.createButton, !canCreate && styles.createButtonDisabled]}
-          onPress={() => { console.log('create collection'); }}
-          disabled={!canCreate}
+          onPress={handleCreate}
+          disabled={!canCreate || isPending}
         >
           <Text style={styles.createButtonText}>Create Collection</Text>
         </TouchableOpacity>

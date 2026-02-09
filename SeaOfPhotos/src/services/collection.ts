@@ -6,8 +6,8 @@ import type { CollectionResponse, Collection } from '@src/types/collection';
 
 const createCollection = async (
   title: string,
-  description?: string,
-  isPrivate?: boolean,
+  description: string,
+  isPrivate: boolean,
 ) => {
   const accessToken = await EncryptedStorage.getItem('unsplash_access_token');
   if (!accessToken) {
@@ -16,12 +16,8 @@ const createCollection = async (
 
   const params = new URLSearchParams();
   params.append('title', title);
-  if (description !== undefined) {
-    params.append('description', description);
-  }
-  if (isPrivate !== undefined) {
-    params.append('private', isPrivate.toString());
-  }
+  params.append('description', description);
+  params.append('private', isPrivate.toString());
 
   const response = await fetch(
     `${UNSPLASH_BASE_URL}/collections?${params.toString()}`,

@@ -20,7 +20,7 @@ export default function CollectionScreen() {
   const { data: user, isLoading: isUserLoading, error: userError } = useUser();
   
   const {
-    data: collections,
+    data: collections, // NOTE: private 컬렉션은 받아올 수 없음
     isFetchingFirst: isCollectionsLoading,
     isFetchingMore: isCollectionsLoadingMore,
     error: collectionsError,
