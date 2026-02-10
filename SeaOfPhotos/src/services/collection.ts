@@ -3,6 +3,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import { UNSPLASH_ACCESS_KEY } from '@env';
 import type { CollectionResponse, Collection } from '@src/types/collection';
+import { Photo, PhotoResponse } from '@src/types/photo';
 
 const createCollection = async (
   title: string,
@@ -76,7 +77,46 @@ const fetchUserCollections = async (username: string, page: number) => {
   };
 };
 
+const fetchCollectionPhotos = async (collectionId: string, page: number) => {
+  const params = new URLSearchParams();
+  params.append('page', page.toString());
+  params.append('per_page', '10');
+
+  const response = await fetch(
+    `${UNSPLASH_BASE_URL}/collections/${collectionId}/photos?${params.toString()}`,
+    {
+      method: 'GET',
+      headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` },
+    }
+  );
+  if (!response.ok) {
+    throw new Error(`HTTP error: ${response.status}`);
+  }
+
+  const total = Number(response.headers.get('x-total'));
+  const perPage = Number(response.headers.get('x-per-page'));
+  const totalPages = Math.ceil(total / perPage);
+
+  const data = (await response.json()) as PhotoResponse[];
+  return {
+    data: data.map(
+      item => ({
+        id: item.id,
+        description: item.alt_description,
+        createdAt: item.created_at,
+        urls: item.urls,
+        user: {
+          name: item.user.name,
+          profileImage: item.user.profile_image.medium,
+        },
+      } as Photo),
+    ),
+    hasMore: page < totalPages,
+  };
+}
+
 export default {
   createCollection,
   fetchUserCollections,
+  fetchCollectionPhotos,
 };

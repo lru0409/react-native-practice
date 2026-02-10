@@ -3,10 +3,22 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 
 import { RootStackParamList } from '@src/App';
 import { Container } from '@src/components';
+import CollectionService from '@src/services/collection';
 
 export default function CollectionDetailScreen() {
   const { params } = useRoute<RouteProp<RootStackParamList, 'CollectionDetail'>>();
   const { collection } = params;
+
+  const {
+    data: collectionPhotos,
+    isFetchingFirst: isCollectionPhotosLoading,
+    isFetchingMore: isCollectionPhotosLoadingMore,
+    isError: isCollectionPhotosError,
+    loadMore,
+  } = usePagination<Photo>({
+    queryKey: ['collectionPhotos', collection.id],
+    fetchData: (page) => CollectionService.fetchCollectionPhotos(collection.id, page),
+  });
 
   return (
     <Container
