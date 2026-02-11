@@ -12,7 +12,7 @@ export type CollectionResponse = {
       full: string;
       small: string;
     }
-  }
+  } | null;
 }
 
 export type Collection = {
@@ -29,5 +29,5 @@ export type Collection = {
       full: string;
       small: string;
     }
-  }
+  } | null;
 }

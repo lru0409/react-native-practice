@@ -1,6 +1,7 @@
 import { FlatList, Image, TouchableOpacity, View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import Icon from 'react-native-vector-icons/Foundation';
 
 import { RootStackParamList } from '@src/App';
 import { Collection } from '@src/types/collection';
@@ -21,11 +22,16 @@ export default function CollectionGrid({ collections }: { collections: Collectio
         <TouchableOpacity
           style={getItemStyle(index)}
           onPress={() => {
-            console.log('go to collection detail');
             navigation.navigate('CollectionDetail', { collection: item });
           }}
         >
-          <Image style={styles.image} source={{ uri: item.coverPhoto.urls.small }} />
+          {item.coverPhoto ? (
+            <Image style={styles.image} source={{ uri: item.coverPhoto.urls.small }} />
+          ): (
+            <View style={styles.imagePlaceholder}>
+              <Icon name='photo' size={48} color='gray' />
+            </View>
+          )}
           <View style={styles.textContent}>
             <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
               {item.title}

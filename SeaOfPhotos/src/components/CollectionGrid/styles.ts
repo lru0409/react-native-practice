@@ -22,6 +22,14 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 16,
   },
+  imagePlaceholder: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: 16,
+    backgroundColor: 'lightgray',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   textContent: {
     height: 55,
     padding: 7,

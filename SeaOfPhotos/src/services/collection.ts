@@ -67,10 +67,10 @@ const fetchUserCollections = async (username: string, page: number) => {
         updatedAt: item.last_collected_at,
         totalPhotos: item.total_photos,
         private: item.private,
-        coverPhoto: {
+        coverPhoto: item.cover_photo ? {
           id: item.cover_photo.id,
           urls: item.cover_photo.urls,
-        },
+        } : null,
       } as Collection),
     ),
     hasMore: page < totalPages,
