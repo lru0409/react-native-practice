@@ -11,7 +11,12 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 4,
     paddingBottom: 4,
+  },
+  headerLeft: {
+    width: 80,
+    height: 35,
   },
   backButton: {
     height: 35,
@@ -29,8 +34,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  headerSpacer: {
-    width: 32,
+  headerRight: {
+    height: 35,
+    width: 80,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
   },
   errorContainer: {
     flex: 1,

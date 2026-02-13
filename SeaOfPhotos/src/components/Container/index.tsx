@@ -8,6 +8,7 @@ import styles from './style';
 type ContainerProps = {
   useHeader?: boolean;
   headerTitle?: string;
+  headerRight?: React.ReactNode;
   isLoading?: boolean;
   isError?: boolean;
   edges?: ('top' | 'bottom' | 'left' | 'right')[];
@@ -17,6 +18,7 @@ type ContainerProps = {
 export default function Container({
   useHeader = false,
   headerTitle,
+  headerRight,
   isLoading = false,
   isError = false,
   edges = ['top', 'left', 'right'],
@@ -28,16 +30,20 @@ export default function Container({
     <SafeAreaView style={styles.container} edges={edges}>
       {useHeader && (
         <View style={styles.headerContainer}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Icon name="chevron-back" size={20} style={styles.backIcon} />
-          </TouchableOpacity>
+          <View style={styles.headerLeft}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Icon name="chevron-back" size={20} style={styles.backIcon} />
+            </TouchableOpacity>
+          </View>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>{headerTitle}</Text>
           </View>
-          <View style={styles.headerSpacer} />
+          <View style={styles.headerRight}>
+            {headerRight}
+          </View>
         </View>
       )}
       {isError && (
