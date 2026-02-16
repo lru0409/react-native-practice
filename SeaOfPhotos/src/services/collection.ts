@@ -35,6 +35,32 @@ const createCollection = async (
   return await response.json();
 };
 
+const updateCollection = async (collectionId: string, title: string, description: string, isPrivate: boolean) => {
+  const accessToken = await EncryptedStorage.getItem('unsplash_access_token');
+  if (!accessToken) {
+    throw new Error('No access token found');
+  }
+
+  const params = new URLSearchParams();
+  params.append('title', title);
+  params.append('description', description);
+  params.append('private', isPrivate.toString());
+
+  const response = await fetch(
+    `${UNSPLASH_BASE_URL}/collections/${collectionId}?${params.toString()}`,
+    {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error(`HTTP error: ${response.status}`);
+  }
+  return await response.json();
+};
+
 const fetchUserCollections = async (username: string, page: number) => {
   const params = new URLSearchParams();
   params.append('username', username);
@@ -117,6 +143,7 @@ const fetchCollectionPhotos = async (collectionId: string, page: number) => {
 
 export default {
   createCollection,
+  updateCollection,
   fetchUserCollections,
   fetchCollectionPhotos,
 };
