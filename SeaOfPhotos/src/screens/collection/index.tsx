@@ -51,7 +51,7 @@ export default function CollectionScreen() {
           <Text style={styles.username}>{user?.username}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
-          navigation.navigate('CollectionCreation');
+          navigation.navigate('CollectionEditor', { mode: 'create' });
         }}>
           <Icon name='add' size={24} />
         </TouchableOpacity>

@@ -1,5 +1,6 @@
 import { Text, View, ActivityIndicator, TouchableOpacity } from 'react-native';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import { RootStackParamList } from '@src/App';
@@ -11,6 +12,7 @@ import formatDate from '@src/utils/formatDate';
 import styles from './styles';
 
 export default function CollectionDetailScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'CollectionDetail'>>();
   const { params } = useRoute<RouteProp<RootStackParamList, 'CollectionDetail'>>();
   const { collection } = params;
 
@@ -32,7 +34,9 @@ export default function CollectionDetailScreen() {
       headerRight={
         <TouchableOpacity
           style={styles.editButton}
-          onPress={() => console.log('edit collection')}
+          onPress={() => {
+            navigation.navigate('CollectionEditor', { mode: 'update', defaultCollection: collection });
+          }}
         >
           <Icon name="edit" size={20} style={styles.editIcon} />
         </TouchableOpacity>

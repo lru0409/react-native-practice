@@ -13,7 +13,7 @@ import CollectionScreen from '@src/screens/collection';
 import PhotoDetailScreen from '@src/screens/photoDetail';
 import SearchDetailScreen from '@src/screens/searchDetail';
 import CollectionDetailScreen from '@src/screens/collectionDetail';
-import CollectionCreationScreen from '@src/screens/collectionCreation';
+import CollectionEditorScreen from '@src/screens/collectionEditor';
 import { Photo } from '@src/types/photo';
 import { Collection } from '@src/types/collection';
 import { AuthProvider, useAuth } from '@src/contexts/auth';
@@ -32,7 +32,7 @@ export type RootStackParamList = {
   PhotoDetail: { photo: Photo };
   SearchDetail: { query: string };
   CollectionDetail: { collection: Collection  };
-  CollectionCreation: undefined;
+  CollectionEditor: { mode: 'create' | 'update', defaultCollection?: Collection };
 };
 
 const Tab = createBottomTabNavigator();
@@ -79,8 +79,8 @@ function AppContent() {
                   options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                  name="CollectionCreation"
-                  component={CollectionCreationScreen}
+                  name="CollectionEditor"
+                  component={CollectionEditorScreen}
                   options={{ headerShown: false }}
                 />
               </>

@@ -42,15 +42,15 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   // TODO: login button과 스타일이 겹침. Button 컴포넌트 만들자
-  createButton: {
+  saveButton: {
     padding: 12,
     borderRadius: 5,
     backgroundColor: 'black',
   },
-  createButtonDisabled: {
+  saveButtonDisabled: {
     opacity: 0.5,
   },
-  createButtonText: {
+  saveButtonText: {
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',

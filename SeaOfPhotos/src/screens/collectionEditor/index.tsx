@@ -1,16 +1,21 @@
 import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { Switch } from 'react-native-switch';
 
+import { RootStackParamList } from '@src/App';
 import { Container } from '@src/components';
 import { useCreateCollection } from '@src/hooks/useCreateCollection';
+import { useUpdateCollection } from '@src/hooks/useUpdateCollection';
 import styles from './styles';
 
-export default function CollectionCreationScreen() {
+export default function CollectionEditorScreen() {
   const navigation = useNavigation();
-  const { createCollection, isPending } = useCreateCollection({
-    onSuccess: () => navigation.goBack(), // NOTE: 컬렉션 리스트에 바로 반영이 안 됨
+  const { params } = useRoute<RouteProp<RootStackParamList, 'CollectionEditor'>>();
+  const { mode, defaultCollection } = params;
+
+  const { createCollection, isPending: isCreatePending } = useCreateCollection({
+    onSuccess: () => navigation.goBack(), // NOTE: 바로 반영이 안 됨
     onError: () => {
       Alert.alert('컬렉션 생성 실패', '나중에 다시 시도해 주세요.', [
         { text: '확인', style: 'cancel' },
@@ -18,22 +23,35 @@ export default function CollectionCreationScreen() {
     },
   });
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [isPrivate, setIsPrivate] = useState(false);
+  const { updateCollection, isPending: isUpdatePending } = useUpdateCollection({
+    onSuccess: () => navigation.goBack(), // NOTE: 바로 반영이 안 됨
+    onError: () => {
+      Alert.alert('컬렉션 수정 실패', '나중에 다시 시도해 주세요.', [
+        { text: '확인', style: 'cancel' },
+      ]);
+    },
+  });
 
-  const canCreate = title.trim() && description.trim();
+  const [title, setTitle] = useState(defaultCollection?.title || '');
+  const [description, setDescription] = useState(defaultCollection?.description || '');
+  const [isPrivate, setIsPrivate] = useState(defaultCollection?.private || false);
+
+  const canSave = title.trim() && description.trim();
 
   const handleCreate = () => {
     createCollection({ title, description, isPrivate });
   };
 
+  const handleUpdate = () => {
+    updateCollection({ collectionId: defaultCollection?.id || '', title, description, isPrivate });
+  };
+
   return (
     <Container
       useHeader={true}
-      headerTitle='Create Collection'
+      headerTitle={`${mode === 'create' ? 'Create' : 'Edit'} Collection`}
       edges={['top', 'right', 'bottom', 'left']}
-      isLoading={isPending}
+      isLoading={isCreatePending || isUpdatePending}
     >
       <View style={styles.container}>
         <View style={styles.formContent}>
@@ -61,11 +79,11 @@ export default function CollectionCreationScreen() {
           </View>
         </View>
         <TouchableOpacity
-          style={[styles.createButton, !canCreate && styles.createButtonDisabled]}
-          onPress={handleCreate}
-          disabled={!canCreate || isPending}
+          style={[styles.saveButton, !canSave && styles.saveButtonDisabled]}
+          onPress={mode === 'create' ? handleCreate : handleUpdate}
+          disabled={!canSave || isCreatePending || isUpdatePending}
         >
-          <Text style={styles.createButtonText}>Create Collection</Text>
+          <Text style={styles.saveButtonText}>{mode === 'create' ? 'Create' : 'Edit'} Collection</Text>
         </TouchableOpacity>
       </View>
     </Container>
