@@ -7,19 +7,19 @@ import {
   NativeScrollEvent,
 } from 'react-native';
 
-interface BottomDetectScrollViewProps extends ScrollViewProps {
+interface InfiniteScrollViewProps extends ScrollViewProps {
   onEndReached?: () => void;
   paddingToBottom?: number; // 바닥 감지 여유 공간
-  refreshing?: boolean;
+  isRefreshing?: boolean;
   onRefresh?: () => void | Promise<unknown>;
   children: React.ReactNode;
 }
 
-const BottomDetectScrollView = forwardRef<ScrollView, BottomDetectScrollViewProps>((props, ref) => {
+const InfiniteScrollView = forwardRef<ScrollView, InfiniteScrollViewProps>((props, ref) => {
   const {
     onEndReached,
     paddingToBottom = 20,
-    refreshing = false,
+    isRefreshing = false,
     onRefresh,
     children,
     ...rest
@@ -28,7 +28,8 @@ const BottomDetectScrollView = forwardRef<ScrollView, BottomDetectScrollViewProp
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
 
-    const isBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
+    const isBottom =
+      layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
     if (isBottom) {
       onEndReached?.();
     }
@@ -38,7 +39,11 @@ const BottomDetectScrollView = forwardRef<ScrollView, BottomDetectScrollViewProp
     <ScrollView
       ref={ref}
       onScroll={handleScroll}
-      refreshControl={onRefresh != null ? <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> : undefined}
+      refreshControl={
+        onRefresh != null ? (
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        ) : undefined
+      }
       {...rest}
     >
       {children}
@@ -46,4 +51,4 @@ const BottomDetectScrollView = forwardRef<ScrollView, BottomDetectScrollViewProp
   );
 });
 
-export default BottomDetectScrollView;
+export default InfiniteScrollView;

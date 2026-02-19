@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { RootStackParamList } from '@src/App';
 import { CONTAINER_WIDTH } from '@src/styles/common';
-import { BackButton, BottomDetectScrollView, LikeButton, Container } from '@src/components';
+import { BackButton, InfiniteScrollView, LikeButton, Container } from '@src/components';
 import FindMoreArea, { FindMoreAreaRef } from './components/FindMoreArea';
 import formatDate from '@src/utils/formatDate';
 import styles from './styles';
@@ -49,7 +49,7 @@ export default function PhotoDetailScreen() {
         )}
 
         {!isPhotoLoading && (
-          <BottomDetectScrollView
+          <InfiniteScrollView
             ref={scrollRef}
             style={styles.contentContainer}
             onEndReached={() => {
@@ -77,7 +77,7 @@ export default function PhotoDetailScreen() {
               </View>
             </View>
             <FindMoreArea ref={findMoreAreaRef} query={photo.description} />
-          </BottomDetectScrollView>
+          </InfiniteScrollView>
         )}
       </View>
     </Container>

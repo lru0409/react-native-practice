@@ -8,7 +8,7 @@ import { RootStackParamList } from '@src/App';
 import AuthService from '@src/services/auth';
 import { useAuth } from '@src/contexts/auth';
 import { useUser } from '@src/hooks/useUser';
-import { BottomDetectScrollView, CollectionGrid, Container } from '@src/components';
+import { InfiniteScrollView, CollectionGrid, Container } from '@src/components';
 import { Collection } from '@src/types/collection';
 import { usePagination } from '@src/hooks/usePagination';
 import CollectionService from '@src/services/collection';
@@ -67,14 +67,14 @@ export default function CollectionScreen() {
         </View>
       )}
       {!isCollectionsLoading && collections.length > 0 && (
-        <BottomDetectScrollView onEndReached={() => loadMore()}>
+        <InfiniteScrollView onEndReached={() => loadMore()}>
           <CollectionGrid collections={collections} />
           {isCollectionsLoadingMore && (
             <View style={styles.listLoadingContainer}>
               <ActivityIndicator />
             </View>
           )}
-        </BottomDetectScrollView>
+        </InfiniteScrollView>
       )}
       {/* <Button title='Logout' onPress={() => {
         AuthService.logout();

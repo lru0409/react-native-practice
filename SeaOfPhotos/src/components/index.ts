@@ -1,5 +1,5 @@
 import BackButton from './BackButton';
-import BottomDetectScrollView from './BottomDetectScrollView';
+import InfiniteScrollView from './InfiniteScrollView';
 import CollectionGrid from './CollectionGrid';
 import Container from './Container';
 import LikeButton from './LikeButton';
@@ -8,7 +8,7 @@ import SearchInput from './SearchInput';
 
 export {
   BackButton,
-  BottomDetectScrollView,
+  InfiniteScrollView,
   CollectionGrid,
   Container,
   LikeButton,

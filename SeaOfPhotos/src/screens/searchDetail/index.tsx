@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@src/App';
 import type { Photo } from '@src/types/photo';
 import { usePagination } from '@src/hooks/usePagination';
-import { PhotoGrid, SearchInput, BackButton, BottomDetectScrollView, Container } from '@src/components';
+import { PhotoGrid, SearchInput, BackButton, InfiniteScrollView, Container } from '@src/components';
 import PhotoService from '@src/services/photo';
 import styles from './styles';
 
@@ -45,14 +45,14 @@ export default function SearchDetailScreen() {
         </View>
       )}
       {!isFetchingFirst && (
-        <BottomDetectScrollView onEndReached={loadMore} style={styles.contentContainer}>
+        <InfiniteScrollView onEndReached={loadMore} style={styles.contentContainer}>
           <PhotoGrid photos={photos} />
           {isFetchingMore && (
             <View style={styles.listLoadingContainer}>
               <ActivityIndicator />
             </View>
           )}
-        </BottomDetectScrollView>
+        </InfiniteScrollView>
       )}
     </Container>
   );

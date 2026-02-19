@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import { RootStackParamList } from '@src/App';
-import { BottomDetectScrollView, Container, PhotoGrid } from '@src/components';
+import { InfiniteScrollView, Container, PhotoGrid } from '@src/components';
 import { usePagination } from '@src/hooks/usePagination';
 import { Photo } from '@src/types/photo';
 import CollectionService from '@src/services/collection';
@@ -44,7 +44,7 @@ export default function CollectionDetailScreen() {
       isLoading={isCollectionPhotosLoading}
       isError={Boolean(isCollectionPhotosError)}
     >
-      <BottomDetectScrollView onEndReached={() => loadMore()}>
+      <InfiniteScrollView onEndReached={() => loadMore()}>
         <View style={styles.textContent}>
           {collection.description ? (<Text style={styles.description}>{collection.description}</Text>) : null}
           <Text style={styles.date}>Created {formatDate(collection.createdAt)} · Updated {formatDate(collection.updatedAt)}</Text>
@@ -55,7 +55,7 @@ export default function CollectionDetailScreen() {
             <ActivityIndicator />
           </View>
         )}
-      </BottomDetectScrollView>
+      </InfiniteScrollView>
     </Container>
   );
 }

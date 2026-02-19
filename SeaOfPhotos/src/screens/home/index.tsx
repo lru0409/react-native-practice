@@ -2,7 +2,7 @@ import { ActivityIndicator, View } from 'react-native';
 
 import type { Photo } from '@src/types/photo';
 import { usePagination } from '@src/hooks/usePagination';
-import { BottomDetectScrollView, PhotoGrid, Container } from '@src/components';
+import { InfiniteScrollView, PhotoGrid, Container } from '@src/components';
 import CategorySelector from './components/CategorySelector';
 import PhotoService from '@src/services/photo'; // TODO: 모든 서비스를 @/src/services 경로에서 임포트할 수 있도록
 import styles from './styles';
@@ -27,14 +27,14 @@ export default function HomeScreen() {
         </View>
       )}
       {!isFetchingFirst && (
-        <BottomDetectScrollView onEndReached={() => loadMore()}>
+        <InfiniteScrollView onEndReached={() => loadMore()}>
           <PhotoGrid photos={photos} />
           {isFetchingMore && (
             <View style={styles.listLoadingContainer}>
               <ActivityIndicator />
             </View>
           )}
-        </BottomDetectScrollView>
+        </InfiniteScrollView>
       )}
     </Container>
   );
