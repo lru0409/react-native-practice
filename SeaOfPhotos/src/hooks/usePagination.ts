@@ -31,6 +31,7 @@ export function usePagination<T>({
     data,
     isFetchingFirst: result.isLoading,
     isFetchingMore: result.isFetchingNextPage,
+    isRefetching: result.isRefetching,
     hasNextPage: result.hasNextPage ?? false,
     isError: result.isError,
     error: result.error,

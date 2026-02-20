@@ -17,7 +17,14 @@ export default function SearchDetailScreen() {
 
   const [query, setQuery] = useState(initialQuery);
 
-  const { data: photos, isFetchingFirst, isFetchingMore, loadMore } = usePagination<Photo>({
+  const {
+    data: photos,
+    isFetchingFirst,
+    isFetchingMore,
+    isRefetching,
+    loadMore,
+    refetch,
+  } = usePagination<Photo>({
     queryKey: ['photos', query],
     fetchData: (page) => PhotoService.fetchPhotosByQuery(query, page),
   });
@@ -45,7 +52,12 @@ export default function SearchDetailScreen() {
         </View>
       )}
       {!isFetchingFirst && (
-        <InfiniteScrollView onEndReached={loadMore} style={styles.contentContainer}>
+        <InfiniteScrollView
+          isRefreshing={isRefetching}
+          onRefresh={refetch}
+          onEndReached={loadMore}
+          style={styles.contentContainer}
+        >
           <PhotoGrid photos={photos} />
           {isFetchingMore && (
             <View style={styles.listLoadingContainer}>

@@ -12,7 +12,9 @@ export default function HomeScreen() {
     data: photos,
     isFetchingFirst,
     isFetchingMore,
+    isRefetching,
     loadMore,
+    refetch,
   } = usePagination<Photo>({
     queryKey: ['photos'],
     fetchData: PhotoService.fetchPhotos,
@@ -27,7 +29,11 @@ export default function HomeScreen() {
         </View>
       )}
       {!isFetchingFirst && (
-        <InfiniteScrollView onEndReached={() => loadMore()}>
+        <InfiniteScrollView
+          isRefreshing={isRefetching}
+          onRefresh={refetch}
+          onEndReached={() => loadMore()}
+        >
           <PhotoGrid photos={photos} />
           {isFetchingMore && (
             <View style={styles.listLoadingContainer}>

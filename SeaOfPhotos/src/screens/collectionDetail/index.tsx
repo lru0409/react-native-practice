@@ -20,8 +20,10 @@ export default function CollectionDetailScreen() {
     data: collectionPhotos, // NOTE: API를 통해 접근 가능한 사진만 받아올 수 있음
     isFetchingFirst: isCollectionPhotosLoading,
     isFetchingMore: isCollectionPhotosLoadingMore,
+    isRefetching: isCollectionPhotosRefetching,
     isError: isCollectionPhotosError,
     loadMore,
+    refetch,
   } = usePagination<Photo>({
     queryKey: ['collectionPhotos', collection.id],
     fetchData: (page) => CollectionService.fetchCollectionPhotos(collection.id, page),
@@ -44,7 +46,11 @@ export default function CollectionDetailScreen() {
       isLoading={isCollectionPhotosLoading}
       isError={Boolean(isCollectionPhotosError)}
     >
-      <InfiniteScrollView onEndReached={() => loadMore()}>
+      <InfiniteScrollView
+        isRefreshing={isCollectionPhotosRefetching}
+        onRefresh={refetch}
+        onEndReached={() => loadMore()}
+      >
         <View style={styles.textContent}>
           {collection.description ? (<Text style={styles.description}>{collection.description}</Text>) : null}
           <Text style={styles.date}>Created {formatDate(collection.createdAt)} · Updated {formatDate(collection.updatedAt)}</Text>

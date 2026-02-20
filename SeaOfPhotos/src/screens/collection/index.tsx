@@ -23,8 +23,10 @@ export default function CollectionScreen() {
     data: collections, // NOTE: private 컬렉션은 받아올 수 없음
     isFetchingFirst: isCollectionsLoading,
     isFetchingMore: isCollectionsLoadingMore,
+    isRefetching: isCollectionsRefetching,
     error: collectionsError,
     loadMore,
+    refetch,
   } = usePagination<Collection>({
     queryKey: ['collections', user?.username],
     fetchData: (page) => CollectionService.fetchUserCollections(user?.username!, page),
@@ -67,7 +69,11 @@ export default function CollectionScreen() {
         </View>
       )}
       {!isCollectionsLoading && collections.length > 0 && (
-        <InfiniteScrollView onEndReached={() => loadMore()}>
+        <InfiniteScrollView
+          isRefreshing={isCollectionsRefetching}
+          onRefresh={refetch}
+          onEndReached={() => loadMore()}
+        >
           <CollectionGrid collections={collections} />
           {isCollectionsLoadingMore && (
             <View style={styles.listLoadingContainer}>
