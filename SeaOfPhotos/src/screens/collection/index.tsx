@@ -45,7 +45,11 @@ export default function CollectionScreen() {
       isLoading={isUserLoading}
     >
       <View style={styles.header}>
-        <TouchableOpacity style={styles.userButton} onPress={() => { console.log('go to user profile'); }}>
+        <TouchableOpacity style={styles.userButton} onPress={() => {
+          if (user) {
+            navigation.navigate('Profile', { user });
+          }
+        }}>
           <Image
             source={{ uri: user?.profileImage.medium }}
             style={styles.userProfileImage}
