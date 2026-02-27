@@ -18,6 +18,16 @@ const commonStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  textInput: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 14,
+    borderStyle: 'solid',
+    paddingVertical: 12,
+    paddingHorizontal: 17,
+    fontSize: 15,
+    width: '100%',
+  },
 });
 
 export default commonStyles;

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import commonStyles from '@src/styles/common';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,17 +31,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'darkgray',
   },
-  // TODO: SearchInput이랑 스타일이 겹침. Input 컴포넌트를 공통 컴포넌트로 만들어놓고 재사용하면 좋을 듯
-  input: {
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 14,
-    borderStyle: 'solid',
-    paddingVertical: 12,
-    paddingHorizontal: 17,
-    fontSize: 15,
-    width: '100%',
-  },
+  input: commonStyles.textInput,
   // TODO: login button과 스타일이 겹침. Button 컴포넌트 만들자
   saveButton: {
     padding: 12,
