@@ -19,6 +19,17 @@ export const getItemStyle = (index: number): ViewStyle => {
 };
 
 const styles = StyleSheet.create({
+  emptyContainer: {
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  emptyText: {
+    color: 'gray',
+    fontSize: 18,
+    fontWeight: '300',
+  },
   image: {
     width: '100%',
     height: '100%',

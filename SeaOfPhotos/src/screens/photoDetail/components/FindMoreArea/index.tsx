@@ -29,11 +29,18 @@ const FindMoreArea = forwardRef<FindMoreAreaRef, FindMoreAreaProps>(({ query }, 
     <>
       <View>
         <Text style={styles.findMoreText}>더 찾아보기</Text>
-        {isFetchingFirst ? (
+        {isFetchingFirst && (
           <View style={styles.initialLoadingContainer}>
             <ActivityIndicator />
           </View>
-        ) : (
+        )}
+        {/* TODO: empty ui를 ScrollView 밖으로 뺄 것 */}
+        {!isFetchingFirst && photos.length === 0 && (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No photos found</Text>
+          </View>
+        )}
+        {!isFetchingFirst && photos.length > 0 && (
           <PhotoGrid photos={photos} />
         )}
       </View>

@@ -18,7 +18,7 @@ export default function CollectionDetailScreen() {
 
   const {
     data: collectionPhotos, // NOTE: API를 통해 접근 가능한 사진만 받아올 수 있음
-    isFetchingFirst: isCollectionPhotosLoading,
+    isFetchingFirst: isCollectionPhotosLoadingFirst,
     isFetchingMore: isCollectionPhotosLoadingMore,
     isRefetching: isCollectionPhotosRefetching,
     isError: isCollectionPhotosError,
@@ -43,9 +43,10 @@ export default function CollectionDetailScreen() {
           <Icon name="edit" size={20} style={styles.editIcon} />
         </TouchableOpacity>
       }
-      isLoading={isCollectionPhotosLoading}
+      isLoading={isCollectionPhotosLoadingFirst}
       isError={Boolean(isCollectionPhotosError)}
     >
+      {/* TODO: empty ui를 ScrollView 밖으로 뺄 것 */}
       <InfiniteScrollView
         isRefreshing={isCollectionPhotosRefetching}
         onRefresh={refetch}
@@ -55,7 +56,14 @@ export default function CollectionDetailScreen() {
           {collection.description ? (<Text style={styles.description}>{collection.description}</Text>) : null}
           <Text style={styles.date}>Created {formatDate(collection.createdAt)} · Updated {formatDate(collection.updatedAt)}</Text>
         </View>
-        <PhotoGrid photos={collectionPhotos} />
+        {!isCollectionPhotosLoadingFirst && collectionPhotos.length === 0 && (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No photos found</Text>
+          </View>
+        )}
+        {!isCollectionPhotosLoadingFirst && collectionPhotos.length > 0 && (
+          <PhotoGrid photos={collectionPhotos} />
+        )}
         {isCollectionPhotosLoadingMore && (
           <View style={styles.listLoadingContainer}>
             <ActivityIndicator />

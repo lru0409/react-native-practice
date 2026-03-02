@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, View, Text } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -51,7 +51,12 @@ export default function SearchDetailScreen() {
           <ActivityIndicator />
         </View>
       )}
-      {!isFetchingFirst && (
+      {!isFetchingFirst && photos.length === 0 && (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>No photos found</Text>
+        </View>
+      )}
+      {!isFetchingFirst && photos.length > 0 && (
         <InfiniteScrollView
           isRefreshing={isRefetching}
           onRefresh={refetch}
