@@ -47,6 +47,7 @@ export default function CollectionDetailScreen() {
       isError={Boolean(isCollectionPhotosError)}
     >
       {/* TODO: empty ui를 ScrollView 밖으로 뺄 것 */}
+      {/* TODO: PhotoGrid, CollectionGrid에 가상화가 작동하도록 해야 함 */}
       <InfiniteScrollView
         isRefreshing={isCollectionPhotosRefetching}
         onRefresh={refetch}

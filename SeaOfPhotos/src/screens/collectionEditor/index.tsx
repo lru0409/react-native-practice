@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, Alert } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { Switch } from 'react-native-switch';
 
 import { RootStackParamList } from '@src/App';
-import { Container } from '@src/components';
+import { Container, Button } from '@src/components';
 import { useCreateCollection } from '@src/hooks/useCreateCollection';
 import { useUpdateCollection } from '@src/hooks/useUpdateCollection';
 import styles from './styles';
@@ -78,13 +78,11 @@ export default function CollectionEditorScreen() {
             />
           </View>
         </View>
-        <TouchableOpacity
-          style={[styles.saveButton, !canSave && styles.saveButtonDisabled]}
-          onPress={mode === 'create' ? handleCreate : handleUpdate}
+        <Button
+          text={mode === 'create' ? 'Create Collection' : 'Edit Collection'}
           disabled={!canSave || isCreatePending || isUpdatePending}
-        >
-          <Text style={styles.saveButtonText}>{mode === 'create' ? 'Create' : 'Edit'} Collection</Text>
-        </TouchableOpacity>
+          onPress={mode === 'create' ? handleCreate : handleUpdate}
+        />
       </View>
     </Container>
   )

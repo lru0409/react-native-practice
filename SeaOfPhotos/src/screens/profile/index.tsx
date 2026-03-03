@@ -1,8 +1,8 @@
-import { View, Text, Image, Button, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 
 import { RootStackParamList } from '@src/App';
-import { Container } from '@src/components';
+import { Container, Button } from '@src/components';
 import AuthService from '@src/services/auth';
 import { useAuth } from '@src/contexts/auth';
 import styles from './styles';
@@ -31,15 +31,13 @@ export default function ProfileScreen() {
           </View>
         </View>
         {/* TODO: Container.Bottom 만들어서 사용 */}
-        <TouchableOpacity
-          style={styles.logoutButton}
+        <Button
+          text='Logout'
           onPress={() => {
             AuthService.logout();
             checkLogin();
           }}
-        >
-          <Text style={styles.logoutButtonText}>Logout</Text>
-        </TouchableOpacity>
+        />
       </View>
     </Container>
   );

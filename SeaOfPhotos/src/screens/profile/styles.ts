@@ -35,18 +35,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'gray',
   },
-  // TODO: login button과 스타일이 겹침. Button 컴포넌트 만들자
-  logoutButton: {
-    padding: 12,
-    borderRadius: 5,
-    backgroundColor: 'black',
-  },
-  logoutButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
 });
 
 export default styles;

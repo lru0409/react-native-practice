@@ -20,17 +20,6 @@ const styles = StyleSheet.create({
     marginVertical: 25,
     marginHorizontal: 10,
   },
-  loginButton: {
-    padding: 12,
-    borderRadius: 5,
-    backgroundColor: 'black',
-  },
-  loginButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
 });
 
 export default styles;

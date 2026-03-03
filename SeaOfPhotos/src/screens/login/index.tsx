@@ -1,10 +1,10 @@
-import { View, Linking, Text, TouchableOpacity } from 'react-native';
+import { View, Linking, Text } from 'react-native';
 import { useEffect } from 'react';
 
 import { UNSPLASH_ACCESS_KEY } from '@env';
 import { useAuth } from '@src/contexts/auth';
 import AuthService from '@src/services/auth';
-import { Container } from '@src/components';
+import { Container, Button } from '@src/components';
 
 import styles from './styles';
 
@@ -46,9 +46,7 @@ export default function LoginScreen() {
         <Text style={styles.subtitle}>Explore photos from Unsplash</Text>
       </View>
       <View style={styles.bottomContent}>
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Login with Unsplash</Text>
-        </TouchableOpacity>
+        <Button text='Login with Unsplash' onPress={handleLogin} />
       </View>
     </Container>
   );
