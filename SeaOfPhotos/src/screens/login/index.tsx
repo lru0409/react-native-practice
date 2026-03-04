@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { UNSPLASH_ACCESS_KEY } from '@env';
 import { useAuth } from '@src/contexts/auth';
-import AuthService from '@src/services/auth';
+import { AuthService } from '@src/services';
 import { Container, Button } from '@src/components';
 
 import styles from './styles';

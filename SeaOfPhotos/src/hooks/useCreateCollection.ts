@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useUser } from '@src/hooks/useUser';
-import CollectionService from '@src/services/collection';
+import { CollectionService } from '@src/services';
 
 type CreateCollectionParams = {
   title: string;

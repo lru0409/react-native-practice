@@ -1,22 +1,21 @@
 import { useEffect } from 'react';
-import { View, Text, Button, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
+import { View, Text, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { RootStackParamList } from '@src/App';
-import AuthService from '@src/services/auth';
+import { CollectionService } from '@src/services';
 import { useAuth } from '@src/contexts/auth';
 import { useUser } from '@src/hooks/useUser';
 import { InfiniteScrollView, CollectionGrid, Container } from '@src/components';
 import { Collection } from '@src/types/collection';
 import { usePagination } from '@src/hooks/usePagination';
-import CollectionService from '@src/services/collection';
 import styles from './styles';
 
 export default function CollectionScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
-  const { setIsLoggedIn, checkLogin } = useAuth();
+  const { setIsLoggedIn } = useAuth();
   const { data: user, isLoading: isUserLoading, error: userError } = useUser();
   
   const {
@@ -86,10 +85,6 @@ export default function CollectionScreen() {
           )}
         </InfiniteScrollView>
       )}
-      {/* <Button title='Logout' onPress={() => {
-        AuthService.logout();
-        checkLogin();
-      }} /> */}
     </Container>
   );
 }

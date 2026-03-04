@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import UserService from '@src/services/user';
+import { UserService } from '@src/services';
 
 export function useUser() {
   return useQuery({

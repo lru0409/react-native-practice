@@ -4,7 +4,7 @@ import type { Photo } from '@src/types/photo';
 import { usePagination } from '@src/hooks/usePagination';
 import { InfiniteScrollView, PhotoGrid, Container } from '@src/components';
 import CategorySelector from './components/CategorySelector';
-import PhotoService from '@src/services/photo'; // TODO: 모든 서비스를 @/src/services 경로에서 임포트할 수 있도록
+import { PhotoService } from '@src/services';
 import styles from './styles';
 
 export default function HomeScreen() {

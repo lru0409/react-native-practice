@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 
-import UserService from '@src/services/user';
+import { UserService } from '@src/services';
 
 type AuthContextType = {
   isLoggedIn: boolean | null;

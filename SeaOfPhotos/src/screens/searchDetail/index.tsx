@@ -7,7 +7,7 @@ import { RootStackParamList } from '@src/App';
 import type { Photo } from '@src/types/photo';
 import { usePagination } from '@src/hooks/usePagination';
 import { PhotoGrid, SearchInput, BackButton, InfiniteScrollView, Container } from '@src/components';
-import PhotoService from '@src/services/photo';
+import { PhotoService } from '@src/services';
 import styles from './styles';
 
 export default function SearchDetailScreen() {

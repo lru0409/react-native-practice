@@ -4,7 +4,7 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import { usePagination } from '@src/hooks/usePagination';
 import { PhotoGrid } from '@src/components';
 import type { Photo } from '@src/types/photo';
-import PhotoService from '@src/services/photo';
+import { PhotoService } from '@src/services';
 import styles from './styles';
 
 type FindMoreAreaProps = {

@@ -7,7 +7,7 @@ import { RootStackParamList } from '@src/App';
 import { InfiniteScrollView, Container, PhotoGrid } from '@src/components';
 import { usePagination } from '@src/hooks/usePagination';
 import { Photo } from '@src/types/photo';
-import CollectionService from '@src/services/collection';
+import { CollectionService } from '@src/services';
 import formatDate from '@src/utils/formatDate';
 import styles from './styles';
 

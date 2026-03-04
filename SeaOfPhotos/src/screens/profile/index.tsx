@@ -1,9 +1,9 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 
 import { RootStackParamList } from '@src/App';
 import { Container, Button } from '@src/components';
-import AuthService from '@src/services/auth';
+import { AuthService } from '@src/services';
 import { useAuth } from '@src/contexts/auth';
 import styles from './styles';
 
