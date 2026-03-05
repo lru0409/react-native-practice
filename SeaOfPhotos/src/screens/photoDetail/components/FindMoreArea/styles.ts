@@ -21,6 +21,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '300',
   },
+  errorContainer: {
+    paddingTop: 15,
+    paddingBottom: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 20,
+  },
+  errorText: {
+    textAlign: 'center',
+    fontSize: 16,
+    lineHeight: 23,
+  },
 });
 
 export default styles;

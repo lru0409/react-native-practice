@@ -13,6 +13,7 @@ export default function HomeScreen() {
     isFetchingFirst,
     isFetchingMore,
     isRefetching,
+    isError,
     loadMore,
     refetch,
   } = usePagination<Photo>({
@@ -21,7 +22,7 @@ export default function HomeScreen() {
   });
 
   return (
-    <Container>
+    <Container isError={isError}>
       <CategorySelector />
       {isFetchingFirst && (
         <View style={styles.initialLoadingContainer}>
