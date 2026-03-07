@@ -41,13 +41,13 @@ export default function LoginScreen() {
 
   return (
     <Container edges={['top', 'bottom', 'left', 'right']}>
-      <View style={styles.centerContent}>
+      <Container.Main style={styles.centerContent}>
         <Text style={styles.title}>Sea of Photos</Text>
         <Text style={styles.subtitle}>Explore photos from Unsplash</Text>
-      </View>
-      <View style={styles.bottomContent}>
+      </Container.Main>
+      <Container.Bottom>
         <Button text='Login with Unsplash' onPress={handleLogin} />
-      </View>
+      </Container.Bottom>
     </Container>
   );
 }

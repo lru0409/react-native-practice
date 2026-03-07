@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, ActivityIndicator, TouchableOpacity, StyleProp, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -12,22 +12,24 @@ type ContainerProps = {
   isLoading?: boolean;
   isError?: boolean;
   edges?: ('top' | 'bottom' | 'left' | 'right')[];
+  style?: StyleProp<ViewStyle>;
   children: React.ReactNode;
 }
 
-export default function Container({
+function BaseContainer({
   useHeader = false,
   headerTitle,
   headerRight,
   isLoading = false,
   isError = false,
   edges = ['top', 'left', 'right'],
+  style,
   children,
 }: ContainerProps) {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView style={styles.container} edges={edges}>
+    <SafeAreaView style={[styles.container, style]} edges={edges}>
       {useHeader && (
         <View style={styles.headerContainer}>
           <View style={styles.headerLeft}>
@@ -65,3 +67,18 @@ export default function Container({
     </SafeAreaView>
   );
 }
+
+function Main({ children, style }: { children: React.ReactNode; style?: StyleProp<ViewStyle> }) {
+  return <View style={[styles.main, style]}>{children}</View>;
+}
+
+function Bottom({ children, style }: { children: React.ReactNode; style?: StyleProp<ViewStyle> }) {
+  return <View style={[styles.bottom, style]}>{children}</View>;
+}
+
+const Container = Object.assign(BaseContainer, {
+  Main,
+  Bottom,
+});
+
+export default Container;

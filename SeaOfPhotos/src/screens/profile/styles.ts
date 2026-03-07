@@ -1,17 +1,11 @@
 import { StyleSheet } from 'react-native';
 
-import commonStyles from '@src/styles/common';
+import { SCREEN_HORIZONTAL_PADDING } from '@src/styles/common';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin: 10,
-    marginBottom: 25,
-  },
-  content: {
-    flex: 1,
-  },
   profileContainer: {
+    paddingTop: 10,
+    paddingHorizontal: SCREEN_HORIZONTAL_PADDING + 10,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 15,

@@ -19,18 +19,17 @@ export default function ProfileScreen() {
       headerTitle='Profile'
       edges={['top', 'right', 'bottom', 'left']}
     >
-      <View style={styles.container}>
-        <View style={styles.content}>
-          <View style={styles.profileContainer}>
-            <Image style={styles.profileImage} source={{ uri: user.profileImage.medium}} />
-            <View>
-              <Text style={styles.name}>{user.name}</Text>
-              <Text style={styles.username}>{user.username}</Text>
-              <Text style={styles.email}>{user.email}</Text>
-            </View>
+      <Container.Main>
+        <View style={styles.profileContainer}>
+          <Image style={styles.profileImage} source={{ uri: user.profileImage.medium}} />
+          <View>
+            <Text style={styles.name}>{user.name}</Text>
+            <Text style={styles.username}>{user.username}</Text>
+            <Text style={styles.email}>{user.email}</Text>
           </View>
         </View>
-        {/* TODO: Container.Bottom 만들어서 사용 */}
+      </Container.Main>
+      <Container.Bottom>
         <Button
           text='Logout'
           onPress={() => {
@@ -38,7 +37,7 @@ export default function ProfileScreen() {
             checkLogin();
           }}
         />
-      </View>
+      </Container.Bottom>
     </Container>
   );
 }

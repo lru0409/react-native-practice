@@ -53,37 +53,37 @@ export default function CollectionEditorScreen() {
       edges={['top', 'right', 'bottom', 'left']}
       isLoading={isCreatePending || isUpdatePending}
     >
-      <View style={styles.container}>
-        <View style={styles.formContent}>
-          <View style={styles.inputFieldContainer}>
-            <Text style={styles.label}>컬렉션 제목</Text>
-            <TextInput style={styles.input} value={title} onChangeText={setTitle} />
-          </View>
-          <View style={styles.inputFieldContainer}>
-            <Text style={styles.label}>컬렉션 설명</Text>
-            <TextInput style={styles.input} value={description} onChangeText={setDescription} multiline numberOfLines={4}/>
-          </View>
-          <View style={styles.switchFieldContainer}>
-            <View style={styles.labelContainer}>
-              <Text style={styles.label}>이 보드를 비밀 보드로 설정하기</Text>
-              <Text style={styles.labelDescription}>회원님만 이 보드를 볼 수 있습니다.</Text>
-            </View>
-            <Switch
-              value={isPrivate}
-              onValueChange={setIsPrivate}
-              backgroundActive="#4ade80"
-              backgroundInactive="#d1d5db"
-              renderActiveText={false}
-              renderInActiveText={false}
-            />
-          </View>
+      <Container.Main style={styles.formContent}>
+        <View style={styles.inputFieldContainer}>
+          <Text style={styles.label}>컬렉션 제목</Text>
+          <TextInput style={styles.input} value={title} onChangeText={setTitle} />
         </View>
+        <View style={styles.inputFieldContainer}>
+          <Text style={styles.label}>컬렉션 설명</Text>
+          <TextInput style={styles.input} value={description} onChangeText={setDescription} multiline numberOfLines={4}/>
+        </View>
+        <View style={styles.switchFieldContainer}>
+          <View style={styles.labelContainer}>
+            <Text style={styles.label}>이 보드를 비밀 보드로 설정하기</Text>
+            <Text style={styles.labelDescription}>회원님만 이 보드를 볼 수 있습니다.</Text>
+          </View>
+          <Switch
+            value={isPrivate}
+            onValueChange={setIsPrivate}
+            backgroundActive="#4ade80"
+            backgroundInactive="#d1d5db"
+            renderActiveText={false}
+            renderInActiveText={false}
+          />
+        </View>
+      </Container.Main>
+      <Container.Bottom>
         <Button
           text={mode === 'create' ? 'Create Collection' : 'Edit Collection'}
           disabled={!canSave || isCreatePending || isUpdatePending}
           onPress={mode === 'create' ? handleCreate : handleUpdate}
         />
-      </View>
+      </Container.Bottom>
     </Container>
   )
 }

@@ -1,7 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-export const SCREEN_HORIZONTAL_PADDING = 6;
-export const CONTAINER_WIDTH = Dimensions.get('window').width - SCREEN_HORIZONTAL_PADDING * 2;
+import { SCREEN_HORIZONTAL_PADDING } from '@src/styles/common';
 
 const styles = StyleSheet.create({
   container: {
@@ -55,6 +54,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  main: {
+    flex: 1,
+  },
+  bottom: {
+    marginTop: 'auto',
+    marginBottom: 25,
+    paddingHorizontal: 10,
   },
 });
 

@@ -1,13 +1,10 @@
 import { StyleSheet } from 'react-native';
-import commonStyles from '@src/styles/common';
+import commonStyles, { SCREEN_HORIZONTAL_PADDING } from '@src/styles/common';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin: 10,
-    marginBottom: 25,
-  },
   formContent: {
+    paddingTop: 10,
+    paddingHorizontal: SCREEN_HORIZONTAL_PADDING + 10,
     flex: 1,
     gap: 14,
   },
