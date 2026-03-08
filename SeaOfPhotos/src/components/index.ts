@@ -5,6 +5,7 @@ import CollectionGrid from './CollectionGrid';
 import Container from './Container';
 import LikeButton from './LikeButton';
 import PhotoGrid from './PhotoGrid';
+import PhotoCard from './PhotoCard';
 import SearchInput from './SearchInput';
 
 export {
@@ -15,5 +16,6 @@ export {
   Container,
   LikeButton,
   PhotoGrid,
+  PhotoCard,
   SearchInput,
 };

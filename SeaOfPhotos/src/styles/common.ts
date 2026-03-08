@@ -3,6 +3,13 @@ import { StyleSheet, Dimensions } from 'react-native';
 export const SCREEN_HORIZONTAL_PADDING = 6;
 export const CONTAINER_WIDTH = Dimensions.get('window').width - SCREEN_HORIZONTAL_PADDING * 2;
 
+export const PHOTO_GRID_COLUMN_COUNT = 2;
+
+export const PHOTO_GRID = {
+  COLUMN_COUNT: 2,
+  SPACING_BETWEEN_ITEMS: 5,
+};
+
 const commonStyles = StyleSheet.create({
   container: {
     flex: 1,

@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import commonStyles from '@src/styles/common';
 
 const styles = StyleSheet.create({
-  initialLoadingContainer: commonStyles.initialLoadingContainer,
   listLoadingContainer: commonStyles.listLoadingContainer,
   // TODO: emptyContainer, emptyText 스타일 중복
   emptyContainer: {

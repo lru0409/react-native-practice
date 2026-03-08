@@ -1,4 +1,4 @@
-import { View, Linking, Text } from 'react-native';
+import { Linking, Text } from 'react-native';
 import { useEffect } from 'react';
 
 import { UNSPLASH_ACCESS_KEY } from '@env';

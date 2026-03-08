@@ -1,10 +1,11 @@
-import { ActivityIndicator, View, Text } from 'react-native';
+import { ActivityIndicator, View, Text, FlatList } from 'react-native';
 
 import type { Photo } from '@src/types/photo';
 import { usePagination } from '@src/hooks/usePagination';
-import { InfiniteScrollView, PhotoGrid, Container } from '@src/components';
+import { Container, PhotoCard } from '@src/components';
 import CategorySelector from './components/CategorySelector';
 import { PhotoService } from '@src/services';
+import { PHOTO_GRID_COLUMN_COUNT } from '@src/styles/common';
 import styles from './styles';
 
 export default function HomeScreen() {
@@ -24,30 +25,25 @@ export default function HomeScreen() {
   return (
     <Container isError={isError}>
       <CategorySelector />
-      {isFetchingFirst && (
-        <View style={styles.initialLoadingContainer}>
-          <ActivityIndicator />
-        </View>
-      )}
-      {!isFetchingFirst && photos.length === 0 && (
-        <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>No photos found</Text>
-        </View>
-      )}
-      {!isFetchingFirst && photos.length > 0 && (
-        <InfiniteScrollView
-          isRefreshing={isRefetching}
-          onRefresh={refetch}
-          onEndReached={() => loadMore()}
-        >
-          <PhotoGrid photos={photos} />
-          {isFetchingMore && (
+      <FlatList
+        data={photos}
+        numColumns={PHOTO_GRID_COLUMN_COUNT}
+        keyExtractor={item => item.id}
+        renderItem={({ item, index }) => <PhotoCard photo={item} index={index} key={item.id} />}
+        refreshing={isRefetching}
+        onRefresh={refetch}
+        scrollEnabled={photos.length > 0}
+        onEndReached={loadMore}
+        contentContainerStyle={photos.length === 0 ? styles.emptyContainer : undefined }
+        ListEmptyComponent={isFetchingFirst ? <ActivityIndicator /> : <Text style={styles.emptyText}>No photos found</Text>}
+        ListFooterComponent={
+          isFetchingMore ? (
             <View style={styles.listLoadingContainer}>
               <ActivityIndicator />
             </View>
-          )}
-        </InfiniteScrollView>
-      )}
+          ) : undefined
+        }
+      />
     </Container>
   );
 }
