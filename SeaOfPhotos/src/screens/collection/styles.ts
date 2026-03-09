@@ -4,7 +4,6 @@ import commonStyles from '@src/styles/common';
 
 const styles = StyleSheet.create({
   container: commonStyles.container,
-  initialLoadingContainer: commonStyles.initialLoadingContainer,
   listLoadingContainer: commonStyles.listLoadingContainer,
   header: {
     flexDirection: 'row',

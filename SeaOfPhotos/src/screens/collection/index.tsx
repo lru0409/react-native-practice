@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { View, Text, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
+import { View, Text, ActivityIndicator, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -8,9 +8,10 @@ import { RootStackParamList } from '@src/App';
 import { CollectionService } from '@src/services';
 import { useAuth } from '@src/contexts/auth';
 import { useUser } from '@src/hooks/useUser';
-import { InfiniteScrollView, CollectionGrid, Container } from '@src/components';
+import { Container, CollectionCard } from '@src/components';
 import { Collection } from '@src/types/collection';
 import { usePagination } from '@src/hooks/usePagination';
+import { COLLECTION_GRID } from '@src/styles/common';
 import styles from './styles';
 
 export default function CollectionScreen() {
@@ -20,10 +21,10 @@ export default function CollectionScreen() {
   
   const {
     data: collections, // NOTE: private 컬렉션은 받아올 수 없음
-    isFetchingFirst: isCollectionsLoading,
-    isFetchingMore: isCollectionsLoadingMore,
-    isRefetching: isCollectionsRefetching,
-    error: collectionsError,
+    isFetchingFirst,
+    isFetchingMore,
+    isRefetching,
+    error,
     loadMore,
     refetch,
   } = usePagination<Collection>({
@@ -40,7 +41,7 @@ export default function CollectionScreen() {
 
   return (
     <Container
-      isError={Boolean(userError) || Boolean(collectionsError)}
+      isError={Boolean(userError) || Boolean(error)}
       isLoading={isUserLoading}
     >
       <View style={styles.header}>
@@ -61,30 +62,26 @@ export default function CollectionScreen() {
           <Icon name='add' size={24} />
         </TouchableOpacity>
       </View>
-      {isCollectionsLoading && (
-        <View style={styles.initialLoadingContainer}>
-          <ActivityIndicator />
-        </View>
-      )}
-      {!isCollectionsLoading && collections.length === 0 && (
-        <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>Let's create your collection!</Text>
-        </View>
-      )}
-      {!isCollectionsLoading && collections.length > 0 && (
-        <InfiniteScrollView
-          isRefreshing={isCollectionsRefetching}
-          onRefresh={refetch}
-          onEndReached={() => loadMore()}
-        >
-          <CollectionGrid collections={collections} />
-          {isCollectionsLoadingMore && (
+
+      <FlatList
+        data={collections}
+        numColumns={COLLECTION_GRID.COLUMN_COUNT}
+        keyExtractor={item => item.id}
+        renderItem={({ item, index }) => <CollectionCard collection={item} index={index} key={item.id} />}
+        refreshing={isRefetching}
+        onRefresh={refetch}
+        scrollEnabled={collections.length > 0}
+        onEndReached={loadMore}
+        contentContainerStyle={collections.length === 0 ? styles.emptyContainer : undefined }
+        ListEmptyComponent={isFetchingFirst ? <ActivityIndicator /> : <Text style={styles.emptyText}>Let's create your collection!</Text>}
+        ListFooterComponent={
+          isFetchingMore ? (
             <View style={styles.listLoadingContainer}>
               <ActivityIndicator />
             </View>
-          )}
-        </InfiniteScrollView>
-      )}
+          ) : undefined
+        }
+      />
     </Container>
   );
 }

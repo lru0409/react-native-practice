@@ -5,7 +5,7 @@ import { usePagination } from '@src/hooks/usePagination';
 import { Container, PhotoCard } from '@src/components';
 import CategorySelector from './components/CategorySelector';
 import { PhotoService } from '@src/services';
-import { PHOTO_GRID_COLUMN_COUNT } from '@src/styles/common';
+import { PHOTO_GRID } from '@src/styles/common';
 import styles from './styles';
 
 export default function HomeScreen() {
@@ -27,7 +27,7 @@ export default function HomeScreen() {
       <CategorySelector />
       <FlatList
         data={photos}
-        numColumns={PHOTO_GRID_COLUMN_COUNT}
+        numColumns={PHOTO_GRID.COLUMN_COUNT}
         keyExtractor={item => item.id}
         renderItem={({ item, index }) => <PhotoCard photo={item} index={index} key={item.id} />}
         refreshing={isRefetching}

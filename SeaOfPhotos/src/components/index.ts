@@ -1,7 +1,7 @@
 import BackButton from './BackButton';
 import Button from './Button';
 import InfiniteScrollView from './InfiniteScrollView';
-import CollectionGrid from './CollectionGrid';
+import CollectionCard from './CollectionCard';
 import Container from './Container';
 import LikeButton from './LikeButton';
 import PhotoGrid from './PhotoGrid';
@@ -12,7 +12,7 @@ export {
   BackButton,
   Button,
   InfiniteScrollView,
-  CollectionGrid,
+  CollectionCard,
   Container,
   LikeButton,
   PhotoGrid,
