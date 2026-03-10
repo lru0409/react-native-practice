@@ -29,12 +29,12 @@ export default function HomeScreen() {
         data={photos}
         numColumns={PHOTO_GRID.COLUMN_COUNT}
         keyExtractor={item => item.id}
-        renderItem={({ item, index }) => <PhotoCard photo={item} index={index} key={item.id} />}
+        renderItem={({ item, index }) => <PhotoCard photo={item} index={index} />}
         refreshing={isRefetching}
         onRefresh={refetch}
         scrollEnabled={photos.length > 0}
         onEndReached={loadMore}
-        contentContainerStyle={photos.length === 0 ? styles.emptyContainer : undefined }
+        contentContainerStyle={photos.length === 0 ? styles.emptyContainer : undefined}
         ListEmptyComponent={isFetchingFirst ? <ActivityIndicator /> : <Text style={styles.emptyText}>No photos found</Text>}
         ListFooterComponent={
           isFetchingMore ? (
