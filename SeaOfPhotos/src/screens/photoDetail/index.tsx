@@ -5,11 +5,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { RootStackParamList } from '@src/App';
 import { CONTAINER_WIDTH, PHOTO_GRID } from '@src/styles/common';
-import { BackButton, LikeButton, Container, PhotoCard } from '@src/components';
+import { BackButton, Container, PhotoCard } from '@src/components';
+import PhotoHero from './components/photoHero';
 import { usePagination } from '@src/hooks/usePagination';
 import { Photo } from '@src/types/photo';
 import { PhotoService } from '@src/services';
-import formatDate from '@src/utils/formatDate';
 import styles from './styles';
 
 export default function PhotoDetailScreen() {
@@ -75,26 +75,7 @@ export default function PhotoDetailScreen() {
             contentContainerStyle={morePhotos.length === 0 ? { flex: 1 } : undefined}
             ListHeaderComponent={
               <>
-                <View style={styles.photoWrapper}>
-                  <Image source={{ uri: photo.urls.full }} style={[styles.photo, { height: photoHeight }]} />
-                  <View style={styles.likeButtonWrapper}>
-                    <LikeButton />
-                  </View>
-                </View>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.description}>{photo.description}</Text>
-                  <View style={styles.dateContainer}>
-                    <Icon name="calendar-clear-outline" size={16} color="#393E46" />
-                    <Text style={styles.date}>{formatDate(photo.createdAt)}</Text>
-                  </View>
-                  <View style={styles.userContainer}>
-                    <Image
-                      source={{ uri: photo.user.profileImage }}
-                      style={styles.userProfileImage}
-                    />
-                    <Text style={styles.userName}>{photo.user.name}</Text>
-                  </View>
-                </View>
+                <PhotoHero photo={photo} photoHeight={photoHeight} />
                 <Text style={styles.findMoreText}>더 찾아보기</Text>
               </>
             }
@@ -104,6 +85,7 @@ export default function PhotoDetailScreen() {
                   <ActivityIndicator />
                 </View>
               ) : isMorePhotosError ? (
+                // TODO: 공통 컴포넌트 관리
                 <View style={styles.errorContainer}>
                   <Icon name='alert-circle' size={46} />
                   <Text style={styles.errorText}>
