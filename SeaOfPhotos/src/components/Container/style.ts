@@ -39,17 +39,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 20,
-  },
-  errorText: {
-    textAlign: 'center',
-    fontSize: 16,
-    lineHeight: 23,
-  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',

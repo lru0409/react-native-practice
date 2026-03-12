@@ -28,18 +28,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '300',
   },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 20,
-    marginBottom: 80,
-  },
-  errorText: {
-    textAlign: 'center',
-    fontSize: 16,
-    lineHeight: 23,
-  },
 });
 
 export default styles;

@@ -1,11 +1,10 @@
 import { useRef, useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, ActivityIndicator, FlatList } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import { RootStackParamList } from '@src/App';
 import { CONTAINER_WIDTH, PHOTO_GRID } from '@src/styles/common';
-import { BackButton, Container, PhotoCard } from '@src/components';
+import { BackButton, Container, PhotoCard, ErrorNotice } from '@src/components';
 import PhotoHero from './components/photoHero';
 import { usePagination } from '@src/hooks/usePagination';
 import { Photo } from '@src/types/photo';
@@ -85,15 +84,7 @@ export default function PhotoDetailScreen() {
                   <ActivityIndicator />
                 </View>
               ) : isMorePhotosError ? (
-                // TODO: 공통 컴포넌트 관리
-                <View style={styles.errorContainer}>
-                  <Icon name='alert-circle' size={46} />
-                  <Text style={styles.errorText}>
-                    오류가 발생했습니다.
-                    {'\n'}
-                    나중에 다시 시도해주세요.
-                  </Text>
-                </View>
+                <ErrorNotice style={{ marginBottom: 80 }} />
               ) : (
                 <View style={styles.emptyContainer}>
                   <Text style={styles.emptyText}>No photos found</Text>

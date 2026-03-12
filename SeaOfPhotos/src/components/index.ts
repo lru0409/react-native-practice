@@ -3,6 +3,7 @@ import Button from './Button';
 import InfiniteScrollView from './InfiniteScrollView';
 import CollectionCard from './CollectionCard';
 import Container from './Container';
+import ErrorNotice from './ErrorNotice';
 import LikeButton from './LikeButton';
 import PhotoGrid from './PhotoGrid';
 import PhotoCard from './PhotoCard';
@@ -14,6 +15,7 @@ export {
   InfiniteScrollView,
   CollectionCard,
   Container,
+  ErrorNotice,
   LikeButton,
   PhotoGrid,
   PhotoCard,

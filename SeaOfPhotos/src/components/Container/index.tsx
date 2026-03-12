@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import ErrorNotice from '@src/components/ErrorNotice';
 import styles from './style';
 
 type ContainerProps = {
@@ -49,14 +50,7 @@ function BaseContainer({
         </View>
       )}
       {isError && (
-        <View style={styles.errorContainer}>
-          <Icon name='alert-circle' size={46} />
-          <Text style={styles.errorText}>
-            오류가 발생했습니다.
-            {'\n'}
-            나중에 다시 시도해주세요.
-          </Text>
-        </View>
+        <ErrorNotice />
       )}
       {!isError && isLoading && (
         <View style={styles.loadingContainer}>
