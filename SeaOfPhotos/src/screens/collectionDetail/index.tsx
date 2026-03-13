@@ -1,15 +1,16 @@
-import { Text, View, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { Text, View, ActivityIndicator, TouchableOpacity, FlatList } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import { RootStackParamList } from '@src/App';
-import { InfiniteScrollView, Container, PhotoGrid } from '@src/components';
+import { Container, PhotoCard } from '@src/components';
 import { usePagination } from '@src/hooks/usePagination';
 import { Photo } from '@src/types/photo';
 import { CollectionService } from '@src/services';
 import formatDate from '@src/utils/formatDate';
 import styles from './styles';
+import { PHOTO_GRID } from '@src/styles/common';
 
 export default function CollectionDetailScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'CollectionDetail'>>();
@@ -17,11 +18,11 @@ export default function CollectionDetailScreen() {
   const { collection } = params;
 
   const {
-    data: collectionPhotos, // NOTE: API를 통해 접근 가능한 사진만 받아올 수 있음
-    isFetchingFirst: isCollectionPhotosLoadingFirst,
-    isFetchingMore: isCollectionPhotosLoadingMore,
-    isRefetching: isCollectionPhotosRefetching,
-    isError: isCollectionPhotosError,
+    data: photos, // NOTE: API를 통해 접근 가능한 사진만 받아올 수 있음
+    isFetchingFirst,
+    isFetchingMore,
+    isRefetching,
+    isError,
     loadMore,
     refetch,
   } = usePagination<Photo>({
@@ -43,34 +44,37 @@ export default function CollectionDetailScreen() {
           <Icon name="edit" size={20} style={styles.editIcon} />
         </TouchableOpacity>
       }
-      isLoading={isCollectionPhotosLoadingFirst}
-      isError={Boolean(isCollectionPhotosError)}
+      isLoading={isFetchingFirst}
+      isError={Boolean(isError)}
     >
-      {/* TODO: empty ui를 ScrollView 밖으로 뺄 것 */}
-      {/* TODO: PhotoGrid, CollectionGrid에 가상화가 작동하도록 해야 함 */}
-      <InfiniteScrollView
-        isRefreshing={isCollectionPhotosRefetching}
+      <FlatList
+        data={photos}
+        numColumns={PHOTO_GRID.COLUMN_COUNT}
+        keyExtractor={item => item.id}
+        renderItem={({ item, index }) => <PhotoCard photo={item} index={index} key={item.id} />}
+        refreshing={isRefetching}
         onRefresh={refetch}
-        onEndReached={() => loadMore()}
-      >
-        <View style={styles.textContent}>
-          {collection.description ? (<Text style={styles.description}>{collection.description}</Text>) : null}
-          <Text style={styles.date}>Created {formatDate(collection.createdAt)} · Updated {formatDate(collection.updatedAt)}</Text>
-        </View>
-        {!isCollectionPhotosLoadingFirst && collectionPhotos.length === 0 && (
+        onEndReached={loadMore}
+        contentContainerStyle={{ flex: 1 }}
+        ListHeaderComponent={
+          <View style={styles.textContent}>
+            {collection.description ? (<Text style={styles.description}>{collection.description}</Text>) : null}
+            <Text style={styles.date}>Created {formatDate(collection.createdAt)} · Updated {formatDate(collection.updatedAt)}</Text>
+          </View>
+        }
+        ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>No photos found</Text>
           </View>
-        )}
-        {!isCollectionPhotosLoadingFirst && collectionPhotos.length > 0 && (
-          <PhotoGrid photos={collectionPhotos} />
-        )}
-        {isCollectionPhotosLoadingMore && (
-          <View style={styles.listLoadingContainer}>
-            <ActivityIndicator />
-          </View>
-        )}
-      </InfiniteScrollView>
+        }
+        ListFooterComponent={
+          isFetchingMore ? (
+            <View style={styles.listLoadingContainer}>
+              <ActivityIndicator />
+            </View>
+          ) : undefined
+        }
+      />
     </Container>
   );
 }

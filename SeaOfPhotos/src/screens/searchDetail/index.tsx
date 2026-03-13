@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, View, Text } from 'react-native';
+import { ActivityIndicator, View, Text, FlatList } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { RootStackParamList } from '@src/App';
 import type { Photo } from '@src/types/photo';
 import { usePagination } from '@src/hooks/usePagination';
-import { PhotoGrid, SearchInput, BackButton, InfiniteScrollView, Container } from '@src/components';
+import { PhotoCard, SearchInput, BackButton, Container } from '@src/components';
 import { PhotoService } from '@src/services';
 import styles from './styles';
+import { PHOTO_GRID } from '@src/styles/common';
 
 export default function SearchDetailScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
@@ -46,31 +47,25 @@ export default function SearchDetailScreen() {
           />
         </View>
       </View>
-      {isFetchingFirst && (
-        <View style={styles.initialLoadingContainer}>
-          <ActivityIndicator />
-        </View>
-      )}
-      {!isFetchingFirst && photos.length === 0 && (
-        <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>No photos found</Text>
-        </View>
-      )}
-      {!isFetchingFirst && photos.length > 0 && (
-        <InfiniteScrollView
-          isRefreshing={isRefetching}
-          onRefresh={refetch}
-          onEndReached={loadMore}
-          style={styles.contentContainer}
-        >
-          <PhotoGrid photos={photos} />
-          {isFetchingMore && (
+      <FlatList
+        data={photos}
+        numColumns={PHOTO_GRID.COLUMN_COUNT}
+        keyExtractor={item => item.id}
+        renderItem={({ item, index }) => <PhotoCard photo={item} index={index} />}
+        refreshing={isRefetching}
+        onRefresh={refetch}
+        scrollEnabled={photos.length > 0}
+        onEndReached={loadMore}
+        contentContainerStyle={photos.length === 0 ? styles.emptyContainer : undefined}
+        ListEmptyComponent={isFetchingFirst ? <ActivityIndicator /> : <Text style={styles.emptyText}>No photos found</Text>}
+        ListFooterComponent={
+          isFetchingMore ? (
             <View style={styles.listLoadingContainer}>
               <ActivityIndicator />
             </View>
-          )}
-        </InfiniteScrollView>
-      )}
+          ) : undefined
+        }
+      />
     </Container>
   );
 }
