@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 
-import { UserService } from '@src/services';
+import { MeService } from '@src/services';
 
 type AuthContextType = {
   isLoggedIn: boolean | null;
@@ -15,7 +15,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const checkLogin = async () => {
     try {
-      await UserService.fetchUser();
+      await MeService.fetchMe();
       setIsLoggedIn(true);
     } catch (error) {
       console.warn('Failed to fetch user', error);

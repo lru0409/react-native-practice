@@ -7,7 +7,9 @@ export type UserResponse = {
     large: string;
     medium: string;
     small: string;
-  }
+  };
+  bio: string;
+  location: string;
 }
 
 export type User = {
@@ -19,5 +21,7 @@ export type User = {
     large: string;
     medium: string;
     small: string;
-  }
+  };
+  bio: string;
+  location: string;
 }

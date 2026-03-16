@@ -1,11 +1,11 @@
 import AuthService from './auth';
 import CollectionService from './collection';
 import PhotoService from './photo';
-import UserService from './user';
+import MeService from './me';
 
 export {
   AuthService,
   CollectionService,
   PhotoService,
-  UserService,
+  MeService,
 };
