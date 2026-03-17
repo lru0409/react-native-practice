@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { RootStackParamList } from '@src/App';
 import { CollectionService } from '@src/services';
 import { useAuth } from '@src/contexts/auth';
-import { useUser } from '@src/hooks/useUser';
+import { useMe } from '@src/hooks/useMe';
 import { Container, CollectionCard } from '@src/components';
 import { Collection } from '@src/types/collection';
 import { usePagination } from '@src/hooks/usePagination';
@@ -17,7 +17,7 @@ import styles from './styles';
 export default function CollectionScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
   const { setIsLoggedIn } = useAuth();
-  const { data: user, isLoading: isUserLoading, error: userError } = useUser();
+  const { data: me, isLoading: isMeLoading, error: meError } = useMe();
   
   const {
     data: collections, // NOTE: private 컬렉션은 받아올 수 없음
@@ -28,33 +28,33 @@ export default function CollectionScreen() {
     loadMore,
     refetch,
   } = usePagination<Collection>({
-    queryKey: ['collections', user?.username],
-    fetchData: (page) => CollectionService.fetchUserCollections(user?.username!, page),
-    enabled: Boolean(user?.username),
+    queryKey: ['collections', me?.username],
+    fetchData: (page) => CollectionService.fetchUserCollections(me?.username!, page),
+    enabled: Boolean(me?.username),
   });
 
   useEffect(() => {
-    if (userError && userError.message === 'NO_TOKEN') {
+    if (meError && meError.message === 'NO_TOKEN') {
       setIsLoggedIn(false);
     }
-  }, [userError]);
+  }, [meError]);
 
   return (
     <Container
-      isError={Boolean(userError) || Boolean(error)}
-      isLoading={isUserLoading}
+      isError={Boolean(meError) || Boolean(error)}
+      isLoading={isMeLoading}
     >
       <View style={styles.header}>
         <TouchableOpacity style={styles.userButton} onPress={() => {
-          if (user) {
-            navigation.navigate('Profile', { user });
+          if (me) {
+            navigation.navigate('Profile', { user: me });
           }
         }}>
           <Image
-            source={{ uri: user?.profileImage.medium }}
+            source={{ uri: me?.profileImage.medium }}
             style={styles.userProfileImage}
           />
-          <Text style={styles.username}>{user?.username}</Text>
+          <Text style={styles.username}>{me?.username}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
           navigation.navigate('CollectionEditor', { mode: 'create' });

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { MeService } from '@src/services';
 
-export function useUser() {
+export function useMe() {
   return useQuery({
-    queryKey: ['user'],
+    queryKey: ['me'],
     queryFn: MeService.fetchMe,
   });
 }

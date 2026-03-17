@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { useUser } from '@src/hooks/useUser';
+import { useMe } from '@src/hooks/useMe';
 import { CollectionService } from '@src/services';
 
 type UpdateCollectionParams = {
@@ -17,13 +17,13 @@ type UseUpdateCollectionOptions = {
 
 export function useUpdateCollection(options?: UseUpdateCollectionOptions) {
   const queryClient = useQueryClient();
-  const { data: user } = useUser();
+  const { data: me } = useMe();
 
   const mutation = useMutation({
     mutationFn: ({ collectionId, title, description, isPrivate }: UpdateCollectionParams) =>
       CollectionService.updateCollection(collectionId, title, description, isPrivate),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['collections', user?.username] });
+      queryClient.invalidateQueries({ queryKey: ['collections', me?.username] });
       options?.onSuccess?.();
     },
     onError: (error: Error) => {
