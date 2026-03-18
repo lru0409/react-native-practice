@@ -8,6 +8,7 @@ export type PhotoResponse = {
   };
   user: {
     name: string;
+    username: string;
     profile_image: {
       medium: string;
     };
@@ -24,6 +25,7 @@ export type Photo = {
   };
   user: {
     name: string;
+    username: string;
     profileImage: string;
   };
 };

@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { RootStackParamList } from '@src/App';
 import { CollectionService } from '@src/services';
 import { useAuth } from '@src/contexts/auth';
-import { useMe } from '@src/hooks/useMe';
+import { useUser } from '@src/hooks/useUser';
 import { Container, CollectionCard } from '@src/components';
 import { Collection } from '@src/types/collection';
 import { usePagination } from '@src/hooks/usePagination';
@@ -17,7 +17,7 @@ import styles from './styles';
 export default function CollectionScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
   const { setIsLoggedIn } = useAuth();
-  const { data: me, isLoading: isMeLoading, error: meError } = useMe();
+  const { data: me, isLoading: isMeLoading, error: meError } = useUser();
   
   const {
     data: collections, // NOTE: private 컬렉션은 받아올 수 없음
@@ -47,7 +47,7 @@ export default function CollectionScreen() {
       <View style={styles.header}>
         <TouchableOpacity style={styles.userButton} onPress={() => {
           if (me) {
-            navigation.navigate('Profile', { user: me });
+            navigation.navigate('Profile', {});
           }
         }}>
           <Image

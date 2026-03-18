@@ -4,7 +4,7 @@ import type { User, UserResponse } from '@src/types/user';
 
 async function fetchUser(username: string): Promise<User> {
   const response = await fetch(`${UNSPLASH_BASE_URL}/users/${username}`, {
-    method: 'PUT',
+    method: 'GET',
     headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` }
   });
   if (!response.ok) {

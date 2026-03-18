@@ -1,12 +1,17 @@
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Photo } from '@src/types/photo';
 import { LikeButton } from '@src/components';
 import formatDate from '@src/utils/formatDate';
 import styles from './style';
+import { RootStackParamList } from '@src/App';
 
 const PhotoHero = ({ photo, photoHeight }: { photo: Photo, photoHeight: number }) => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Profile'>>();
+
   return (
     <>
       <View style={styles.photoWrapper}>
@@ -21,13 +26,16 @@ const PhotoHero = ({ photo, photoHeight }: { photo: Photo, photoHeight: number }
           <Icon name="calendar-clear-outline" size={16} color="#393E46" />
           <Text style={styles.date}>{formatDate(photo.createdAt)}</Text>
         </View>
-        <View style={styles.userContainer}>
+        <TouchableOpacity style={styles.userContainer} onPress={() => {
+          console.log('photo.user.name', photo.user.username);
+          navigation.navigate('Profile', { username: photo.user.username });
+        }}>
           <Image
             source={{ uri: photo.user.profileImage }}
             style={styles.userProfileImage}
           />
           <Text style={styles.userName}>{photo.user.name}</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </>
   );

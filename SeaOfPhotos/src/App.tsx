@@ -17,7 +17,6 @@ import CollectionEditorScreen from '@src/screens/collectionEditor';
 import ProfileScreen from '@src/screens/profile';
 import { Photo } from '@src/types/photo';
 import { Collection } from '@src/types/collection';
-import { User } from '@src/types/user';
 import { AuthProvider, useAuth } from '@src/contexts/auth';
 import commonStyles from '@src/styles/common';
 
@@ -35,7 +34,7 @@ export type RootStackParamList = {
   SearchDetail: { query: string };
   CollectionDetail: { collection: Collection  };
   CollectionEditor: { mode: 'create' | 'update', defaultCollection?: Collection };
-  Profile: { user: User };
+  Profile: { username?: string };
 };
 
 const Tab = createBottomTabNavigator();

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { useMe } from '@src/hooks/useMe';
+import { useUser } from '@src/hooks/useUser';
 import { CollectionService } from '@src/services';
 
 type CreateCollectionParams = {
@@ -16,7 +16,7 @@ type UseCreateCollectionOptions = {
 
 export function useCreateCollection(options?: UseCreateCollectionOptions) {
   const queryClient = useQueryClient();
-  const { data: me } = useMe();
+  const { data: me } = useUser();
 
   const mutation = useMutation({
     mutationFn: ({ title, description, isPrivate }: CreateCollectionParams) =>

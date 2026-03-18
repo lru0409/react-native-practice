@@ -5,39 +5,49 @@ import { RootStackParamList } from '@src/App';
 import { Container, Button } from '@src/components';
 import { AuthService } from '@src/services';
 import { useAuth } from '@src/contexts/auth';
+import { useUser } from '@src/hooks/useUser';
 import styles from './styles';
 
 export default function ProfileScreen() {
   const { params } = useRoute<RouteProp<RootStackParamList, 'Profile'>>();
-  const { user } = params;
+  const { username } = params;
 
+  const { data: user, isLoading: isUserLoading, error: userError } = useUser(username);
   const { checkLogin } = useAuth();
+
+  const isMyProfile = !username;
 
   return (
     <Container
       useHeader={true}
       headerTitle='Profile'
       edges={['top', 'right', 'bottom', 'left']}
+      isLoading={isUserLoading}
+      isError={Boolean(userError)}
     >
       <Container.Main>
-        <View style={styles.profileContainer}>
-          <Image style={styles.profileImage} source={{ uri: user.profileImage.medium}} />
-          <View>
-            <Text style={styles.name}>{user.name}</Text>
-            <Text style={styles.username}>{user.username}</Text>
-            <Text style={styles.email}>{user.email}</Text>
+        {user && (
+          <View style={styles.profileContainer}>
+            <Image style={styles.profileImage} source={{ uri: user.profileImage.medium }} />
+            <View>
+              <Text style={styles.name}>{user.name}</Text>
+              <Text style={styles.username}>{user.username}</Text>
+              <Text style={styles.email}>{user.email}</Text>
+            </View>
           </View>
-        </View>
+        )}
       </Container.Main>
-      <Container.Bottom>
-        <Button
-          text='Logout'
-          onPress={() => {
-            AuthService.logout();
-            checkLogin();
-          }}
-        />
-      </Container.Bottom>
+      {isMyProfile && (
+        <Container.Bottom>
+          <Button
+            text='Logout'
+            onPress={() => {
+              AuthService.logout();
+              checkLogin();
+            }}
+          />
+        </Container.Bottom>
+      )}
     </Container>
   );
 }

@@ -27,6 +27,7 @@ async function fetchPhotos(page: number) {
           urls: item.urls,
           user: {
             name: item.user.name,
+            username: item.user.username,
             profileImage: item.user.profile_image.medium,
           },
         } as Photo),
@@ -63,6 +64,7 @@ async function fetchPhotosByQuery(query: string, page: number) {
           urls: item.urls,
           user: {
             name: item.user.name,
+            username: item.user.username,
             profileImage: item.user.profile_image.medium,
           },
         } as Photo),
