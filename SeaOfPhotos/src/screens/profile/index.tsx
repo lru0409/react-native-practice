@@ -1,5 +1,6 @@
 import { View, Text, Image } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { RootStackParamList } from '@src/App';
 import { Container, Button } from '@src/components';
@@ -25,19 +26,31 @@ export default function ProfileScreen() {
       isLoading={isUserLoading}
       isError={Boolean(userError)}
     >
-      <Container.Main>
+      <Container.Main style={styles.container}>
         {user && (
-          <View style={styles.profileContainer}>
-            <Image style={styles.profileImage} source={{ uri: user.profileImage.medium }} />
-            <View>
-              <Text style={styles.name}>{user.name}</Text>
-              <Text style={styles.username}>{user.username}</Text>
-              <Text style={styles.email}>{user.email}</Text>
+          <>
+            <View style={styles.profileHeader}>
+              <Image style={styles.profileImage} source={{ uri: user.profileImage.medium }} />
+              <View>
+                <Text style={styles.name}>{user.name}</Text>
+                <Text style={styles.username}>@{user.username}</Text>
+              </View>
             </View>
-          </View>
+            {user.bio && <Text style={styles.bio}>{user.bio}</Text>}
+            <View style={styles.subInfoContainer}>
+              <View style={styles.subInfoItem}>
+                <Icon name='email' size={16} color='gray' />
+                <Text style={styles.subInfoText}>{user.email || '-'}</Text>
+              </View>
+              <View style={styles.subInfoItem}>
+                <Icon name='location-on' size={16} color='gray' />
+                <Text style={styles.subInfoText}>{user.location || '-'}</Text>
+              </View>
+            </View>
+          </>
         )}
       </Container.Main>
-      {isMyProfile && (
+      {/* {isMyProfile && (
         <Container.Bottom>
           <Button
             text='Logout'
@@ -47,7 +60,7 @@ export default function ProfileScreen() {
             }}
           />
         </Container.Bottom>
-      )}
+      )} */}
     </Container>
   );
 }
