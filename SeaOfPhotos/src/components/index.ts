@@ -6,6 +6,7 @@ import ErrorNotice from './ErrorNotice';
 import LikeButton from './LikeButton';
 import PhotoCard from './PhotoCard';
 import SearchInput from './SearchInput';
+import Tabs from './Tabs';
 
 export {
   BackButton,
@@ -16,4 +17,5 @@ export {
   LikeButton,
   PhotoCard,
   SearchInput,
+  Tabs,
 };

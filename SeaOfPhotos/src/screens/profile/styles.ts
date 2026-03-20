@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   },
   subInfoContainer: {
     gap: 4,
+    marginBottom: 18,
   },
   subInfoItem: {
     flexDirection: 'row',

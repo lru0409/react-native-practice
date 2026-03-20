@@ -1,22 +1,25 @@
+import { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { RootStackParamList } from '@src/App';
-import { Container, Button } from '@src/components';
-import { AuthService } from '@src/services';
-import { useAuth } from '@src/contexts/auth';
+import { Container, Tabs } from '@src/components';
 import { useUser } from '@src/hooks/useUser';
 import styles from './styles';
+
+const PROFILE_TABS = [
+  { label: '내 사진', value: 'photos' },
+  { label: '내 콜렉션', value: 'collections' },
+] as const;
 
 export default function ProfileScreen() {
   const { params } = useRoute<RouteProp<RootStackParamList, 'Profile'>>();
   const { username } = params;
 
   const { data: user, isLoading: isUserLoading, error: userError } = useUser(username);
-  const { checkLogin } = useAuth();
 
-  const isMyProfile = !username;
+  const [selectedTab, setSelectedTab] = useState<(typeof PROFILE_TABS)[number]['value']>('photos');
 
   return (
     <Container
@@ -47,20 +50,10 @@ export default function ProfileScreen() {
                 <Text style={styles.subInfoText}>{user.location || '-'}</Text>
               </View>
             </View>
+            <Tabs items={PROFILE_TABS} value={selectedTab} onChange={setSelectedTab} />
           </>
         )}
       </Container.Main>
-      {/* {isMyProfile && (
-        <Container.Bottom>
-          <Button
-            text='Logout'
-            onPress={() => {
-              AuthService.logout();
-              checkLogin();
-            }}
-          />
-        </Container.Bottom>
-      )} */}
     </Container>
   );
 }
