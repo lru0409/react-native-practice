@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
+  listContainer: {
     position: 'relative',
+    paddingBottom: 8,
   },
   tabList: {
     flexDirection: 'row',
@@ -10,7 +11,7 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   tabButton: {
-    paddingVertical: 8,
+    paddingVertical: 4,
   },
   tabLabel: {
     fontSize: 14,
@@ -20,8 +21,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     height: 3,
-    borderRadius: 999,
-    backgroundColor: 'black',
+    backgroundColor: '#000',
+  },
+  pagerContainer: {
+    flex: 1,
+  },
+  pagerContent: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  page: {
+    flex: 1,
   },
 });
 
