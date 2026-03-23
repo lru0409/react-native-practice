@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     height: 3,
-    backgroundColor: '#000',
+    backgroundColor: 'black',
   },
   pagerContainer: {
     flex: 1,

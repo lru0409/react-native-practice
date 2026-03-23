@@ -103,10 +103,6 @@ function Root({
   const activeValue = value ?? internalValue;
 
   useEffect(() => {
-    console.log('activeValue', activeValue);
-  }, [activeValue]);
-
-  useEffect(() => {
     const activeIndex = items.findIndex((item) => item.value === activeValue);
     if (pageWidth <= 0 || activeIndex < 0) {
       return;
