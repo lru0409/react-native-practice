@@ -5,6 +5,8 @@ import { SCREEN_HORIZONTAL_PADDING } from '@src/styles/common';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  horizontalPadding: {
     paddingHorizontal: SCREEN_HORIZONTAL_PADDING,
   },
   headerContainer: {

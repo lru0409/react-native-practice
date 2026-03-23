@@ -10,6 +10,7 @@ type ContainerProps = {
   useHeader?: boolean;
   headerTitle?: string;
   headerRight?: React.ReactNode;
+  useHorizontalPadding?: boolean;
   isLoading?: boolean;
   isError?: boolean;
   edges?: ('top' | 'bottom' | 'left' | 'right')[];
@@ -21,6 +22,7 @@ function BaseContainer({
   useHeader = false,
   headerTitle,
   headerRight,
+  useHorizontalPadding = true,
   isLoading = false,
   isError = false,
   edges = ['top', 'left', 'right'],
@@ -30,7 +32,10 @@ function BaseContainer({
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView style={[styles.container, style]} edges={edges}>
+    <SafeAreaView
+      style={[styles.container, useHorizontalPadding && styles.horizontalPadding, style]}
+      edges={edges}
+    >
       {useHeader && (
         <View style={styles.headerContainer}>
           <View style={styles.headerLeft}>
