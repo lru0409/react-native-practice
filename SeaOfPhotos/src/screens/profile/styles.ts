@@ -2,16 +2,22 @@ import { StyleSheet } from 'react-native';
 
 import { SCREEN_HORIZONTAL_PADDING } from '@src/styles/common';
 
+const PADDING_HORIZONTAL = SCREEN_HORIZONTAL_PADDING + 18;
+
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingTop: 10,
-    paddingHorizontal: SCREEN_HORIZONTAL_PADDING + 10,
+  },
+  profileInfoContainer: {
+    gap: 12,
+    marginBottom: 16,
+    paddingHorizontal: PADDING_HORIZONTAL,
   },
   profileHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 15,
-    marginBottom: 12,
   },
   profileImage: {
     width: 60,
@@ -27,12 +33,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'gray',
   },
-  bio: {
-    marginBottom: 12,
-  },
-  subInfoContainer: {
+  profileSubInfo: {
     gap: 4,
-    marginBottom: 18,
   },
   subInfoItem: {
     flexDirection: 'row',
@@ -41,7 +43,20 @@ const styles = StyleSheet.create({
   },
   subInfoText: {
     fontSize: 12,
-  }
+  },
+  tabs: {
+    flex: 1,
+  },
+  tabsList: {
+    marginHorizontal: PADDING_HORIZONTAL,
+  },
+  tabsPager: {
+    flex: 1,
+    marginTop: 12,
+  },
+  tabsPanel: {
+    paddingHorizontal: PADDING_HORIZONTAL,
+  },
 });
 
 export default styles;
