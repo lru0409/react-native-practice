@@ -7,12 +7,12 @@ import { Photo } from '@src/types/photo';
 import LikeButton from '@src/components/LikeButton';
 import styles, { getItemStyle } from './styles';
 
-export default function PhotoCard({ photo, index }: { photo: Photo, index: number }) {
+export default function PhotoCard({ photo, index, size }: { photo: Photo, index: number, size?: number }) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
   
   return (
     <TouchableOpacity
-      style={getItemStyle(index)}
+      style={getItemStyle(index, size)}
       onPress={() => {
         navigation.navigate('PhotoDetail', { photo });
       }}

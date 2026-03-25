@@ -6,9 +6,9 @@ const contentWidth = Dimensions.get('window').width - SCREEN_HORIZONTAL_PADDING 
 const totalSpacing = PHOTO_GRID.SPACING_BETWEEN_ITEMS * (PHOTO_GRID.COLUMN_COUNT - 1);
 const itemSize = (contentWidth - totalSpacing) / PHOTO_GRID.COLUMN_COUNT;
 
-export const getItemStyle = (index: number): ViewStyle => {
+export const getItemStyle = (index: number, size?: number): ViewStyle => {
   return {
-    width: itemSize,
+    width: size || itemSize,
     height: itemSize * 1.2,
     borderRadius: 16,
     marginRight: (index + 1) % PHOTO_GRID.COLUMN_COUNT === 0 ? 0 : PHOTO_GRID.SPACING_BETWEEN_ITEMS,
