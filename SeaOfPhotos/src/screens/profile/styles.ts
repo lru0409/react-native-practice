@@ -55,7 +55,18 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   tabsPanel: {
-    paddingHorizontal: PADDING_HORIZONTAL,
+    paddingHorizontal: SCREEN_HORIZONTAL_PADDING,
+    flex: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    color: 'gray',
+    fontSize: 18,
+    fontWeight: '300',
   },
 });
 

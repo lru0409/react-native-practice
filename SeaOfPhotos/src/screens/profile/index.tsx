@@ -1,10 +1,12 @@
-import { Image, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { RootStackParamList } from '@src/App';
-import { Container, Tabs } from '@src/components';
+import { Container, ErrorNotice, PhotoCard, Tabs } from '@src/components';
+import { useUserPhotos } from '@src/hooks/useUserPhotos';
 import { useUser } from '@src/hooks/useUser';
+import commonStyles, { PHOTO_GRID } from '@src/styles/common';
 import styles from './styles';
 
 const PROFILE_TABS = [
@@ -17,13 +19,22 @@ export default function ProfileScreen() {
   const { username } = params;
 
   const { data: user, isLoading: isUserLoading, error: userError } = useUser(username);
+  const {
+    data: photos,
+    isFetchingFirst: isPhotosLoading,
+    isFetchingMore,
+    isRefetching,
+    isError: isPhotosError,
+    loadMore,
+    refetch,
+  } = useUserPhotos(username);
 
   return (
     <Container
       useHeader={true}
       headerTitle='Profile'
       useHorizontalPadding={false}
-      edges={['top', 'right', 'bottom', 'left']}
+      edges={['top', 'right', 'left']}
       isLoading={isUserLoading}
       isError={Boolean(userError)}
     >
@@ -54,7 +65,33 @@ export default function ProfileScreen() {
               <Tabs.List style={styles.tabsList} />
               <Tabs.Pager style={styles.tabsPager}>
                 <Tabs.Panel value="photos" style={styles.tabsPanel}>
-                  <Text>photos</Text>
+                  <FlatList
+                    data={photos}
+                    keyExtractor={item => item.id}
+                    numColumns={PHOTO_GRID.COLUMN_COUNT}
+                    renderItem={({ item, index }) => <PhotoCard photo={item} index={index} />}
+                    refreshing={isRefetching}
+                    onRefresh={refetch}
+                    scrollEnabled={photos.length > 0}
+                    onEndReached={loadMore}
+                    contentContainerStyle={photos.length === 0 ? styles.emptyContainer : undefined}
+                    ListEmptyComponent={
+                      isPhotosLoading ? (
+                        <ActivityIndicator />
+                      ) : isPhotosError ? (
+                        <ErrorNotice style={{ marginBottom: 80 }} />
+                      ) : (
+                        <Text style={styles.emptyText}>No photos found</Text>
+                      )
+                    }
+                    ListFooterComponent={
+                      isFetchingMore ? (
+                        <View style={commonStyles.listLoadingContainer}>
+                          <ActivityIndicator />
+                        </View>
+                      ) : undefined
+                    }
+                  />
                 </Tabs.Panel>
                 <Tabs.Panel value="collections" style={styles.tabsPanel}>
                   <Text>collections</Text>

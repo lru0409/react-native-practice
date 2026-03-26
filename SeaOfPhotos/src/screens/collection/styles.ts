@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
   },
+  // TODO empty ui 컴포넌트 분리
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
