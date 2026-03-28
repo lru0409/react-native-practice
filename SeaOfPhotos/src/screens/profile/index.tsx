@@ -3,15 +3,16 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { RootStackParamList } from '@src/App';
-import { Container, ErrorNotice, PhotoCard, Tabs } from '@src/components';
+import { CollectionCard, Container, ErrorNotice, PhotoCard, Tabs } from '@src/components';
+import { useUserCollections } from '@src/hooks/useUserCollections';
 import { useUserPhotos } from '@src/hooks/useUserPhotos';
 import { useUser } from '@src/hooks/useUser';
-import commonStyles, { PHOTO_GRID } from '@src/styles/common';
+import commonStyles, { COLLECTION_GRID, PHOTO_GRID } from '@src/styles/common';
 import styles from './styles';
 
 const PROFILE_TABS = [
-  { label: '내 사진', value: 'photos' },
-  { label: '내 콜렉션', value: 'collections' },
+  { label: '사진', value: 'photos' },
+  { label: '콜렉션', value: 'collections' },
 ] as const;
 
 export default function ProfileScreen() {
@@ -21,13 +22,22 @@ export default function ProfileScreen() {
   const { data: user, isLoading: isUserLoading, error: userError } = useUser(username);
   const {
     data: photos,
-    isFetchingFirst: isPhotosLoading,
-    isFetchingMore,
-    isRefetching,
+    isFetchingFirst: isFetchingFirstPhotos,
+    isFetchingMore: isFetchingMorePhotos,
+    isRefetching: isRefetchingPhotos,
     isError: isPhotosError,
-    loadMore,
-    refetch,
-  } = useUserPhotos(username);
+    loadMore: loadMorePhotos,
+    refetch: refetchPhotos,
+  } = useUserPhotos(user?.username);
+  const {
+    data: collections,
+    isFetchingFirst: isFetchingFirstCollections,
+    isFetchingMore: isFetchingMoreCollections,
+    isRefetching: isRefetchingCollections,
+    isError: isCollectionsError,
+    loadMore: loadMoreCollections,
+    refetch: refetchCollections,
+  } = useUserCollections(user?.username);
 
   return (
     <Container
@@ -70,22 +80,22 @@ export default function ProfileScreen() {
                     keyExtractor={item => item.id}
                     numColumns={PHOTO_GRID.COLUMN_COUNT}
                     renderItem={({ item, index }) => <PhotoCard photo={item} index={index} />}
-                    refreshing={isRefetching}
-                    onRefresh={refetch}
+                    refreshing={isRefetchingPhotos}
+                    onRefresh={refetchPhotos}
                     scrollEnabled={photos.length > 0}
-                    onEndReached={loadMore}
+                    onEndReached={loadMorePhotos}
                     contentContainerStyle={photos.length === 0 ? styles.emptyContainer : undefined}
                     ListEmptyComponent={
-                      isPhotosLoading ? (
+                      isFetchingFirstPhotos ? (
                         <ActivityIndicator />
                       ) : isPhotosError ? (
-                        <ErrorNotice style={{ marginBottom: 80 }} />
+                        <ErrorNotice style={styles.errorNotice} />
                       ) : (
                         <Text style={styles.emptyText}>No photos found</Text>
                       )
                     }
                     ListFooterComponent={
-                      isFetchingMore ? (
+                      isFetchingMorePhotos ? (
                         <View style={commonStyles.listLoadingContainer}>
                           <ActivityIndicator />
                         </View>
@@ -94,7 +104,33 @@ export default function ProfileScreen() {
                   />
                 </Tabs.Panel>
                 <Tabs.Panel value="collections" style={styles.tabsPanel}>
-                  <Text>collections</Text>
+                  <FlatList
+                    data={collections}
+                    keyExtractor={item => item.id}
+                    numColumns={COLLECTION_GRID.COLUMN_COUNT}
+                    renderItem={({ item, index }) => <CollectionCard collection={item} index={index} />}
+                    refreshing={isRefetchingCollections}
+                    onRefresh={refetchCollections}
+                    scrollEnabled={collections.length > 0}
+                    onEndReached={loadMoreCollections}
+                    contentContainerStyle={collections.length === 0 ? styles.emptyContainer : undefined}
+                    ListEmptyComponent={
+                      isFetchingFirstCollections ? (
+                        <ActivityIndicator />
+                      ) : isCollectionsError ? (
+                        <ErrorNotice style={styles.errorNotice} />
+                      ) : (
+                        <Text style={styles.emptyText}>No collections found</Text>
+                      )
+                    }
+                    ListFooterComponent={
+                      isFetchingMoreCollections ? (
+                        <View style={commonStyles.listLoadingContainer}>
+                          <ActivityIndicator />
+                        </View>
+                      ) : undefined
+                    }
+                  />
                 </Tabs.Panel>
               </Tabs.Pager>
             </Tabs>

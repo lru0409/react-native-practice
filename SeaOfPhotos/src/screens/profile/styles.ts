@@ -68,6 +68,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '300',
   },
+  errorNotice: {
+    marginBottom: 80,
+  },
 });
 
 export default styles;
