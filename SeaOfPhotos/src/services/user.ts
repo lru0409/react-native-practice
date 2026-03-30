@@ -16,6 +16,8 @@ async function fetchUser(username: string): Promise<User> {
     id: data.id,
     name: data.name,
     username: data.username,
+    firstName: data.first_name,
+    lastName: data.last_name,
     email: data.email,
     profileImage: data.profile_image,
     bio: data.bio,

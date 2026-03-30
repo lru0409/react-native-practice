@@ -2,26 +2,30 @@ export type UserResponse = {
   id: string;
   name: string;
   username: string;
-  email: string;
+  first_name?: string | null;
+  last_name?: string | null;
+  email?: string | null;
   profile_image: {
     large: string;
     medium: string;
     small: string;
   };
-  bio: string;
-  location: string;
+  bio?: string | null;
+  location?: string | null;
 }
 
 export type User = {
   id: string;
   name: string;
   username: string;
-  email: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  email?: string | null;
   profileImage: {
     large: string;
     medium: string;
     small: string;
   };
-  bio: string;
-  location: string;
+  bio?: string | null;
+  location?: string | null;
 }
