@@ -59,7 +59,6 @@ export default function ProfileScreen() {
     <Container
       useHeader={true}
       headerTitle='Profile'
-      useHorizontalPadding={false}
       edges={['top', 'right', 'left']}
       isLoading={isUserLoading}
       isError={Boolean(userError)}
@@ -90,7 +89,7 @@ export default function ProfileScreen() {
             <Tabs items={PROFILE_TABS} defaultValue="photos" style={styles.tabs}>
               <Tabs.List style={styles.tabsList} />
               <Tabs.Pager style={styles.tabsPager}>
-                <Tabs.Panel value="photos" style={styles.tabsPanel}>
+                <Tabs.Panel value="photos">
                   <FlatList
                     data={photos}
                     keyExtractor={item => item.id}
@@ -119,7 +118,7 @@ export default function ProfileScreen() {
                     }
                   />
                 </Tabs.Panel>
-                <Tabs.Panel value="collections" style={styles.tabsPanel}>
+                <Tabs.Panel value="collections">
                   <FlatList
                     data={collectionItems}
                     keyExtractor={(item) => (item.type === 'add' ? 'add-collection-card' : item.item.id)}
