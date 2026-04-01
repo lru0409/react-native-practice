@@ -1,7 +1,8 @@
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import MeterialIcon from 'react-native-vector-icons/MaterialIcons';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 
 import { RootStackParamList } from '@src/App';
 import { CollectionCard, Container, ErrorNotice, PhotoCard, Tabs } from '@src/components';
@@ -59,6 +60,16 @@ export default function ProfileScreen() {
     <Container
       useHeader={true}
       headerTitle='Profile'
+      headerRight={
+        isMyProfile && (
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={() => navigation.navigate('ProfileEditor')}
+          >
+            <AntDesignIcon name="edit" size={20} style={styles.editIcon} />
+          </TouchableOpacity>
+        )
+      }
       edges={['top', 'right', 'left']}
       isLoading={isUserLoading}
       isError={Boolean(userError)}
@@ -77,11 +88,11 @@ export default function ProfileScreen() {
               {user.bio && <Text>{user.bio}</Text>}
               <View style={styles.profileSubInfo}>
                 <View style={styles.subInfoItem}>
-                  <Icon name='email' size={16} color='gray' />
+                  <MeterialIcon name='email' size={16} color='gray' />
                   <Text style={styles.subInfoText}>{user.email || '-'}</Text>
                 </View>
                 <View style={styles.subInfoItem}>
-                  <Icon name='location-on' size={16} color='gray' />
+                  <MeterialIcon name='location-on' size={16} color='gray' />
                   <Text style={styles.subInfoText}>{user.location || '-'}</Text>
                 </View>
               </View>

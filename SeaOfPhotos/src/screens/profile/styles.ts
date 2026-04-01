@@ -3,6 +3,13 @@ import { StyleSheet } from 'react-native';
 const ADDITIONAL_HORIZONTAL_PADDING = 18;
 
 const styles = StyleSheet.create({
+  editButton: {
+    height: 35,
+    width: 32,
+  },
+  editIcon: {
+    margin: 'auto',
+  },
   container: {
     flex: 1,
     paddingTop: 10,
