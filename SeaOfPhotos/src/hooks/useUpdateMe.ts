@@ -3,14 +3,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MeService } from '@src/services';
 
 type UpdateMeParams = {
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  url?: string;
-  location?: string;
-  bio?: string;
-  instagramUsername?: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  location: string;
+  bio: string;
 };
 
 type UseUpdateMeOptions = {

@@ -39,19 +39,15 @@ async function updateMe({
   firstName,
   lastName,
   email,
-  url,
   location,
   bio,
-  instagramUsername,
 }: {
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  url?: string;
-  location?: string;
-  bio?: string;
-  instagramUsername?: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  location: string;
+  bio: string;
 }): Promise<User> {
   const accessToken = await EncryptedStorage.getItem('unsplash_access_token');
   if (!accessToken) {
@@ -64,10 +60,8 @@ async function updateMe({
   if (firstName !== undefined) params.append('first_name', firstName);
   if (lastName !== undefined) params.append('last_name', lastName);
   if (email !== undefined) params.append('email', email);
-  if (url !== undefined) params.append('url', url);
   if (location !== undefined) params.append('location', location);
   if (bio !== undefined) params.append('bio', bio);
-  if (instagramUsername !== undefined) params.append('instagram_username', instagramUsername);
 
   const response = await fetch(`${UNSPLASH_BASE_URL}/me?${params.toString()}`, {
     method: 'PUT',
