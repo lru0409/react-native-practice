@@ -37,6 +37,7 @@ const commonStyles = StyleSheet.create({
     paddingHorizontal: 17,
     fontSize: 15,
     width: '100%',
+    lineHeight: 20,
   },
 });
 
