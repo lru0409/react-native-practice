@@ -3,12 +3,11 @@ import { StyleSheet } from 'react-native';
 const ADDITIONAL_HORIZONTAL_PADDING = 18;
 
 const styles = StyleSheet.create({
-  editButton: {
+  settingsButton: {
+    width: 35,
     height: 35,
-    width: 32,
-  },
-  editIcon: {
-    margin: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   container: {
     flex: 1,

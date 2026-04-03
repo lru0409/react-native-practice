@@ -2,7 +2,7 @@ import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import MeterialIcon from 'react-native-vector-icons/MaterialIcons';
-import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { RootStackParamList } from '@src/App';
 import { CollectionCard, Container, ErrorNotice, PhotoCard, Tabs } from '@src/components';
@@ -63,10 +63,9 @@ export default function ProfileScreen() {
       headerRight={
         isMyProfile && (
           <TouchableOpacity
-            style={styles.editButton}
-            onPress={() => navigation.navigate('ProfileEditor')}
+            style={styles.settingsButton}
           >
-            <AntDesignIcon name="edit" size={20} style={styles.editIcon} />
+            <Ionicons name="settings-outline" size={20} color="black" />
           </TouchableOpacity>
         )
       }

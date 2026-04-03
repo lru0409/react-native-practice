@@ -43,7 +43,7 @@ function BaseContainer({
               style={styles.backButton}
               onPress={() => navigation.goBack()}
             >
-              <Icon name="chevron-back" size={20} style={styles.backIcon} />
+              <Icon name="chevron-back" size={20} />
             </TouchableOpacity>
           </View>
           <View style={styles.titleContainer}>

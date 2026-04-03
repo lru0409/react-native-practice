@@ -20,11 +20,10 @@ const styles = StyleSheet.create({
     height: 35,
   },
   backButton: {
+    width: 35,
     height: 35,
-    width: 32,
-  },
-  backIcon: {
-    margin: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   titleContainer: {
     flex: 1,
