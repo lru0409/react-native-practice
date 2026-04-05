@@ -16,6 +16,7 @@ import CollectionDetailScreen from '@src/screens/collectionDetail';
 import CollectionEditorScreen from '@src/screens/collectionEditor';
 import ProfileScreen from '@src/screens/profile';
 import ProfileEditorScreen from '@src/screens/profileEditor';
+import SettingsScreen from '@src/screens/settings';
 import { Photo } from '@src/types/photo';
 import { Collection } from '@src/types/collection';
 import { AuthProvider, useAuth } from '@src/contexts/auth';
@@ -37,6 +38,7 @@ export type RootStackParamList = {
   CollectionEditor: { mode: 'create' | 'update', defaultCollection?: Collection };
   Profile: { username?: string };
   ProfileEditor: undefined;
+  Settings: undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -95,6 +97,11 @@ function AppContent() {
                 <Stack.Screen
                   name="ProfileEditor"
                   component={ProfileEditorScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Settings"
+                  component={SettingsScreen}
                   options={{ headerShown: false }}
                 />
               </>

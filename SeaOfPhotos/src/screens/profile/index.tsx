@@ -64,6 +64,7 @@ export default function ProfileScreen() {
         isMyProfile && (
           <TouchableOpacity
             style={styles.settingsButton}
+            onPress={() => navigation.navigate('Settings')}
           >
             <Ionicons name="settings-outline" size={20} color="black" />
           </TouchableOpacity>
