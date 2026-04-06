@@ -10,21 +10,12 @@ import { useUserCollections } from '@src/hooks/useUserCollections';
 import { useUserPhotos } from '@src/hooks/useUserPhotos';
 import { useUser } from '@src/hooks/useUser';
 import commonStyles, { COLLECTION_GRID, PHOTO_GRID } from '@src/styles/common';
-import { Collection } from '@src/types/collection';
-import AddCollectionCard from './components/addCollectionCard';
 import styles from './styles';
 
 const PROFILE_TABS = [
   { label: '사진', value: 'photos' },
   { label: '콜렉션', value: 'collections' },
 ] as const;
-
-// TODO: profile edit 버튼 위치 조정
-// TODO: collection list에서 add 버튼이 있는 경우 첫 번째 데이터를 9개만 가져올 수 있을까?
-
-type CollectionListItem =
-  | { type: 'add' }
-  | { type: 'collection'; item: Collection };
 
 export default function ProfileScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -51,10 +42,6 @@ export default function ProfileScreen() {
     loadMore: loadMoreCollections,
     refetch: refetchCollections,
   } = useUserCollections(user?.username);
-
-  const collectionItems: CollectionListItem[] = isMyProfile
-    ? [{ type: 'add' }, ...collections.map((item) => ({ type: 'collection' as const, item }))]
-    : collections.map((item) => ({ type: 'collection' as const, item }));
 
   return (
     <Container
@@ -131,21 +118,25 @@ export default function ProfileScreen() {
                 </Tabs.Panel>
                 <Tabs.Panel value="collections">
                   <FlatList
-                    data={collectionItems}
-                    keyExtractor={(item) => (item.type === 'add' ? 'add-collection-card' : item.item.id)}
+                    data={collections}
+                    keyExtractor={(item) => item.id}
                     numColumns={COLLECTION_GRID.COLUMN_COUNT}
-                    renderItem={({ item, index }) => (
-                      item.type === 'add' ? (
-                        <AddCollectionCard index={index} />
-                      ) : (
-                        <CollectionCard collection={item.item} index={index} />
-                      )
-                    )}
+                    renderItem={({ item, index }) => <CollectionCard collection={item} index={index} />}
                     refreshing={isRefetchingCollections}
                     onRefresh={refetchCollections}
-                    scrollEnabled={collectionItems.length > 0}
+                    scrollEnabled={collections.length > 0}
                     onEndReached={loadMoreCollections}
-                    contentContainerStyle={collectionItems.length === 0 ? styles.emptyContainer : undefined}
+                    contentContainerStyle={collections.length === 0 ? styles.emptyContainer : undefined}
+                    ListHeaderComponent={
+                      isMyProfile ? (
+                        <TouchableOpacity style={styles.addCollectionButton} onPress={() => navigation.navigate('CollectionEditor', { mode: 'create' })}>
+                          <View style={styles.addCollectionButtonIcon}>
+                            <Ionicons name="add" size={14} color="white" />
+                          </View>
+                          <Text style={styles.addCollectionButtonText}>새 콜렉션</Text>
+                        </TouchableOpacity>
+                      ) : undefined
+                    }
                     ListEmptyComponent={
                       isFetchingFirstCollections ? (
                         <ActivityIndicator />
