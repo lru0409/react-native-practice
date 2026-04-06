@@ -10,6 +10,7 @@ import { useUserCollections } from '@src/hooks/useUserCollections';
 import { useUserPhotos } from '@src/hooks/useUserPhotos';
 import { useUser } from '@src/hooks/useUser';
 import commonStyles, { COLLECTION_GRID, PHOTO_GRID } from '@src/styles/common';
+import AddCollectionButton from './components/addCollectionButton';
 import styles from './styles';
 
 const PROFILE_TABS = [
@@ -127,16 +128,7 @@ export default function ProfileScreen() {
                     scrollEnabled={collections.length > 0}
                     onEndReached={loadMoreCollections}
                     contentContainerStyle={collections.length === 0 ? styles.emptyContainer : undefined}
-                    ListHeaderComponent={
-                      isMyProfile ? (
-                        <TouchableOpacity style={styles.addCollectionButton} onPress={() => navigation.navigate('CollectionEditor', { mode: 'create' })}>
-                          <View style={styles.addCollectionButtonIcon}>
-                            <Ionicons name="add" size={14} color="white" />
-                          </View>
-                          <Text style={styles.addCollectionButtonText}>새 콜렉션</Text>
-                        </TouchableOpacity>
-                      ) : undefined
-                    }
+                    ListHeaderComponent={isMyProfile ? <AddCollectionButton /> : undefined}
                     ListEmptyComponent={
                       isFetchingFirstCollections ? (
                         <ActivityIndicator />
