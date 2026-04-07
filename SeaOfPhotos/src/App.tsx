@@ -9,7 +9,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import LoginScreen from '@src/screens/login';
 import HomeScreen from '@src/screens/home';
 import SearchScreen from '@src/screens/search';
-import CollectionScreen from '@src/screens/collection';
 import PhotoDetailScreen from '@src/screens/photoDetail';
 import SearchDetailScreen from '@src/screens/searchDetail';
 import CollectionDetailScreen from '@src/screens/collectionDetail';
@@ -146,10 +145,10 @@ function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="저장됨"
-        component={CollectionScreen}
+        name="프로필"
+        component={ProfileScreen}
         options={{
-          tabBarIcon: CollectionTabIcon,
+          tabBarIcon: ProfileTabIcon,
         }}
       />
     </Tab.Navigator>
@@ -164,7 +163,7 @@ const SearchTabIcon = ({ focused }: { focused: boolean }) => (
   <Icon name={focused ? 'search' : 'search-outline'} size={24} />
 );
 
-const CollectionTabIcon = ({ focused }: { focused: boolean }) => (
+const ProfileTabIcon = ({ focused }: { focused: boolean }) => (
   <Icon name={focused ? 'person' : 'person-outline'} size={24} />
 );
 
