@@ -33,7 +33,7 @@ export type RootStackParamList = {
   Tabs: undefined;
   PhotoDetail: { photo: Photo };
   SearchDetail: { query: string };
-  CollectionDetail: { collection: Collection  };
+  CollectionDetail: { collection: Collection, isOwner?: boolean };
   CollectionEditor: { mode: 'create' | 'update', defaultCollection?: Collection };
   Profile: { username?: string };
   ProfileEditor: undefined;

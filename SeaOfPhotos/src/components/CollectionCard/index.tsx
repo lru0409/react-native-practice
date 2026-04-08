@@ -1,24 +1,23 @@
 import { Image, TouchableOpacity, View, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Foundation';
 
-import { RootStackParamList } from '@src/App';
 import { Collection } from '@src/types/collection';
 import styles, { getItemStyle } from './styles';
 import formatDate from '@src/utils/formatDate';
 
-export default function CollectionCard({ collection, index }: { collection: Collection, index: number }) {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
+type CollectionCardProps = {
+  collection: Collection;
+  index: number;
+  onPress?: () => void;
+};
 
+export default function CollectionCard({ collection, index, onPress }: CollectionCardProps) {
   const { coverPhoto, title, totalPhotos, updatedAt } = collection;
 
   return (
     <TouchableOpacity
       style={getItemStyle(index)}
-      onPress={() => {
-        navigation.navigate('CollectionDetail', { collection });
-      }}
+      onPress={onPress}
     >
       {coverPhoto ? (
         <Image style={styles.image} source={{ uri: coverPhoto.urls.small }} />

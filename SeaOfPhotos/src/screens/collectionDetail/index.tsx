@@ -15,7 +15,7 @@ import { PHOTO_GRID } from '@src/styles/common';
 export default function CollectionDetailScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'CollectionDetail'>>();
   const { params } = useRoute<RouteProp<RootStackParamList, 'CollectionDetail'>>();
-  const { collection } = params;
+  const { collection, isOwner = false } = params;
 
   const {
     data: photos, // NOTE: API를 통해 접근 가능한 사진만 받아올 수 있음

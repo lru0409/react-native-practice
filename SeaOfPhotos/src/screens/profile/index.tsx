@@ -122,7 +122,13 @@ export default function ProfileScreen() {
                     data={collections}
                     keyExtractor={(item) => item.id}
                     numColumns={COLLECTION_GRID.COLUMN_COUNT}
-                    renderItem={({ item, index }) => <CollectionCard collection={item} index={index} />}
+                    renderItem={({ item, index }) => (
+                      <CollectionCard
+                        collection={item}
+                        index={index}
+                        onPress={() => navigation.navigate('CollectionDetail', { collection: item, isOwner: isMyProfile })}
+                      />
+                    )}
                     refreshing={isRefetchingCollections}
                     onRefresh={refetchCollections}
                     scrollEnabled={collections.length > 0}
