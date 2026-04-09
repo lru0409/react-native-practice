@@ -61,6 +61,23 @@ const updateCollection = async (collectionId: string, title: string, description
   return await response.json();
 };
 
+const deleteCollection = async (collectionId: string) => {
+  const accessToken = await EncryptedStorage.getItem('unsplash_access_token');
+  if (!accessToken) {
+    throw new Error('No access token found');
+  }
+
+  const response = await fetch(`${UNSPLASH_BASE_URL}/collections/${collectionId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error: ${response.status}`);
+  }
+};
+
 const fetchUserCollections = async (username: string, page: number) => {
   const params = new URLSearchParams();
   params.append('username', username);
@@ -144,6 +161,7 @@ const fetchCollectionPhotos = async (collectionId: string, page: number) => {
 export default {
   createCollection,
   updateCollection,
+  deleteCollection,
   fetchUserCollections,
   fetchCollectionPhotos,
 };
