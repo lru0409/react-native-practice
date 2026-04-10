@@ -1,7 +1,9 @@
-import { Text, View, ActivityIndicator, TouchableOpacity, FlatList } from 'react-native';
+import { Alert, Text, View, ActivityIndicator, TouchableOpacity, FlatList, Modal } from 'react-native';
+import { useState } from 'react';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import Icon from 'react-native-vector-icons/AntDesign';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { RootStackParamList } from '@src/App';
 import { Container, PhotoCard } from '@src/components';
@@ -16,6 +18,9 @@ export default function CollectionDetailScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'CollectionDetail'>>();
   const { params } = useRoute<RouteProp<RootStackParamList, 'CollectionDetail'>>();
   const { collection, isOwner = false } = params;
+  const insets = useSafeAreaInsets();
+
+  const [menuVisible, setMenuVisible] = useState(false);
 
   const {
     data: photos, // NOTE: API를 통해 접근 가능한 사진만 받아올 수 있음
@@ -30,51 +35,95 @@ export default function CollectionDetailScreen() {
     fetchData: (page) => CollectionService.fetchCollectionPhotos(collection.id, page),
   });
 
+  const handleEdit = () => {
+    setMenuVisible(false);
+    navigation.navigate('CollectionEditor', { mode: 'update', defaultCollection: collection });
+  };
+
+  const handleDelete = () => {
+    setMenuVisible(false);
+    Alert.alert('컬렉션 삭제', '이 컬렉션을 삭제할까요?', [
+      { text: '취소', style: 'cancel' },
+      {
+        text: '삭제',
+        style: 'destructive',
+        onPress: () => {},
+      },
+    ]);
+  };
+
   return (
-    <Container
-      useHeader={true}
-      headerTitle={collection.title}
-      headerRight={
-        <TouchableOpacity
-          style={styles.editButton}
-          onPress={() => {
-            navigation.navigate('CollectionEditor', { mode: 'update', defaultCollection: collection });
-          }}
-        >
-          <Icon name="edit" size={20} style={styles.editIcon} />
-        </TouchableOpacity>
-      }
-      isLoading={isFetchingFirst}
-      isError={Boolean(isError)}
-    >
-      <FlatList
-        data={photos}
-        numColumns={PHOTO_GRID.COLUMN_COUNT}
-        keyExtractor={item => item.id}
-        renderItem={({ item, index }) => <PhotoCard photo={item} index={index} key={item.id} />}
-        refreshing={isRefetching}
-        onRefresh={refetch}
-        onEndReached={loadMore}
-        contentContainerStyle={{ flex: 1 }}
-        ListHeaderComponent={
-          <View style={styles.textContent}>
-            {collection.description ? (<Text style={styles.description}>{collection.description}</Text>) : null}
-            <Text style={styles.date}>Created {formatDate(collection.createdAt)} · Updated {formatDate(collection.updatedAt)}</Text>
-          </View>
-        }
-        ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No photos found</Text>
-          </View>
-        }
-        ListFooterComponent={
-          isFetchingMore ? (
-            <View style={styles.listLoadingContainer}>
-              <ActivityIndicator />
-            </View>
+    <>
+      <Container
+        useHeader={true}
+        headerTitle={collection.title}
+        headerRight={
+          isOwner ? (
+            <TouchableOpacity
+              style={styles.menuButton}
+              onPress={() => setMenuVisible(true)}
+            >
+              <Icon name="ellipsis-horizontal" size={20} color="black" />
+            </TouchableOpacity>
           ) : undefined
         }
-      />
-    </Container>
+        isLoading={isFetchingFirst || isDeletePending}
+        isError={Boolean(isError)}
+      >
+        <FlatList
+          data={photos}
+          numColumns={PHOTO_GRID.COLUMN_COUNT}
+          keyExtractor={item => item.id}
+          renderItem={({ item, index }) => <PhotoCard photo={item} index={index} key={item.id} />}
+          refreshing={isRefetching}
+          onRefresh={refetch}
+          onEndReached={loadMore}
+          contentContainerStyle={{ flex: 1 }}
+          ListHeaderComponent={
+            <View style={styles.textContent}>
+              {collection.description ? (<Text style={styles.description}>{collection.description}</Text>) : null}
+              <Text style={styles.date}>Created {formatDate(collection.createdAt)} · Updated {formatDate(collection.updatedAt)}</Text>
+            </View>
+          }
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>No photos found</Text>
+            </View>
+          }
+          ListFooterComponent={
+            isFetchingMore ? (
+              <View style={styles.listLoadingContainer}>
+                <ActivityIndicator />
+              </View>
+            ) : undefined
+          }
+        />
+      </Container>
+
+      <Modal
+        visible={menuVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setMenuVisible(false)}
+      >
+        <TouchableOpacity
+          style={styles.menuBackdrop}
+          activeOpacity={1}
+          onPress={() => setMenuVisible(false)}
+        >
+          <View style={[styles.dropdownMenu, { top: insets.top + 43, right: 14 }]}>
+            <TouchableOpacity style={styles.menuItem} onPress={handleEdit}>
+              <Icon name="create-outline" size={16} color="black" />
+              <Text style={styles.menuItemText}>수정</Text>
+            </TouchableOpacity>
+            <View style={styles.menuSeparator} />
+            <TouchableOpacity style={styles.menuItem} onPress={handleDelete}>
+              <Icon name="trash-outline" size={16} color="#FF3B30" />
+              <Text style={[styles.menuItemText, styles.menuItemDestructive]}>삭제</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+    </>
   );
 }
