@@ -3,13 +3,28 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import { UNSPLASH_ACCESS_KEY } from '@env';
 import type { CollectionResponse, Collection } from '@src/types/collection';
-import { Photo, PhotoResponse } from '@src/types/photo';
+import { PhotoResponse } from '@src/types/photo';
+import { mapPhotoResponse } from './photo';
+
+const mapCollectionResponse = (item: CollectionResponse): Collection => ({
+  id: item.id,
+  title: item.title,
+  description: item.description,
+  createdAt: item.published_at,
+  updatedAt: item.last_collected_at,
+  totalPhotos: item.total_photos,
+  private: item.private,
+  coverPhoto: item.cover_photo ? {
+    id: item.cover_photo.id,
+    urls: item.cover_photo.urls,
+  } : null,
+});
 
 const createCollection = async (
   title: string,
   description: string,
   isPrivate: boolean,
-) => {
+): Promise<Collection> => {
   const accessToken = await EncryptedStorage.getItem('unsplash_access_token');
   if (!accessToken) {
     throw new Error('No access token found');
@@ -32,10 +47,17 @@ const createCollection = async (
   if (!response.ok) {
     throw new Error(`HTTP error: ${response.status}`);
   }
-  return await response.json();
+
+  const data = (await response.json()) as CollectionResponse;
+  return mapCollectionResponse(data);
 };
 
-const updateCollection = async (collectionId: string, title: string, description: string, isPrivate: boolean) => {
+const updateCollection = async (
+  collectionId: string,
+  title: string,
+  description: string,
+  isPrivate: boolean,
+): Promise<Collection> => {
   const accessToken = await EncryptedStorage.getItem('unsplash_access_token');
   if (!accessToken) {
     throw new Error('No access token found');
@@ -53,12 +75,14 @@ const updateCollection = async (collectionId: string, title: string, description
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-    }
+    },
   );
   if (!response.ok) {
     throw new Error(`HTTP error: ${response.status}`);
   }
-  return await response.json();
+
+  const data = (await response.json()) as CollectionResponse;
+  return mapCollectionResponse(data);
 };
 
 const deleteCollection = async (collectionId: string) => {
@@ -101,21 +125,7 @@ const fetchUserCollections = async (username: string, page: number) => {
 
   const data = (await response.json()) as CollectionResponse[];
   return {
-    data: data.map(
-      item => ({
-        id: item.id,
-        title: item.title,
-        description: item.description,
-        createdAt: item.published_at,
-        updatedAt: item.last_collected_at,
-        totalPhotos: item.total_photos,
-        private: item.private,
-        coverPhoto: item.cover_photo ? {
-          id: item.cover_photo.id,
-          urls: item.cover_photo.urls,
-        } : null,
-      } as Collection),
-    ),
+    data: data.map(mapCollectionResponse),
     hasMore: page < totalPages,
   };
 };
@@ -130,7 +140,7 @@ const fetchCollectionPhotos = async (collectionId: string, page: number) => {
     {
       method: 'GET',
       headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` },
-    }
+    },
   );
   if (!response.ok) {
     throw new Error(`HTTP error: ${response.status}`);
@@ -142,21 +152,10 @@ const fetchCollectionPhotos = async (collectionId: string, page: number) => {
 
   const data = (await response.json()) as PhotoResponse[];
   return {
-    data: data.map(
-      item => ({
-        id: item.id,
-        description: item.alt_description,
-        createdAt: item.created_at,
-        urls: item.urls,
-        user: {
-          name: item.user.name,
-          profileImage: item.user.profile_image.medium,
-        },
-      } as Photo),
-    ),
+    data: data.map(mapPhotoResponse),
     hasMore: page < totalPages,
   };
-}
+};
 
 export default {
   createCollection,

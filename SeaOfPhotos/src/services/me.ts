@@ -2,19 +2,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import type { User, UserResponse } from '@src/types/user';
-
-// TODO: 다른 데서도 필요하면 추가
-const mapUserResponse = (data: UserResponse): User => ({
-  id: data.id,
-  name: data.name,
-  username: data.username,
-  firstName: data.first_name,
-  lastName: data.last_name,
-  email: data.email,
-  profileImage: data.profile_image,
-  bio: data.bio,
-  location: data.location,
-});
+import { mapUserResponse } from './user';
 
 async function fetchMe(): Promise<User> {
   const accessToken = await EncryptedStorage.getItem('unsplash_access_token');
@@ -56,12 +44,12 @@ async function updateMe({
 
   const params = new URLSearchParams();
 
-  if (username !== undefined) params.append('username', username);
-  if (firstName !== undefined) params.append('first_name', firstName);
-  if (lastName !== undefined) params.append('last_name', lastName);
-  if (email !== undefined) params.append('email', email);
-  if (location !== undefined) params.append('location', location);
-  if (bio !== undefined) params.append('bio', bio);
+  params.append('username', username);
+  params.append('first_name', firstName);
+  params.append('last_name', lastName);
+  params.append('email', email);
+  params.append('location', location);
+  params.append('bio', bio);
 
   const response = await fetch(`${UNSPLASH_BASE_URL}/me?${params.toString()}`, {
     method: 'PUT',
