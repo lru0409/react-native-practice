@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { MeService } from '@src/services';
+import { UserService } from '@src/services';
 
 type UpdateMeParams = {
   username: string;
@@ -20,7 +20,7 @@ export function useUpdateMe(options?: UseUpdateMeOptions) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (params: UpdateMeParams) => MeService.updateMe(params),
+    mutationFn: (params: UpdateMeParams) => UserService.updateMe(params),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['me'] });
       options?.onSuccess?.();

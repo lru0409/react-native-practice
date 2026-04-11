@@ -9,7 +9,7 @@ import { RootStackParamList } from '@src/App';
 import { Container, PhotoCard } from '@src/components';
 import { usePagination } from '@src/hooks/usePagination';
 import { Photo } from '@src/types/photo';
-import { CollectionService } from '@src/services';
+import { PhotoService } from '@src/services';
 import formatDate from '@src/utils/formatDate';
 import styles from './styles';
 import { PHOTO_GRID } from '@src/styles/common';
@@ -32,7 +32,8 @@ export default function CollectionDetailScreen() {
     refetch,
   } = usePagination<Photo>({
     queryKey: ['collectionPhotos', collection.id],
-    fetchData: (page) => CollectionService.fetchCollectionPhotos(collection.id, page),
+    fetchData: (page) => PhotoService.fetchCollectionPhotos(collection.id, page),
+  });
   });
 
   const handleEdit = () => {

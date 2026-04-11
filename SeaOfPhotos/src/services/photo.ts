@@ -2,7 +2,7 @@ import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import { UNSPLASH_ACCESS_KEY } from '@env';
 import type { Photo, PhotoResponse } from '@src/types/photo';
 
-export const mapPhotoResponse = (item: PhotoResponse): Photo => ({
+const mapPhotoResponse = (item: PhotoResponse): Photo => ({
   id: item.id,
   description: item.alt_description,
   createdAt: item.created_at,
@@ -87,4 +87,32 @@ async function fetchUserPhotos(username: string, page: number) {
   };
 }
 
-export default { fetchPhotos, fetchPhotosByQuery, fetchUserPhotos };
+async function fetchCollectionPhotos(collectionId: string, page: number) {
+  const params = new URLSearchParams();
+  params.append('page', page.toString());
+  params.append('per_page', '10');
+
+  const response = await fetch(
+    `${UNSPLASH_BASE_URL}/collections/${collectionId}/photos?${params.toString()}`,
+    {
+      method: 'GET',
+      headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error: ${response.status}`);
+  }
+
+  const total = Number(response.headers.get('x-total'));
+  const perPage = Number(response.headers.get('x-per-page'));
+  const totalPages = Math.ceil(total / perPage);
+
+  const data = (await response.json()) as PhotoResponse[];
+  return {
+    data: data.map(mapPhotoResponse),
+    hasMore: page < totalPages,
+  };
+}
+
+export default { fetchPhotos, fetchPhotosByQuery, fetchUserPhotos, fetchCollectionPhotos };
