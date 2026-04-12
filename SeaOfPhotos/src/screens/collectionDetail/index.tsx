@@ -8,11 +8,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { RootStackParamList } from '@src/App';
 import { Container, PhotoCard } from '@src/components';
 import { usePagination } from '@src/hooks/usePagination';
+import { useDeleteCollection } from '@src/hooks/useDeleteCollection';
 import { Photo } from '@src/types/photo';
 import { PhotoService } from '@src/services';
+import { PHOTO_GRID } from '@src/styles/common';
 import formatDate from '@src/utils/formatDate';
 import styles from './styles';
-import { PHOTO_GRID } from '@src/styles/common';
 
 export default function CollectionDetailScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'CollectionDetail'>>();
@@ -34,6 +35,14 @@ export default function CollectionDetailScreen() {
     queryKey: ['collectionPhotos', collection.id],
     fetchData: (page) => PhotoService.fetchCollectionPhotos(collection.id, page),
   });
+
+  const { deleteCollection, isPending: isDeletePending } = useDeleteCollection({
+    onSuccess: () => navigation.goBack(),
+    onError: () => {
+      Alert.alert('컬렉션 삭제 실패', '나중에 다시 시도해 주세요.', [
+        { text: '확인', style: 'cancel' },
+      ]);
+    },
   });
 
   const handleEdit = () => {
@@ -48,7 +57,7 @@ export default function CollectionDetailScreen() {
       {
         text: '삭제',
         style: 'destructive',
-        onPress: () => {},
+        onPress: () => deleteCollection({ collectionId: collection.id }),
       },
     ]);
   };
