@@ -3,7 +3,6 @@ import { ActivityIndicator, View, Text, FlatList } from 'react-native';
 import type { Photo } from '@src/types/photo';
 import { usePagination } from '@src/hooks/usePagination';
 import { Container, PhotoCard } from '@src/components';
-import CategorySelector from './components/CategorySelector';
 import { PhotoService } from '@src/services';
 import { PHOTO_GRID } from '@src/styles/common';
 import styles from './styles';
@@ -24,7 +23,6 @@ export default function HomeScreen() {
 
   return (
     <Container isError={isError}>
-      <CategorySelector />
       <FlatList
         data={photos}
         numColumns={PHOTO_GRID.COLUMN_COUNT}
