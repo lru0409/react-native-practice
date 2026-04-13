@@ -5,13 +5,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import styles from './styles';
 
-export default function CollectionButton({ defaultSaved = false }: { defaultSaved?: boolean }) {
-  const [saved, setSaved] = useState(defaultSaved);
+export default function CollectionButton({ defaultActive = false }: { defaultActive?: boolean }) {
+  const [isActive, setIsActive] = useState(defaultActive);
 
   const scale = useSharedValue(1);
 
   const handlePress = () => {
-    setSaved((prev) => !prev);
+    setIsActive((prev) => !prev);
 
     scale.value = withSequence(
       withTiming(1.3, { duration: 110, easing: Easing.bounce }),
@@ -27,7 +27,7 @@ export default function CollectionButton({ defaultSaved = false }: { defaultSave
     <TouchableWithoutFeedback onPress={handlePress}>
       <Animated.View style={animatedStyle}>
         <View style={styles.container}>
-          <Icon name="bookmark" size={22} color={saved ? 'black' : 'grey'} />
+          <Icon name="bookmark" size={22} color={isActive ? 'black' : 'grey'} />
         </View>
       </Animated.View>
     </TouchableWithoutFeedback>

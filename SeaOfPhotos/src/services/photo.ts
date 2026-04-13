@@ -12,6 +12,7 @@ const mapPhotoResponse = (item: PhotoResponse): Photo => ({
     username: item.user.username,
     profileImage: item.user.profile_image.medium,
   },
+  currentUserCollections: item.current_user_collections,
 });
 
 async function fetchPhotos(page: number) {

@@ -13,6 +13,7 @@ export type PhotoResponse = {
       medium: string;
     };
   };
+  current_user_collections: { id: string; }[];
 };
 
 export type Photo = {
@@ -28,4 +29,5 @@ export type Photo = {
     username: string;
     profileImage: string;
   };
+  currentUserCollections: { id: string; }[];
 };

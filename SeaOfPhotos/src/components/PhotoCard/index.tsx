@@ -18,7 +18,7 @@ export default function PhotoCard({ photo, index, size }: { photo: Photo, index:
       }}
     >
       <View style={styles.likeButtonWrapper}>
-        <CollectionButton />
+        <CollectionButton defaultActive={photo.currentUserCollections.length > 0} />
       </View>
       <Image style={styles.image} source={{ uri: photo.urls.small }} />
     </TouchableOpacity>

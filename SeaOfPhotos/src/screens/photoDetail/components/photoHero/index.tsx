@@ -17,7 +17,7 @@ const PhotoHero = ({ photo, photoHeight }: { photo: Photo, photoHeight: number }
       <View style={styles.photoWrapper}>
         <Image source={{ uri: photo.urls.full }} style={[styles.photo, { height: photoHeight }]} />
         <View style={styles.likeButtonWrapper}>
-          <CollectionButton />
+          <CollectionButton defaultActive={photo.currentUserCollections.length > 0} />
         </View>
       </View>
       <View style={styles.infoContainer}>
