@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Photo } from '@src/types/photo';
-import { LikeButton } from '@src/components';
+import { CollectionButton } from '@src/components';
 import formatDate from '@src/utils/formatDate';
 import styles from './style';
 import { RootStackParamList } from '@src/App';
@@ -17,7 +17,7 @@ const PhotoHero = ({ photo, photoHeight }: { photo: Photo, photoHeight: number }
       <View style={styles.photoWrapper}>
         <Image source={{ uri: photo.urls.full }} style={[styles.photo, { height: photoHeight }]} />
         <View style={styles.likeButtonWrapper}>
-          <LikeButton />
+          <CollectionButton />
         </View>
       </View>
       <View style={styles.infoContainer}>

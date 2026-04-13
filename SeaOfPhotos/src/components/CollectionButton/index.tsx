@@ -5,13 +5,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import styles from './styles';
 
-export default function LikeButton({ defaultLiked = false }: { defaultLiked?: boolean }) {
-  const [liked, setLiked] = useState(defaultLiked);
-  
+export default function CollectionButton({ defaultSaved = false }: { defaultSaved?: boolean }) {
+  const [saved, setSaved] = useState(defaultSaved);
+
   const scale = useSharedValue(1);
 
   const handlePress = () => {
-    setLiked((prev) => !prev);
+    setSaved((prev) => !prev);
 
     scale.value = withSequence(
       withTiming(1.3, { duration: 110, easing: Easing.bounce }),
@@ -27,7 +27,7 @@ export default function LikeButton({ defaultLiked = false }: { defaultLiked?: bo
     <TouchableWithoutFeedback onPress={handlePress}>
       <Animated.View style={animatedStyle}>
         <View style={styles.container}>
-          <Icon name="heart" size={22} color={liked ? '#E06B80' : '#7F8CAA'} />
+          <Icon name="bookmark" size={22} color={saved ? 'black' : 'grey'} />
         </View>
       </Animated.View>
     </TouchableWithoutFeedback>

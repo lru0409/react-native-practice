@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { RootStackParamList } from '@src/App';
 import { Photo } from '@src/types/photo';
-import LikeButton from '@src/components/LikeButton';
+import CollectionButton from '@src/components/CollectionButton';
 import styles, { getItemStyle } from './styles';
 
 export default function PhotoCard({ photo, index, size }: { photo: Photo, index: number, size?: number }) {
@@ -18,7 +18,7 @@ export default function PhotoCard({ photo, index, size }: { photo: Photo, index:
       }}
     >
       <View style={styles.likeButtonWrapper}>
-        <LikeButton />
+        <CollectionButton />
       </View>
       <Image style={styles.image} source={{ uri: photo.urls.small }} />
     </TouchableOpacity>
