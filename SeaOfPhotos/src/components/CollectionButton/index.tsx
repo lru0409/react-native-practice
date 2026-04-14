@@ -1,18 +1,19 @@
-import { useState } from 'react';
 import { TouchableWithoutFeedback, View } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withSequence, withTiming, Easing } from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import styles from './styles';
 
-export default function CollectionButton({ defaultActive = false }: { defaultActive?: boolean }) {
-  const [isActive, setIsActive] = useState(defaultActive);
+type CollectionButtonProps = {
+  isActive: boolean;
+  onPress: () => void;
+};
 
+export default function CollectionButton({ isActive, onPress }: CollectionButtonProps) {
   const scale = useSharedValue(1);
 
   const handlePress = () => {
-    setIsActive((prev) => !prev);
-
+    onPress();
     scale.value = withSequence(
       withTiming(1.3, { duration: 110, easing: Easing.bounce }),
       withTiming(1, { duration: 70, easing: Easing.out(Easing.ease) })

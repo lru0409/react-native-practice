@@ -7,7 +7,13 @@ import { Photo } from '@src/types/photo';
 import CollectionButton from '@src/components/CollectionButton';
 import styles, { getItemStyle } from './styles';
 
-export default function PhotoCard({ photo, index, size }: { photo: Photo, index: number, size?: number }) {
+type PhotoCardProps = {
+  photo: Photo;
+  index: number;
+  size?: number;
+};
+
+export default function PhotoCard({ photo, index, size }: PhotoCardProps) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
   
   return (
@@ -17,10 +23,13 @@ export default function PhotoCard({ photo, index, size }: { photo: Photo, index:
         navigation.navigate('PhotoDetail', { photo });
       }}
     >
-      <View style={styles.likeButtonWrapper}>
-        <CollectionButton defaultActive={photo.currentUserCollections.length > 0} />
+      <View style={styles.collectionButtonWrapper}>
+        <CollectionButton
+          isActive={photo.currentUserCollections.length > 0}
+          onPress={() => {}}
+        />
       </View>
       <Image style={styles.image} source={{ uri: photo.urls.small }} />
     </TouchableOpacity>
-  )
+  );
 }

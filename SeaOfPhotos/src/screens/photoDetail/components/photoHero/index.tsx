@@ -9,15 +9,23 @@ import formatDate from '@src/utils/formatDate';
 import styles from './style';
 import { RootStackParamList } from '@src/App';
 
-const PhotoHero = ({ photo, photoHeight }: { photo: Photo, photoHeight: number }) => {
+type PhotoHeroProps = {
+  photo: Photo;
+  photoHeight: number;
+};
+
+const PhotoHero = ({ photo, photoHeight }: PhotoHeroProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Profile'>>();
 
   return (
     <>
       <View style={styles.photoWrapper}>
         <Image source={{ uri: photo.urls.full }} style={[styles.photo, { height: photoHeight }]} />
-        <View style={styles.likeButtonWrapper}>
-          <CollectionButton defaultActive={photo.currentUserCollections.length > 0} />
+        <View style={styles.collectionButtonWrapper}>
+          <CollectionButton
+            isActive={photo.currentUserCollections.length > 0}
+            onPress={() => {}}
+          />
         </View>
       </View>
       <View style={styles.infoContainer}>
@@ -27,7 +35,6 @@ const PhotoHero = ({ photo, photoHeight }: { photo: Photo, photoHeight: number }
           <Text style={styles.date}>{formatDate(photo.createdAt)}</Text>
         </View>
         <TouchableOpacity style={styles.userContainer} onPress={() => {
-          console.log('photo.user.name', photo.user.username);
           navigation.navigate('Profile', { username: photo.user.username });
         }}>
           <Image

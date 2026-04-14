@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     borderRadius: 16,
   },
-  likeButtonWrapper: {
+  collectionButtonWrapper: {
     position: 'absolute',
     bottom: 14,
     right: 14,
