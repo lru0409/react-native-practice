@@ -1,3 +1,5 @@
+import EncryptedStorage from 'react-native-encrypted-storage';
+
 import { UNSPLASH_BASE_URL } from '@src/constants/api';
 import { UNSPLASH_ACCESS_KEY } from '@env';
 import type { Photo, PhotoResponse } from '@src/types/photo';
@@ -15,10 +17,17 @@ const mapPhotoResponse = (item: PhotoResponse): Photo => ({
   currentUserCollections: item.current_user_collections,
 });
 
+async function getAuthHeader() {
+  const accessToken = await EncryptedStorage.getItem('unsplash_access_token');
+  return accessToken
+    ? `Bearer ${accessToken}`
+    : `Client-ID ${UNSPLASH_ACCESS_KEY}`;
+}
+
 async function fetchPhotos(page: number) {
   const response = await fetch(`${UNSPLASH_BASE_URL}/photos?page=${page}`, {
     method: 'GET',
-    headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` },
+    headers: { Authorization: await getAuthHeader() },
   });
 
   if (!response.ok) {
@@ -41,7 +50,7 @@ async function fetchPhotosByQuery(query: string, page: number) {
     `${UNSPLASH_BASE_URL}/search/photos?query=${query}&page=${page}`,
     {
       method: 'GET',
-      headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` },
+      headers: { Authorization: await getAuthHeader() },
     },
   );
 
@@ -69,7 +78,7 @@ async function fetchUserPhotos(username: string, page: number) {
     `${UNSPLASH_BASE_URL}/users/${username}/photos?${params.toString()}`,
     {
       method: 'GET',
-      headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` },
+      headers: { Authorization: await getAuthHeader() },
     },
   );
 
@@ -97,7 +106,7 @@ async function fetchCollectionPhotos(collectionId: string, page: number) {
     `${UNSPLASH_BASE_URL}/collections/${collectionId}/photos?${params.toString()}`,
     {
       method: 'GET',
-      headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` },
+      headers: { Authorization: await getAuthHeader() },
     },
   );
 
