@@ -122,9 +122,49 @@ const fetchUserCollections = async (username: string, page: number) => {
   };
 };
 
+const addPhotoToCollection = async (collectionId: string, photoId: string) => {
+  const accessToken = await EncryptedStorage.getItem('unsplash_access_token');
+  if (!accessToken) {
+    throw new Error('No access token found');
+  }
+
+  const response = await fetch(`${UNSPLASH_BASE_URL}/collections/${collectionId}/add`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ photo_id: photoId }),
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error: ${response.status}`);
+  }
+};
+
+const removePhotoFromCollection = async (collectionId: string, photoId: string) => {
+  const accessToken = await EncryptedStorage.getItem('unsplash_access_token');
+  if (!accessToken) {
+    throw new Error('No access token found');
+  }
+
+  const response = await fetch(`${UNSPLASH_BASE_URL}/collections/${collectionId}/remove`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ photo_id: photoId }),
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error: ${response.status}`);
+  }
+};
+
 export default {
   createCollection,
   updateCollection,
   deleteCollection,
   fetchUserCollections,
+  addPhotoToCollection,
+  removePhotoFromCollection,
 };
