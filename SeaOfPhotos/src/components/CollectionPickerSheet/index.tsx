@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Modal, StyleSheet, TouchableWithoutFeedback, View, Text, TouchableOpacity, FlatList, Image, ActivityIndicator } from 'react-native';
+import { Animated, Modal, StyleSheet, TouchableWithoutFeedback, View, Text, TouchableOpacity, FlatList, Image, ActivityIndicator, useWindowDimensions } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
 
@@ -25,28 +25,26 @@ export default function CollectionPickerSheet({ visible, photo, onClose }: Colle
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
   const [modalVisible, setModalVisible] = useState(false);
 
+  const { height: windowHeight } = useWindowDimensions();
   const backdropOpacity = useRef(new Animated.Value(0)).current;
   const sheetTranslateY = useRef(new Animated.Value(0)).current;
-  const sheetHeight = useRef(0);
 
   useEffect(() => {
     if (visible) {
       setModalVisible(true);
       backdropOpacity.setValue(0);
-      requestAnimationFrame(() => {
-        sheetTranslateY.setValue(sheetHeight.current);
-        Animated.parallel([
-          Animated.timing(backdropOpacity, { toValue: 1, duration: 250, useNativeDriver: true }),
-          Animated.timing(sheetTranslateY, { toValue: 0, duration: 300, useNativeDriver: true }),
-        ]).start();
-      });
+      sheetTranslateY.setValue(windowHeight);
+      Animated.parallel([
+        Animated.timing(backdropOpacity, { toValue: 1, duration: 250, useNativeDriver: true }),
+        Animated.timing(sheetTranslateY, { toValue: 0, duration: 300, useNativeDriver: true }),
+      ]).start();
     }
   }, [visible]);
 
   const handleClose = () => {
     Animated.parallel([
       Animated.timing(backdropOpacity, { toValue: 0, duration: 200, useNativeDriver: true }),
-      Animated.timing(sheetTranslateY, { toValue: sheetHeight.current, duration: 250, useNativeDriver: true }),
+      Animated.timing(sheetTranslateY, { toValue: windowHeight, duration: 250, useNativeDriver: true }),
     ]).start(() => {
       setModalVisible(false);
       onClose();
@@ -107,7 +105,6 @@ export default function CollectionPickerSheet({ visible, photo, onClose }: Colle
     );
   };
 
-  // TODO: collections가 늦게 받아와지는 경우 테스트
   // TODO: bottom inset 제거
   return (
     <Modal visible={modalVisible} transparent animationType="none" onRequestClose={handleClose}>
@@ -115,28 +112,25 @@ export default function CollectionPickerSheet({ visible, photo, onClose }: Colle
         <TouchableWithoutFeedback onPress={handleClose}>
           <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop, { opacity: backdropOpacity }]} />
         </TouchableWithoutFeedback>
-        <Animated.View
-          style={[styles.sheet, { transform: [{ translateY: sheetTranslateY }] }]}
-          onLayout={e => { sheetHeight.current = e.nativeEvent.layout.height; }}
-        >
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>컬렉션에 저장 및 제거</Text>
-          <TouchableOpacity onPress={handleClose}>
-            <IonIcon name="close" size={22} color="black" />
-          </TouchableOpacity>
-        </View>
-        {isCollectionsFetchingFirst ? (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator />
+        <Animated.View style={[styles.sheet, { transform: [{ translateY: sheetTranslateY }] }]}>
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>컬렉션에 저장 및 제거</Text>
+            <TouchableOpacity onPress={handleClose}>
+              <IonIcon name="close" size={22} color="black" />
+            </TouchableOpacity>
           </View>
-        ) : (
-          <FlatList
-            data={collections}
-            keyExtractor={item => item.id}
-            renderItem={renderItem}
-            contentContainerStyle={styles.listContent}
-          />
-        )}
+          {isCollectionsFetchingFirst ? (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator />
+            </View>
+          ) : (
+            <FlatList
+              data={collections}
+              keyExtractor={item => item.id}
+              renderItem={renderItem}
+              contentContainerStyle={styles.listContent}
+            />
+          )}
         </Animated.View>
       </View>
     </Modal>

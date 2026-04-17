@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import commonStyles from '@src/styles/common';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -12,7 +14,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    maxHeight: '60%',
+    height: '60%',
     paddingBottom: 24,
   },
   header: {
@@ -28,10 +30,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  loadingContainer: {
-    padding: 32,
-    alignItems: 'center',
-  },
+  loadingContainer: commonStyles.initialLoadingContainer,
   listContent: {
     paddingVertical: 8,
   },
