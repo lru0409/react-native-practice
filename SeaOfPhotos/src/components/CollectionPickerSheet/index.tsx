@@ -9,7 +9,7 @@ import { Collection } from '@src/types/collection';
 import { CollectionService } from '@src/services';
 import { useUser } from '@src/hooks/useUser';
 import { useUserCollections } from '@src/hooks/useUserCollections';
-import { useCollectionPicker } from '@src/contexts/collectionPicker';
+import { useCollectionMembership } from '@src/contexts/collectionMembership';
 import styles from './styles';
 
 type CollectionPickerSheetProps = {
@@ -24,7 +24,7 @@ export default function CollectionPickerSheet({ visible, photo, onClose }: Colle
 
   const { data: me } = useUser();
   const { data: collections, isFetchingFirst: isCollectionsFetchingFirst } = useUserCollections(me?.username);
-  const { getCollectionIds, updateCollectionIds } = useCollectionPicker();
+  const { getCollectionIds, addCollectionId, removeCollectionId } = useCollectionMembership();
 
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
   const [modalVisible, setModalVisible] = useState(false);
@@ -64,10 +64,10 @@ export default function CollectionPickerSheet({ visible, photo, onClose }: Colle
     try {
       if (isInCollection) {
         await CollectionService.removePhotoFromCollection(collection.id, photo.id);
-        updateCollectionIds(photo.id, savedCollectionIds.filter(id => id !== collection.id));
+        removeCollectionId(photo.id, collection.id);
       } else {
         await CollectionService.addPhotoToCollection(collection.id, photo.id);
-        updateCollectionIds(photo.id, [...savedCollectionIds, collection.id]);
+        addCollectionId(photo.id, collection.id);
       }
     } catch (e) {
       console.error(e);

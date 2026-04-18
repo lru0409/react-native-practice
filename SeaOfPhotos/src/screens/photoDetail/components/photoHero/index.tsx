@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Photo } from '@src/types/photo';
 import { CollectionButton } from '@src/components';
+import { useCollectionMembership } from '@src/contexts/collectionMembership';
 import formatDate from '@src/utils/formatDate';
 import styles from './style';
 import { RootStackParamList } from '@src/App';
@@ -16,16 +17,16 @@ type PhotoHeroProps = {
 
 const PhotoHero = ({ photo, photoHeight }: PhotoHeroProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Profile'>>();
+  const { openPicker, getIsPhotoInCollection } = useCollectionMembership();
+
+  const isPhotoInCollection = getIsPhotoInCollection(photo);
 
   return (
     <>
       <View style={styles.photoWrapper}>
         <Image source={{ uri: photo.urls.full }} style={[styles.photo, { height: photoHeight }]} />
         <View style={styles.collectionButtonWrapper}>
-          <CollectionButton
-            isActive={photo.currentUserCollections.length > 0}
-            onPress={() => {}}
-          />
+          <CollectionButton isActive={isPhotoInCollection} onPress={() => openPicker(photo)} />
         </View>
       </View>
       <View style={styles.infoContainer}>

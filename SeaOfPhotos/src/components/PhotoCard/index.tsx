@@ -5,6 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@src/App';
 import { Photo } from '@src/types/photo';
 import CollectionButton from '@src/components/CollectionButton';
+import { useCollectionMembership } from '@src/contexts/collectionMembership';
 import styles, { getItemStyle } from './styles';
 
 type PhotoCardProps = {
@@ -15,7 +16,10 @@ type PhotoCardProps = {
 
 export default function PhotoCard({ photo, index, size }: PhotoCardProps) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Tabs'>>();
-  
+  const { openPicker, getIsPhotoInCollection } = useCollectionMembership();
+
+  const isPhotoInCollection = getIsPhotoInCollection(photo);
+
   return (
     <TouchableOpacity
       style={getItemStyle(index, size)}
@@ -24,10 +28,7 @@ export default function PhotoCard({ photo, index, size }: PhotoCardProps) {
       }}
     >
       <View style={styles.collectionButtonWrapper}>
-        <CollectionButton
-          isActive={photo.currentUserCollections.length > 0}
-          onPress={() => {}}
-        />
+        <CollectionButton isActive={isPhotoInCollection} onPress={() => openPicker(photo)} />
       </View>
       <Image style={styles.image} source={{ uri: photo.urls.small }} />
     </TouchableOpacity>

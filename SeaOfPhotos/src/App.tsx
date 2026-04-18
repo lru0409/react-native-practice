@@ -19,6 +19,7 @@ import SettingsScreen from '@src/screens/settings';
 import { Photo } from '@src/types/photo';
 import { Collection } from '@src/types/collection';
 import { AuthProvider, useAuth } from '@src/contexts/auth';
+import { CollectionMembershipProvider } from '@src/contexts/collectionMembership';
 import commonStyles from '@src/styles/common';
 
 function App() {
@@ -59,8 +60,9 @@ function AppContent() {
     <GestureHandlerRootView>
       <SafeAreaProvider>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <NavigationContainer>
-          <Stack.Navigator>
+        <CollectionMembershipProvider>
+          <NavigationContainer>
+            <Stack.Navigator>
             {isLoggedIn ? (
               <>
                 <Stack.Screen
@@ -111,8 +113,9 @@ function AppContent() {
                 options={{ headerShown: false }}
               />
             )}
-          </Stack.Navigator>
-        </NavigationContainer>
+            </Stack.Navigator>
+          </NavigationContainer>
+        </CollectionMembershipProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
