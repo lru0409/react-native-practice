@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     height: '60%',
-    paddingBottom: 24,
   },
   header: {
     flexDirection: 'row',
@@ -31,9 +30,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   loadingContainer: commonStyles.initialLoadingContainer,
-  listContent: {
-    paddingVertical: 8,
-  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',

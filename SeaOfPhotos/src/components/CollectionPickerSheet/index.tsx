@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Animated, Modal, StyleSheet, TouchableWithoutFeedback, View, Text, TouchableOpacity, FlatList, Image, ActivityIndicator, useWindowDimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
 
@@ -18,6 +19,9 @@ type CollectionPickerSheetProps = {
 };
 
 export default function CollectionPickerSheet({ visible, photo, onClose }: CollectionPickerSheetProps) {
+  const { height: windowHeight } = useWindowDimensions();
+  const { bottom: bottomInset } = useSafeAreaInsets();
+
   const { data: me } = useUser();
   const { data: collections, isFetchingFirst: isCollectionsFetchingFirst } = useUserCollections(me?.username);
   const { getCollectionIds, updateCollectionIds } = useCollectionPicker();
@@ -25,7 +29,6 @@ export default function CollectionPickerSheet({ visible, photo, onClose }: Colle
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { height: windowHeight } = useWindowDimensions();
   const backdropOpacity = useRef(new Animated.Value(0)).current;
   const sheetTranslateY = useRef(new Animated.Value(0)).current;
 
@@ -105,7 +108,6 @@ export default function CollectionPickerSheet({ visible, photo, onClose }: Colle
     );
   };
 
-  // TODO: bottom inset 제거
   return (
     <Modal visible={modalVisible} transparent animationType="none" onRequestClose={handleClose}>
       <View style={styles.container}>
@@ -128,7 +130,7 @@ export default function CollectionPickerSheet({ visible, photo, onClose }: Colle
               data={collections}
               keyExtractor={item => item.id}
               renderItem={renderItem}
-              contentContainerStyle={styles.listContent}
+              contentContainerStyle={{ paddingBottom: bottomInset }}
             />
           )}
         </Animated.View>
