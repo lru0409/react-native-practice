@@ -87,6 +87,7 @@ export default function CollectionDetailScreen() {
           renderItem={({ item, index }) => <PhotoCard photo={item} index={index} key={item.id} />}
           refreshing={isRefetching}
           onRefresh={refetch}
+          scrollEnabled={photos.length > 0}
           onEndReached={loadMore}
           contentContainerStyle={{ flex: 1 }}
           ListHeaderComponent={

@@ -89,7 +89,6 @@ export default function CollectionPickerSheet({ visible, photo, onClose }: Colle
         {item.coverPhoto ? (
           <Image style={styles.thumbnail} source={{ uri: item.coverPhoto.urls.small }} />
         ) : (
-          // TODO: 컴포넌트화
           <View style={styles.thumbnailPlaceholder}>
             <FoundationIcon name="photo" size={20} color="gray" />
           </View>

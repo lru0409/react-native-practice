@@ -108,7 +108,7 @@ function Root({
       return;
     }
     const nextOffset = activeIndex * pageWidth;
-    if (Math.abs(scrollX.value - nextOffset) < 1) { // TODO: === 0이 아니고 1인 이유?
+    if (Math.abs(scrollX.value - nextOffset) < 1) {
       return;
     }
     pagerRef.current?.scrollTo({ x: nextOffset, animated: true });
