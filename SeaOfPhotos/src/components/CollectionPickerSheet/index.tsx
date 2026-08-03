@@ -125,6 +125,7 @@ export default function CollectionPickerSheet({ visible, photo, onClose }: Colle
               <ActivityIndicator />
             </View>
           ) : (
+            // TODO: empty case 처리
             <FlatList
               data={collections}
               keyExtractor={item => item.id}

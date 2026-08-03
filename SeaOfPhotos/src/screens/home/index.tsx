@@ -22,7 +22,7 @@ export default function HomeScreen() {
   });
 
   return (
-    <Container isError={isError}>
+    <Container isError={isError} isLoading={isFetchingFirst}>
       <FlatList
         data={photos}
         numColumns={PHOTO_GRID.COLUMN_COUNT}
@@ -33,7 +33,7 @@ export default function HomeScreen() {
         scrollEnabled={photos.length > 0}
         onEndReached={loadMore}
         contentContainerStyle={photos.length === 0 ? styles.emptyContainer : undefined}
-        ListEmptyComponent={isFetchingFirst ? <ActivityIndicator /> : <Text style={styles.emptyText}>No photos found</Text>}
+        ListEmptyComponent={<Text style={styles.emptyText}>No photos found</Text>}
         ListFooterComponent={
           isFetchingMore ? (
             <View style={styles.listLoadingContainer}>

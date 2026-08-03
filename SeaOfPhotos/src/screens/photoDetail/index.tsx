@@ -71,7 +71,7 @@ export default function PhotoDetailScreen() {
             onRefresh={refetchMorePhotos}
             scrollEnabled={morePhotos.length > 0}
             onEndReached={loadMoreMorePhotos}
-            contentContainerStyle={morePhotos.length === 0 ? { flex: 1 } : undefined}
+            contentContainerStyle={morePhotos.length === 0 ? styles.emptyContainer : undefined}
             ListHeaderComponent={
               <>
                 <PhotoHero photo={photo} photoHeight={photoHeight} />
@@ -80,15 +80,11 @@ export default function PhotoDetailScreen() {
             }
             ListEmptyComponent={
               isMorePhotosLoadingFirst ? (
-                <View style={styles.initialLoadingContainer}>
-                  <ActivityIndicator />
-                </View>
+                <ActivityIndicator />
               ) : isMorePhotosError ? (
-                <ErrorNotice style={{ marginBottom: 80 }} />
+                <ErrorNotice />
               ) : (
-                <View style={styles.emptyContainer}>
-                  <Text style={styles.emptyText}>No photos found</Text>
-                </View>
+                <Text style={styles.emptyText}>No photos found</Text>
               )
             }
             ListFooterComponent={
